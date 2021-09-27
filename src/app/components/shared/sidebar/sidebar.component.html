@@ -1,0 +1,42 @@
+<div>
+    <mat-nav-list>
+        <a mat-list-item routerLink="">
+            <mat-icon mat-list-icon>home</mat-icon>
+            Inicio
+        </a>
+        <a mat-list-item>
+            <mat-icon mat-list-icon>folder</mat-icon>
+            Home
+        </a>
+        <mat-form-field appearance="fill">
+            <mat-select #mode value="side">
+              <mat-option value="side">Side</mat-option>
+              <mat-option value="over">Over</mat-option>
+              <mat-option value="push">Push</mat-option>
+            </mat-select>
+        </mat-form-field>        
+    </mat-nav-list>            
+</div>
+
+<div>
+    <mat-nav-list>
+
+        <a mat-list-item routerLink="/dashboard/recursos-inicio">
+            <mat-icon mat-list-icon>people</mat-icon >
+            RR. HH.
+        </a>
+        <mat-form-field appearance="fill">
+            <mat-select #mode value="side">
+              <mat-option value="side" routerLink="/dashboard/recursos-departamento">
+                  Departamento
+                </mat-option>
+              <mat-option >
+                  Puesto
+                </mat-option>
+              <mat-option >
+                  Empleado
+                </mat-option>
+            </mat-select>
+        </mat-form-field>        
+    </mat-nav-list>            
+</div>

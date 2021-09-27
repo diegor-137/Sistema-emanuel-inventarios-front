@@ -1,0 +1,60 @@
+<app-nav-bar></app-nav-bar>
+<button mat-icon-button>
+    <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+</button>
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav>
+            <div>
+                <mat-nav-list>
+                    <a mat-list-item routerLink="">
+                        <mat-icon mat-list-icon>home</mat-icon>
+                        Inicio
+                    </a>
+                    <a mat-list-item>
+                        <mat-icon mat-list-icon>folder</mat-icon>
+                        Home
+                    </a>
+                    <mat-form-field appearance="fill">
+                        <mat-select #mode value="side">
+                          <mat-option value="side">Side</mat-option>
+                          <mat-option value="over">Over</mat-option>
+                          <mat-option value="push">Push</mat-option>
+                        </mat-select>
+                    </mat-form-field>        
+                </mat-nav-list>            
+            </div>
+            
+            <div>
+                <mat-nav-list>
+            
+                    <a mat-list-item routerLink="/dashboard/recursos-inicio">
+                        <mat-icon mat-list-icon>people</mat-icon >
+                        RR. HH.
+                    </a>
+                    <mat-form-field appearance="fill">
+                        <mat-select #mode value="side">
+                          <mat-option value="side" routerLink="/dashboard/departamento">
+                              Departamento
+                            </mat-option>
+                          <mat-option >
+                              Puesto
+                            </mat-option>
+                          <mat-option >
+                              Empleado
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>        
+                </mat-nav-list>            
+            </div>
+
+        </mat-sidenav>
+            <mat-sidenav-content>
+                <div style="height: 88vh;">
+                    <div class="container">
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </mat-sidenav-content>     
+    </mat-sidenav-container>
+    <app-footer></app-footer>
+
