@@ -11,6 +11,8 @@ import { ComprasComponent } from './compras/compras.component';
 import { IniciorhComponent } from './recursos-humanos/iniciorh/iniciorh.component';
 import { DepartamentoFormComponent } from './recursos-humanos/departamento/form/departamento-form/departamento-form.component';
 import { DepartamentoComponent } from './recursos-humanos/departamento/departamento.component';
+import { PuestoFormComponent } from './recursos-humanos/puesto/puesto-form/puesto-form.component';
+import { PuestoListComponent } from './recursos-humanos/puesto/puesto-list/puesto-list.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { DepartamentoComponent } from './recursos-humanos/departamento/departame
     IniciorhComponent,
     DepartamentoComponent,
     DepartamentoFormComponent,
+    PuestoFormComponent,
+    PuestoListComponent,
   ],
   imports: [
     CommonModule,

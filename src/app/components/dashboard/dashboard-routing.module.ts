@@ -9,12 +9,11 @@ import { DepartamentoFormComponent } from './recursos-humanos/departamento/form/
 const routes: Routes = [
   {path:'',component:DashboardComponent,children:[
     {path:'',component:InicioComponent},
-    
     {path:'recursos-inicio', component:IniciorhComponent},
     {path:'departamento', component:DepartamentoComponent},
     {path:'departamento-form', component:DepartamentoFormComponent},
-    
-    
+    {path:'departamento-edit/:id', component:DepartamentoFormComponent}
+    //departamento-edit
   ]},
 ];
 

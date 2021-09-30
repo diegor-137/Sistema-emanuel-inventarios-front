@@ -1,57 +1,54 @@
 <mat-toolbar>
-  <span>Dashboard</span>
+    <span>Departamento</span>
 </mat-toolbar>
 
 <mat-form-field appearance="standard">
-  <mat-label>Filtro</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Buscar" #input autocomplete="off">
+    <mat-label>Filtro</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar" #input autocomplete="off">
 </mat-form-field>
 <button class="btn btn-success m-4 float-md-end" routerLink="/dashboard/departamento-form">Nuevo</button>
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort >
+    <table mat-table [dataSource]="dataSource" matSort>
 
-    <!--- Note that these columns can be defined in any order.
+        <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
-  
-    <!-- Name Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-  
-    <!-- Weight Column -->
-    <ng-container matColumnDef="nombre">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
-      <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-    </ng-container>
-  
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
 
 
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="acciones">
-      <th mat-header-cell *matHeaderCellDef>  </th>
-      <td mat-cell *matCellDef="let element" style="text-align: right"> 
-        <a class="pointer" style="color: #1878b0" matTooltip="Ver Usuario">
-          <mat-icon>search</mat-icon>
-        </a>
-        <a class="pointer" style="color: #1f516f" matTooltip="Editar Usuario">
-          <mat-icon>edit</mat-icon>
-        </a>
-        <a class="pointer" style="color: #e15639" matTooltip="Eliminar Usuario">
-          <mat-icon>delete</mat-icon>
-        </a>
-      </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-  showFirstLastButtons 
-  aria-label="Select page of periodic elements">
-</mat-paginator>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef></th>
+
+            <td mat-cell *matCellDef="let element" style="text-align: right">
+                <a class="pointer mx-2" style="color: #1878b0" matTooltip="Ver Usuario">
+                    <mat-icon>search</mat-icon>
+                </a>
+                <a [routerLink]="['/dashboard/departamento-edit',element.id]" class="pointer mx-2" style="color: #1f516f" matTooltip="Editar Usuario">
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <a (click)="elimininarDepartamento(element.id)" class="pointer mx-2" style="color: #e15639" matTooltip="Eliminar Usuario">
+                    <mat-icon>delete</mat-icon>
+                </a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20,40]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
 </div>
-
-
