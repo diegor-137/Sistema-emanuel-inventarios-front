@@ -5,27 +5,15 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { InicioComponent } from './inicio/inicio.component';
-import { AlmacenComponent } from './almacen/almacen.component';
 import { VentasComponent } from './ventas/ventas.component';
 import { ComprasComponent } from './compras/compras.component';
-import { IniciorhComponent } from './recursos-humanos/iniciorh/iniciorh.component';
-import { DepartamentoFormComponent } from './recursos-humanos/departamento/form/departamento-form/departamento-form.component';
-import { DepartamentoComponent } from './recursos-humanos/departamento/departamento.component';
-import { PuestoFormComponent } from './recursos-humanos/puesto/puesto-form/puesto-form.component';
-import { PuestoListComponent } from './recursos-humanos/puesto/puesto-list/puesto-list.component';
-
 @NgModule({
   declarations: [
     DashboardComponent,
     InicioComponent,
-    AlmacenComponent,
     VentasComponent,
     ComprasComponent,
-    IniciorhComponent,
-    DepartamentoComponent,
-    DepartamentoFormComponent,
-    PuestoFormComponent,
-    PuestoListComponent,
+
   ],
   imports: [
     CommonModule,

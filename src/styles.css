@@ -11,3 +11,19 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+/*************Disenio de las tablas***********/
+/*Largura de las tablas para enlistar datos*/
+.table-material {
+    width: 100%;
+}
+/*Largura del autocomplete*/
+.mat-form-field {
+    font-size: 14px;
+    width: 85%;
+  }
+
+
+/*Clase que se usa en las listas de los CRUD, al pasar encima de los componentes*/
+.pointer {
+    cursor: pointer;
+}

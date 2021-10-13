@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import {RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { NavBarComponent } from './navbar/nav-bar/nav-bar.component';
 import { FooterComponent } from './footer/footer.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
 import {MatSliderModule } from '@angular/material/slider';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -17,13 +19,12 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
+import {MatSortModule } from '@angular/material/sort';
 import {MatListModule} from '@angular/material/list';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatDividerModule } from '@angular/material/divider';
+import {MatSidenavModule } from '@angular/material/sidenav';
+import {MatDividerModule } from '@angular/material/divider';
 import {MatSelectModule} from '@angular/material/select';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {MatDialogModule} from '@angular/material/dialog'; 
 
 @NgModule({
   declarations: [
@@ -50,7 +51,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     MatDividerModule,
     MatListModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    RouterModule,
+    MatDialogModule,
     
   ],
   exports:[
@@ -77,6 +80,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     NavBarComponent,
     FooterComponent,
     SidebarComponent,
+    MatDialogModule,
   ]
 })
 export class SharedModule { }
