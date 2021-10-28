@@ -10,6 +10,7 @@ import { MarcaListComponent } from './marca/marca-list/marca-list.component';
 import { MarcaFormComponent } from './marca/marca-form/marca-form.component';
 import { ProductoFormComponent } from './producto/producto-form/producto-form.component';
 import { ProductoListComponent } from './producto/producto-list/producto-list.component';
+import { SharedModule } from '../../shared/shared.module';
 
 
 
@@ -26,7 +27,7 @@ import { ProductoListComponent } from './producto/producto-list/producto-list.co
   ],
   imports: [
     CommonModule,
-    CommonModule,
+    SharedModule,
     AlmacenRoutingModule
   ]
 })

@@ -22,6 +22,8 @@ export class CategoriaFormComponent implements OnInit {
 
   loading:boolean = false
 
+  matcher = new MyErrorStateMatcher();
+
   constructor(public service:CategoriaService,
               private toastr:ToastrService,
               public dialogRef:MatDialogRef<CategoriaFormComponent>) { }
@@ -29,4 +31,49 @@ export class CategoriaFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get NombreForm(){
+    return this.service.form.get('nombre')
+  }
+
+  onClose(){
+    this.service.resetFormBuilder()
+    this.service.initializeFormBuilder()
+    this.dialogRef.close()
+  }
+
+  agregar(){
+      this.service.createCategoria()
+      .subscribe(
+        res => {
+          this.toastr.success( `Agregado con Exito`,`${res.nombre} agregado`,{
+            positionClass:'toast-bottom-right'      
+          })
+          this.onClose() 
+        },
+        err => {
+          this.toastr.error(`${err.message}`,`Succedio un error`,{
+            positionClass:'toast-bottom-right'      
+          })
+          console.log(err);
+        }
+      )     
+  }
+
+  actualizar(){
+      this.service.updateCategoria()
+      .subscribe(
+        res=>{
+          this.toastr.success( `Modificado con Exito`,`${res.nombre} modificado`,{
+            positionClass:'toast-bottom-right'      
+          })
+          this.onClose() 
+        },
+        err => {
+          this.toastr.error(`${err.message}`, `Succedio un error`,{
+            positionClass:'toast-bottom-right'      
+          })
+          console.log(err);
+        }
+      )
+  }
 }

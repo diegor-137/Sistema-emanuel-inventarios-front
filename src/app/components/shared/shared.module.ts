@@ -24,7 +24,8 @@ import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule } from '@angular/material/sidenav';
 import {MatDividerModule } from '@angular/material/divider';
 import {MatSelectModule} from '@angular/material/select';
-import {MatDialogModule} from '@angular/material/dialog'; 
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';  
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatIconModule,
     RouterModule,
     MatDialogModule,
+    MatAutocompleteModule,
     
   ],
   exports:[
@@ -81,6 +83,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     FooterComponent,
     SidebarComponent,
     MatDialogModule,
+    MatAutocompleteModule,
   ]
 })
 export class SharedModule { }

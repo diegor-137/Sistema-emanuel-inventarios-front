@@ -1,0 +1,9 @@
+.example-half-width {
+    width: 33%;
+    padding-right: 2px;
+  }
+  .ninety-width {
+    width: 90%;
+    padding-right: 2px;
+  }
+

@@ -90,6 +90,7 @@ export class DepartamentoComponent implements OnInit {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
+    //dialogConfig.width = "75%"
     const dialogo = this.dialog.open(DepartamentoFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
       this.getDepartamento()
@@ -103,6 +104,7 @@ export class DepartamentoComponent implements OnInit {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
+    //dialogConfig.width = "75%"
     const dialog = this.dialog.open(DepartamentoFormComponent,dialogConfig)
     dialog.afterClosed().subscribe(res => this.getDepartamento())
   }

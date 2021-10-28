@@ -11,6 +11,7 @@ const routes: Routes = [
     {path:'',component:InicioComponent},
     {path:'rr-hh', loadChildren:()=>import('./recursos-humanos/recursos-humanos.module').then(x => x.RecursosHumanosModule)},
     {path:'almacen', loadChildren:()=>import('./almacen/almacen.module').then(x => x.AlmacenModule)},
+    {path:'compras', loadChildren:()=>import('./compras/compras.module').then(x => x.ComprasModule)},
     {path:'**', redirectTo:'', pathMatch:'full'},
   ]},
 ];

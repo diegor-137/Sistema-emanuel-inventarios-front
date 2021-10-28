@@ -85,7 +85,7 @@ export class PuestoListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
-    dialogConfig.width = "50%"
+
     const dialogo = this.dialog.open(PuestoFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
       this.getPuesto()
@@ -99,7 +99,7 @@ export class PuestoListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
-    dialogConfig.width = "50%"
+    //dialogConfig.width = "50%"
     const dialog = this.dialog.open(PuestoFormComponent,dialogConfig)
     dialog.afterClosed().subscribe(res => this.getPuesto())
   }

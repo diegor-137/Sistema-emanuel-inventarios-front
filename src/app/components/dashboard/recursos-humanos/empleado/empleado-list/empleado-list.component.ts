@@ -84,7 +84,7 @@ export class EmpleadoListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
-    dialogConfig.width = "60%"
+    //dialogConfig.width = "60%"
     const dialogo = this.dialog.open(EmpleadoFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
       this.getEmpleado()
@@ -98,7 +98,7 @@ export class EmpleadoListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
-    dialogConfig.width = "60%"
+    //dialogConfig.width = "60%"
     const dialog = this.dialog.open(EmpleadoFormComponent,dialogConfig)
     dialog.afterClosed().subscribe(res => this.getEmpleado())
   }

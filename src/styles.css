@@ -21,7 +21,16 @@ body {
     font-size: 14px;
     width: 85%;
   }
+/******Clases de los input en formulario*******/
+/*largura total del cuadro*/
+  .example-form {
 
+    width: 100%;
+  }
+  /*largura total del cuadro*/
+  .example-full-width {
+    width: 100%;
+  }
 
 /*Clase que se usa en las listas de los CRUD, al pasar encima de los componentes*/
 .pointer {

@@ -23,7 +23,7 @@ import { FormBuilder, Validators } from '@angular/forms';
         nombre:['',[Validators.required,Validators.minLength(5),Validators.maxLength(75)]],
         apellido:['',[Validators.required,Validators.minLength(5),Validators.maxLength(75)]],
         direccion:['',[Validators.required,Validators.minLength(5),Validators.maxLength(125)]],
-        telefono:['',[Validators.required,Validators.minLength(8),Validators.maxLength(15)]],
+        telefono:['',[Validators.required,Validators.minLength(8),Validators.maxLength(15),Validators.pattern("^[0-9]*$")]],
         estado:[true],
         puesto:this.formBuilder.group({
           id:['',Validators.required],
