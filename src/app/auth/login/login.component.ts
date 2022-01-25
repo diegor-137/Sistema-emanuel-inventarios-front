@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   }
 
   ingresar(){
-    console.log(this.form);
+    //console.log(this.form);
     const usuario = this.form.value.usuario
     const password = this.form.value.password
 

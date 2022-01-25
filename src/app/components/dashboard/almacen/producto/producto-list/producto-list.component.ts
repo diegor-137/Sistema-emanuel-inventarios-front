@@ -40,7 +40,7 @@ export class ProductoListComponent implements OnInit {
   getProductos(){
     this.service.getProductos().subscribe(data=>{
       this.Producto = data
-      //console.log('object :>> ',this.Puesto);
+      console.log('object :>> ',this.Producto[0].precio[0].tipoPrecio.id);
       this.dataSource = new MatTableDataSource (this.Producto) 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -96,7 +96,7 @@ export class ProductoListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
-    //dialogConfig.width = "60%"
+    dialogConfig.height = "90%"
     const dialog = this.dialog.open(ProductoFormComponent,dialogConfig)
     dialog.afterClosed().subscribe(res => this.getProductos())
   }

@@ -4,5 +4,5 @@ export interface Precio {
     id?:number,
     precio:number,
     estado:boolean,
-    tipo_precio:Tipo_Precio
+    tipoPrecio:Tipo_Precio
 }

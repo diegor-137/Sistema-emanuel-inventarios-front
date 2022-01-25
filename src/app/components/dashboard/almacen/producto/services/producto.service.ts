@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators, Form } from '@angular/forms';
 import { Producto } from '../interaces/producto';
 import { Observable } from 'rxjs';
 import { RequireMatch } from './requireMatch';
+import { Tipo_Precio } from '../interaces/tipo_precio';
 
 @Injectable({
   providedIn: 'root'
@@ -75,23 +76,31 @@ export class ProductoService {
       costo_prom:data.costo_prom,
       costo_prom_old:data.costo_prom_old,
       ultimo_precio:data.ultimo_precio,
-      categoria:{
-        id:data.categoria.id
-      },
-      marca:{
-        id:data.marca.id
-      },
-      precio:
-        data.precio.forEach(valor => {
-          this.Precios.push(this.formBuilder.control(valor))
-        }),
-
+      categoria:data.categoria,
+      marca:data.marca,
       invetario:{
-        invetnario:data.categoria.id
+        inventario:data.categoria.id
       },
     })
+
+    data.precio.forEach(e => {
+      console.log(e.tipoPrecio);
+    });
+    this.form.setControl('precio',this.setPrecios(data.precio))
   }
 
+
+  setPrecios(precios:any[]): FormArray {
+    const formArray = new FormArray([])
+    precios.forEach(e =>{
+      formArray.push( this.formBuilder.group({
+        precio: e.precio,
+        tipoPrecio: e.tipoPrecio
+      }))
+    })
+
+    return formArray;
+  }
   
   get Precios(){
     return this.form.controls["precio"] as FormArray

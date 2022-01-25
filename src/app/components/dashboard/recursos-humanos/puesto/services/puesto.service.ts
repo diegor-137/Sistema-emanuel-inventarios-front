@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Puesto } from '../interfaces/puesto';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,10 @@ export class PuestoService {
     this.form.reset({
       estado:true
     })
+
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.get(key)?.setErrors(null)
+    });
   }
 
   initializeFormBuilder(){

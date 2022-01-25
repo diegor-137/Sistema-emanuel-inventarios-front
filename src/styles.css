@@ -36,3 +36,15 @@ body {
 .pointer {
     cursor: pointer;
 }
+
+ /*Usados para poner 3 inputs en un div: precios productos y datos compras y ventas*/
+
+.three-quarters-width {
+  width: 33%;
+  padding-right: 2px;
+}
+.ninety-width {
+  width: 85%;
+  padding-right: 2px;
+}
+

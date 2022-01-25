@@ -1,0 +1,103 @@
+<div class="container p-4">
+    <div class="row ">
+        <div class="card">
+            <div class="card-body">
+                    
+                <mat-toolbar>
+                    <span class="text-center">Seleccion de productos</span>
+                </mat-toolbar>
+                
+                <mat-form-field appearance="standard">
+                    <mat-label>Filtro</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar" #input autocomplete="off">
+                </mat-form-field>
+                <div class="mat-elevation-z8">
+                    <table class="table-material" mat-table [dataSource]="dataSource" matSort>
+                
+                        <!-- Inicio columnas -->
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="nombre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="costo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo </th>
+                            <td mat-cell *matCellDef="let element"> {{element.costo_prom}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="marca">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
+                            <td mat-cell *matCellDef="let element"> {{element.marca.nombre}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                
+                            <td mat-cell *matCellDef="let element" style="text-align: right">
+                                <a class="pointer mx-2" style="color: #1878b0" matTooltip="Ver">
+                                    <mat-icon>search</mat-icon>
+                                </a>
+                                <a (click)="service.llenarProducto(element)" class="pointer mx-2" style="color: #1f516f" matTooltip="Seleccionar">
+                                    <mat-icon>send</mat-icon>
+                                </a>
+                            </td>
+                        </ng-container>
+                        <!-- Fin de Columnas-->
+                
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                
+                    <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                </div>
+                <div class="container p-4 mt-4">
+                    <mat-toolbar>
+                        <span class="text-center">Cantidad y Precio</span>
+                    </mat-toolbar>
+                
+                    <div class="form-group col-md-12">
+                        <div class="row mt-3" [formGroup]="service.formCantidadProd">
+                            <mat-form-field class="three-quarters-width" appearance="fill">
+                            <mat-label>Producto</mat-label> 
+                            <input readonly required type="text" name="fieldName" matInput formControlName="nombre_c"
+                            placeholder="producto">
+                            </mat-form-field>
+                
+                            <mat-form-field class="three-quarters-width" appearance="fill">
+                                <mat-label>Costo</mat-label>
+                                <input required type="text" name="someid" matInput formControlName="costo_c">
+                            </mat-form-field>
+                
+                            <mat-form-field class="three-quarters-width" appearance="fill">
+                                <mat-label>Cantidad</mat-label>
+                                <input type="text" name="someid"  pattern="^[0-9]+" matInput formControlName="cantidad_c">
+                            </mat-form-field>
+                        </div> 
+                    </div>
+                    <button type="button" (click)="service.AgregarDetalle()" class="btn btn-info mx-3" [disabled]="service.formCantidadProd.invalid">Agregar</button>
+                    
+
+                    <pre>
+                        Esado del forulario: {{service.formCantidadProd.valid}}
+                        <br>
+                        Status {{service.formCantidadProd.status}}
+                    </pre>
+                    
+                    <pre>
+                        {{service.formCantidadProd.value | json }}
+                    </pre> 
+                </div>
+                
+                
+
+
+            </div>
+        </div>
+    </div>
+</div>

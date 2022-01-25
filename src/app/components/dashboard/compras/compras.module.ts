@@ -8,6 +8,7 @@ import { ProveedorFormComponent } from './proveedor/proveedor-form/proveedor-for
 import { CompraFormComponent } from './compra/compra-form/compra-form.component';
 import { CompraListComponent } from './compra/compra-list/compra-list.component';
 import { InicioComprasComponent } from './inicio-compras/inicio-compras.component';
+import { ProductoComponent } from './compra/producto/producto.component';
 
 
 
@@ -17,7 +18,8 @@ import { InicioComprasComponent } from './inicio-compras/inicio-compras.componen
     ProveedorFormComponent,
     CompraFormComponent,
     CompraListComponent,
-    InicioComprasComponent
+    InicioComprasComponent,
+    ProductoComponent
   ],
   imports: [
     CommonModule,

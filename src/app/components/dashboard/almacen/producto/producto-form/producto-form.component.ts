@@ -110,6 +110,7 @@ export class ProductoFormComponent implements OnInit {
   }
 
   actualizar(){
+    //return console.log('object :>> ',this.service.form.value);
       this.service.updateProducto()
       .subscribe(
         res=>{
