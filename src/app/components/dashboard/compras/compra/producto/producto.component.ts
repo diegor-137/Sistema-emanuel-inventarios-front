@@ -37,7 +37,7 @@ export class ProductoComponent implements OnInit {
   getProductos(){
     this.service.getProductos().subscribe(data=>{
       this.Producto = data
-      console.log('object :>> ',this.Producto[0].precio[0].tipoPrecio.id);
+      //console.log('object :>> ',this.Producto[0].precio[0].tipoPrecio.id);
       this.dataSource = new MatTableDataSource (this.Producto) 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

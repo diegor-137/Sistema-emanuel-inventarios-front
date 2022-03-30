@@ -67,6 +67,7 @@ export class ProductoService {
   }
 
   llenarFormulario(data:Producto){
+    //console.log('object :>> ',data);
     this.form.patchValue({
       id:data.id,
       nombre:data.nombre,
@@ -95,7 +96,10 @@ export class ProductoService {
     precios.forEach(e =>{
       formArray.push( this.formBuilder.group({
         precio: e.precio,
-        tipoPrecio: e.tipoPrecio
+        tipoPrecio:this.formBuilder.group({
+          id:e.tipoPrecio.id,
+          nombre:e.tipoPrecio.nombre
+        })
       }))
     })
 
@@ -109,7 +113,9 @@ export class ProductoService {
   AgregarPrecio(){
     const precioForm = this.formBuilder.group({
       precio: ['',Validators.required],
-      tipoPrecio:['',Validators.required],
+      tipoPrecio:this.formBuilder.group({
+        id:['',Validators.required]
+      }),
     })
 
     this.Precios.push(precioForm)

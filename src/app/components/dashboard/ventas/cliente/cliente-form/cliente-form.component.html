@@ -1,0 +1,74 @@
+<div class="container pt-4">
+    <div class="row ">
+        <div class="card text-center ">
+            <div class="card-body">
+                <h3> {{service.titulo}} Cliente
+                    <div *ngIf="loading" class="spinner-border" role="status">
+                        <span class="visually-hidden float-right">Loading...</span>
+                    </div>
+                </h3>
+                  <form class="example-form" [formGroup]="service.form" autocomplete="off">
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Nombre</mat-label>
+                              <input required type="text" matInput formControlName="nombre" [errorStateMatcher]="matcher"
+                                     placeholder="Nombre">
+                                     <mat-error *ngIf="NombreForm?.hasError('required')">
+                                         Campo es Requerido
+                                        </mat-error>
+                                        <mat-error *ngIf="NombreForm?.hasError('minlength')">
+                                            Minimo 5 letras
+                                        </mat-error>
+                                        <mat-error *ngIf="NombreForm?.hasError('maxlength')">
+                                            Maximo 100 letras
+                                        </mat-error>
+                             </mat-form-field>
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Direccion</mat-label>
+                              <input type="text" matInput formControlName="direccion" [errorStateMatcher]="matcher"
+                                     placeholder="Direccion">
+                                     <mat-error *ngIf="DireccionForm?.hasError('maxlength')">
+                                        Maximo 125 letras
+                                    </mat-error>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Telefono</mat-label>
+                                <input type="text" matInput formControlName="telefono" [errorStateMatcher]="matcher"
+                                     placeholder="Telefono">
+                                     <mat-error *ngIf="TelefonoForm?.hasError('pattern')">
+                                         Ingrese un numero valido
+                                        </mat-error>
+                                        <mat-error *ngIf="TelefonoForm?.hasError('maxlength')">
+                                            Maximo 15 letras
+                                        </mat-error>
+                             </mat-form-field>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <mat-form-field class="example-full-width" appearance="fill">
+                              <mat-label>Nit</mat-label>
+                              <input type="text" matInput formControlName="nit" [errorStateMatcher]="matcher"
+                                     placeholder="Nit">
+                                     <mat-error *ngIf="NitForm?.hasError('maxlength')">
+                                        Maximo 10 letras
+                                    </mat-error>
+                             </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button type="button" (click)="service.edit ? actualizar() : agregar()" class="btn btn-info mx-3" [disabled]="service.form.invalid">{{service.titulo}}</button>
+                    </div>
+                  </form>                   
+            </div>
+        </div>
+    </div>
+</div>

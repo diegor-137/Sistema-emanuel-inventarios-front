@@ -9,6 +9,7 @@ import { CompraFormComponent } from './compra/compra-form/compra-form.component'
 import { CompraListComponent } from './compra/compra-list/compra-list.component';
 import { InicioComprasComponent } from './inicio-compras/inicio-compras.component';
 import { ProductoComponent } from './compra/producto/producto.component';
+import { OrdenCompraComponent } from './compra/orden-compra/orden-compra.component';
 
 
 
@@ -19,12 +20,17 @@ import { ProductoComponent } from './compra/producto/producto.component';
     CompraFormComponent,
     CompraListComponent,
     InicioComprasComponent,
-    ProductoComponent
+    ProductoComponent,
+    OrdenCompraComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
-    ComprasRoutingModule
+    ComprasRoutingModule,
+    
+  ],
+  exports:[
+
   ]
 })
 export class ComprasModule { }

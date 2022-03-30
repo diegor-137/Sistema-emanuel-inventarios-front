@@ -5,13 +5,11 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { InicioComponent } from './inicio/inicio.component';
-import { VentasComponent } from './ventas/ventas.component';
 import { ComprasComponent } from './compras/compras.component';
 @NgModule({
   declarations: [
     DashboardComponent,
     InicioComponent,
-    VentasComponent,
     ComprasComponent,
 
   ],

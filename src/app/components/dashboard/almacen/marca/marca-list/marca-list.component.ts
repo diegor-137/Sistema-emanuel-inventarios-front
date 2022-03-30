@@ -86,7 +86,7 @@ export class MarcaListComponent implements OnInit {
     this.service.initializeFormBuilder()
     const dialogConfig = new MatDialogConfig()
     dialogConfig.autoFocus = true
-    dialogConfig.width = "75%"
+    //dialogConfig.width = "75%"
     const dialogo = this.dialog.open(MarcaFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
       dialogConfig.disableClose = false
@@ -101,7 +101,7 @@ export class MarcaListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
-    dialogConfig.width = "75%"
+    //dialogConfig.width = "75%"
     const dialog = this.dialog.open(MarcaFormComponent,dialogConfig)
     dialog.afterClosed().subscribe(res => this.getMarca())
   }

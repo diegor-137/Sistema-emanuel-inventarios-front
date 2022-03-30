@@ -1,1 +1,16 @@
-<p>ventas works!</p>
+<mat-toolbar>
+    <button mat-button class="menu-button" routerLink="/dashboard/ventas/venta">
+      <mat-icon>format_list_bulleted</mat-icon>
+      <span>Ver Ventas Hechas</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/dashboard/ventas/cotizacion">
+      <mat-icon>format_list_bulleted</mat-icon>
+      <span>Ver Cotizaciones</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/dashboard/ventas/venta-form">
+    <mat-icon>list_alt</mat-icon>
+    <span>Nueva Venta</span>
+    </button>
+  </mat-toolbar>
+
+<router-outlet></router-outlet> 

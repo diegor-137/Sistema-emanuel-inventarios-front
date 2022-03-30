@@ -49,7 +49,7 @@ export class ProveedorListComponent implements OnInit {
       
     })
   }
-    elimininarPuesto(id:any){
+    elimininar(id:any){
       Swal.fire({
         title: 'Esta seguro de elminar registro?',
         text: 'Eliminara registro',
@@ -84,7 +84,7 @@ export class ProveedorListComponent implements OnInit {
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
     //dialogConfig.width = "60%"
-    dialogConfig.height = "90%"
+    //dialogConfig.height = "90%"
     const dialogo = this.dialog.open(ProveedorFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
       this.getProveedor()
@@ -99,10 +99,9 @@ export class ProveedorListComponent implements OnInit {
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
     //dialogConfig.width = "60%"
-    dialogConfig.height = "90%"
+    //dialogConfig.height = "90%"
     const dialog = this.dialog.open(ProveedorFormComponent,dialogConfig)
     dialog.afterClosed().subscribe(res => this.getProveedor())
   }
-
 
 }

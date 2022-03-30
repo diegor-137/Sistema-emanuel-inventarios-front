@@ -12,6 +12,7 @@ const routes: Routes = [
     {path:'rr-hh', loadChildren:()=>import('./recursos-humanos/recursos-humanos.module').then(x => x.RecursosHumanosModule)},
     {path:'almacen', loadChildren:()=>import('./almacen/almacen.module').then(x => x.AlmacenModule)},
     {path:'compras', loadChildren:()=>import('./compras/compras.module').then(x => x.ComprasModule)},
+    {path:'ventas', loadChildren:()=>import('./ventas/ventas.module').then(x => x.VentasModule)},
     {path:'**', redirectTo:'', pathMatch:'full'},
   ]},
 ];

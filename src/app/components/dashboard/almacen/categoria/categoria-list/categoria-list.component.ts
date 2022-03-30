@@ -87,7 +87,7 @@ export class CategoriaListComponent implements OnInit {
     this.service.initializeFormBuilder()
     const dialogConfig = new MatDialogConfig()
     dialogConfig.autoFocus = true
-    dialogConfig.width = "75%"
+    //dialogConfig.width = "75%"
     const dialogo = this.dialog.open(CategoriaFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
       dialogConfig.disableClose = false
@@ -102,7 +102,7 @@ export class CategoriaListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true
-    dialogConfig.width = "75%"
+    //dialogConfig.width = "75%"
     const dialog = this.dialog.open(CategoriaFormComponent,dialogConfig)
     dialog.afterClosed().subscribe(res => this.getCategoria())
   }

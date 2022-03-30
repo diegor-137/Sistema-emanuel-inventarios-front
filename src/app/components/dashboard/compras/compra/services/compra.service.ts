@@ -11,10 +11,14 @@ import { Producto } from '../../../almacen/producto/interaces/producto';
 })
 export class CompraService {
 
+  id:number = 0
   fecha : Date = new Date()
-  titulo = 'Ingreso'
-  edit:boolean = false
+  nuevo = 'Nueva'
+  Titulo = 'Compra'
+  view:boolean = false
+  orden:boolean = false
   BASE_URL:string = 'http://[::1]:3000'
+  total_factura:number = 0
 
   datos:Producto[] = []
 
@@ -33,7 +37,7 @@ export class CompraService {
       }),
       observacion:[''],
       estado:[true],
-      detalle_compra:this.formBuilder.array([    
+      detalle:this.formBuilder.array([    
       ]),
       fecha:[''],
     })
@@ -43,13 +47,10 @@ export class CompraService {
       this.form.reset({
         estado:true
       }),
-
-      (<FormArray>this.form.get("detalle_compra")).clear()
-
+      (<FormArray>this.form.get("detalle")).clear()
       Object.keys(this.form.controls).forEach(key => {
         this.form.get(key)?.setErrors(null)
       });
-
       this.form.updateValueAndValidity()
     }
   
@@ -63,55 +64,92 @@ export class CompraService {
           id:'',
         },
         observacion:'',
-        detalle_compra:'',
+        detalle:[],
         estado:true,
         fecha:''
       })
     }
   
-    llenarFormulario(data:Compra){
-      this.form.patchValue({
-        id:'',
-        documento:data.documento,
-        proveedor:{
-          proveedor:data.proveedor.id
-        },
-        empleado:{
-          empleado:data.empleado.id
-        },
-        sucursal:{
-          sucursal:data.id
-        },
-        observacion:data.observacion,
-        estado:true,
-        fecha:data.createdAt
-
+    llenarFormulario(data:any){
+      //console.log('object :>> ', data.total);
+      this.getCompra(data.id).subscribe(data=>{
+         this.form.patchValue({
+          id:data.id,
+          documento:data.documento,
+          proveedor:data.proveedor,
+          empleado:data.empleado,
+          sucursal:data.sucursal,
+          observacion:data.observacion,
+          estado:true,
+          fecha:data.createdAt
+        })
+        this.form.setControl('detalle',this.setDetalle(data.detalle))
       })
-      this.form.setControl('detalle_compra',this.setDetalle(data.detalle_compra))
+      this.total()
     }
-    
+
+    llenarFormularioOrden(data:any){
+      console.log('object :>> ', data.total);
+      this.getOrdenCompra(data).subscribe(data=>{
+         this.form.patchValue({
+          id:data.id,
+          documento:data.documento,
+          proveedor:data.proveedor,
+          empleado:data.empleado,
+          sucursal:data.sucursal,
+          observacion:data.observacion,
+          estado:true,
+          fecha:data.createdAt
+        })
+        this.form.setControl('detalle',this.setDetalle(data.detalle))
+      })
+      this.total()
+    }
+
+    /*********Funcion para llenar formulario, vizualizar registro************/
     setDetalle(detalle:any[]): FormArray {
       const formArray = new FormArray([])
       detalle.forEach(e =>{
         formArray.push( this.formBuilder.group({
-          producto: e.producto,
+          producto: e.producto.id,
+          nombre_p:e.producto.nombre,
           cantidad: e.cantidad,
-          precio:e.precio
+          precio:e.precio,
+          subtotal:+e.cantidad*+e.precio
         }))
-      })
-  
+      }) 
       return formArray;
     }
 
+    /*********Inicia funcion para agregar producto al listado de compra************/ 
+    /********seleccion de productos productos *****/
+  //formulario
+  formCantidadProd = this.formBuilder.group({
+    id_compra:[null],
+    nombre_c:[''],
+    costo_c:[''],
+    cantidad_c:['',Validators.required]
+  })
+  //funcion
+  llenarProducto(data:Producto){
+    this.formCantidadProd.setValue({
+      id_compra:data.id,
+      nombre_c:data.nombre,
+      costo_c:data.costo_prom,
+      cantidad_c:1
+    })
+  }
+
     get Detalle(){
-      return this.form.controls["detalle_compra"] as FormArray
+      return this.form.controls["detalle"] as FormArray
     }
 
+    //funcion del boton agregar al listado de productos
     AgregarDetalle(){
       var cant:number=+this.formCantidadProd.value.costo_c
       var precio:number=+this.formCantidadProd.value.cantidad_c
       this.datos = this.formCantidadProd.value
-      console.log('object :>> ',this.datos);
+      //console.log('object :>> ',this.datos);
       const detalleForm = this.formBuilder.group({
         producto:[this.formCantidadProd.value.id_compra],
         nombre_p: [this.formCantidadProd.value.nombre_c,Validators.required],
@@ -127,24 +165,53 @@ export class CompraService {
         estado:true
       })
       this.form.updateValueAndValidity()
+      this.total()
     }
 
-    configNuevo(){
-      this.titulo = 'Nuevo'
-      this.edit = false
+    total(){
+      this.total_factura = 0
+      //console.log('object :>> ', this.form.value.detalle);
+      for (let i = 0; i < this.form.value.detalle.length; i++) {
+        //console.log('object :>> ', this.form.value.detalle[i]);
+        this.total_factura = this.total_factura + this.form.value.detalle[i].subtotal 
+      }
     }
-    
-    configEdit(){
-      this.titulo = 'Editar'
-      this.edit = true
+    /*********Finaliza funcion para agregar producto al listado de compra************/
+
+    configNuevo(){
+      this.nuevo = 'Nueva'
+      this.Titulo = 'Compra'
+      this.view = false
+      this.orden = false
+    }
+
+    configNuevaOrdenCompra(){
+      this.Titulo = 'Orden Compra'
+      this.orden = true
+      this.view = false
+    }
+
+    configViewOrdenCompra(){
+      this.nuevo = 'Visualizacion'
+      this.Titulo = 'Orden Compra'
+      this.view = true
+      this.orden = true
+    }
+
+
+    configView(){
+      this.nuevo = 'Visualizacion'
+      this.Titulo = 'Compra'
+      this.view = true
+      this.orden = false
     }
 
   getCompras():Observable<Compra[]>{
-      return this.http.get<Compra[]>(`${this.BASE_URL}/compra`)
+      return this.http.get<Compra[]>(`${this.BASE_URL}/compra/encontrar`)
   }
 
-  getCompra(id:number):Observable<Compra>{
-      return this.http.get<Compra>(`${this.BASE_URL}/compra/${id}`)
+  getCompra(id:any):Observable<Compra>{
+      return this.http.get<Compra>(`${this.BASE_URL}/compra/encontrar/${id}`)
   }
 
   createCompra():Observable<Compra>{
@@ -154,35 +221,29 @@ export class CompraService {
   deleteCompra(id:number):Observable<Compra>{
       return this.http.delete<Compra>(`${this.BASE_URL}/compra/${id}`)
   }
-
-  updateCompra():Observable<Compra>{
-      return this.http.put<Compra>(`${this.BASE_URL}/compra/${this.form.value.id}`,this.form.value)
-  }
-
-  //**********enlistar productos ****** */
-
-
   
-
+  
   getProductos():Observable<Producto[]>{
     return this.http.get<Producto[]>(`${this.BASE_URL}/producto/productos`)
   }
 
-  formCantidadProd = this.formBuilder.group({
-    id_compra:[null],
-    nombre_c:[''],
-    costo_c:[''],
-    cantidad_c:['',Validators.required]
-  })
+  
+  getOrdencompras():Observable<Compra[]>{
+    return this.http.get<Compra[]>(`${this.BASE_URL}/pedido/encontrar`)
+  }
 
-  llenarProducto(data:Producto){
-    this.formCantidadProd.setValue({
-      id_compra:data.id,
-      nombre_c:data.nombre,
-      costo_c:data.costo_prom,
-      cantidad_c:1
-    })
-  }  
+  getOrdenCompra(id:any):Observable<Compra>{
+      return this.http.get<Compra>(`${this.BASE_URL}/pedido/encontrar/${id}`)
+  }
+
+  createOrdenCompra():Observable<Compra>{
+      return this.http.post<Compra>(`${this.BASE_URL}/pedido`,this.form.value)
+  }
+
+  deleteOrdenCompra(id:number):Observable<Compra>{
+      return this.http.delete<Compra>(`${this.BASE_URL}/pedido/${id}`)
+  }
+
 
 }
 

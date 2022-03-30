@@ -81,22 +81,7 @@
                         </div> 
                     </div>
                     <button type="button" (click)="service.AgregarDetalle()" class="btn btn-info mx-3" [disabled]="service.formCantidadProd.invalid">Agregar</button>
-                    
-
-                    <pre>
-                        Esado del forulario: {{service.formCantidadProd.valid}}
-                        <br>
-                        Status {{service.formCantidadProd.status}}
-                    </pre>
-                    
-                    <pre>
-                        {{service.formCantidadProd.value | json }}
-                    </pre> 
                 </div>
-                
-                
-
-
             </div>
         </div>
     </div>

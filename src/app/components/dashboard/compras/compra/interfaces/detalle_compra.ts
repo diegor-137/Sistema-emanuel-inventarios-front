@@ -1,7 +1,7 @@
 import { Producto } from '../../../almacen/producto/interaces/producto';
 
 
-export interface Detalle_Compra {
+export interface Detalle {
     id?:number,
     producto:Producto,
     cantidad:number,

@@ -32,7 +32,7 @@ export class ProductoFormComponent implements OnInit {
   loading:boolean = false
   Categoria:Categoria[] = []
   Marca!:Marca[]
-  TipoPrecio:Tipo_Precio [] = []
+  tipoPrecio:Tipo_Precio [] = []
   matcher = new MyErrorStateMatcher();
 
   constructor(public service:ProductoService,
@@ -41,7 +41,7 @@ export class ProductoFormComponent implements OnInit {
     private marcaService:MarcaService,
     private tipoPrecioService:TipoPrecio,
     public dialogRef:MatDialogRef<ProductoFormComponent>,
-    private dialog:MatDialog) { }
+    private dialog:MatDialog) { } 
 
   ngOnInit(): void {
     this.service.form.get('marca')?.valueChanges.subscribe(
@@ -70,7 +70,8 @@ export class ProductoFormComponent implements OnInit {
 
   getTipoPrecio(){
     this.tipoPrecioService.getTipoPrecios().subscribe(data=>{
-      this.TipoPrecio = data
+      this.tipoPrecio = data
+      console.log('object :>> ', this.tipoPrecio);
     })
   }
 
@@ -134,7 +135,7 @@ export class ProductoFormComponent implements OnInit {
     this.categoriaService.initializeFormBuilder()
     const dialogConfig = new MatDialogConfig()
     dialogConfig.autoFocus = true
-    dialogConfig.width = "75%"
+    //dialogConfig.width = "75%"
     const dialogo = this.dialog.open(CategoriaFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
       dialogConfig.disableClose = false
@@ -148,7 +149,7 @@ export class ProductoFormComponent implements OnInit {
     this.marcaService.initializeFormBuilder()
     const dialogConfig = new MatDialogConfig()
     dialogConfig.autoFocus = true
-    dialogConfig.width = "50%"
+    //dialogConfig.width = "50%"
     const dialogo = this.dialog.open(MarcaFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
       dialogConfig.disableClose = false

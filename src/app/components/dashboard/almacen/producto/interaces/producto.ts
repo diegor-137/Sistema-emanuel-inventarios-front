@@ -14,5 +14,5 @@ export interface Producto {
     categoria:Categoria,
     marca:Marca,
     precio:Precio[]
-    invetnario:Inventario[]
+    inventario:Inventario[]
 }
