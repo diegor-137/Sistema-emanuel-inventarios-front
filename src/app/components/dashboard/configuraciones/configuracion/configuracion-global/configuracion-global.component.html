@@ -1,0 +1,9 @@
+<p-toast></p-toast>
+
+<div *ngIf="carga">
+    <div *ngFor="let item of permisos">
+        <mat-checkbox [(ngModel)]="item.checked">{{item.name}}</mat-checkbox>
+    </div>
+</div>
+<button mat-raised-button color="primary" (click)="getCheckboxes()">Guardar</button>
+

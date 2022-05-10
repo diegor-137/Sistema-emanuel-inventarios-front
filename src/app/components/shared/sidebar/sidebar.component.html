@@ -1,67 +1,84 @@
 <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
 
-<h4 class="name">John Smith</h4>
-<p class="designation">Software Engineer</p>
+<h4 class="name">{{usuario.empleado.nombre + ' ' + usuario.empleado.apellido}}</h4>
+<p class="designation">{{usuario.empleado.email}}</p>
 
 <mat-divider></mat-divider>
-
+<!-- INICIO -->
 <button mat-button class="menu-button" routerLink="/dashboard">
     <mat-icon>home</mat-icon>
     <span>Home</span>
 </button>
-<mat-divider></mat-divider>
 
-<button mat-button class="menu-button" routerLink="/dashboard/rr-hh/departamento">
-    <mat-icon>person</mat-icon>
-    <span>Departamento</span>
-</button>
-<button mat-button class="menu-button" routerLink="/dashboard/rr-hh/puesto">
-    <mat-icon>info</mat-icon>
-    <span>Puesto</span>
-</button>
+<!-- RECURSOS HUMANOS -->
+<div *appRole="['ADMIN']">
+    <mat-divider></mat-divider>
+    <button mat-button class="menu-button" routerLink="/dashboard/rr-hh/departamento">
+        <mat-icon>person</mat-icon>
+        <span>Departamento</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/dashboard/rr-hh/puesto">
+        <mat-icon>info</mat-icon>
+        <span>Puesto</span>
+    </button>
+    <button mat-button class="menu-button" routerLink="/dashboard/rr-hh/empleado">
+        <mat-icon>person</mat-icon>
+        <span>Empleado</span>
+    </button>
+</div>
 
-<button mat-button class="menu-button" routerLink="/dashboard/rr-hh/empleado">
-    <mat-icon>person</mat-icon>
-    <span>Empleado</span>
-</button>
+<!-- ALMACEN -->
+<div *appRole="['ADMIN']">
+    <mat-divider></mat-divider>
+    <button mat-button class="menu-button" routerLink="/dashboard/almacen/marca">
+        <mat-icon>layers_clear</mat-icon>
+        <span>Marca</span>
+    </button>
 
-<mat-divider></mat-divider>
+    <button mat-button class="menu-button" routerLink="/dashboard/almacen/categoria">
+        <mat-icon>category</mat-icon>
+        <span>Categoria</span>
+    </button>
 
-<button mat-button class="menu-button" routerLink="/dashboard/almacen/marca">
-    <mat-icon>layers_clear</mat-icon>
-    <span>Marca</span>
-</button>
+    <button mat-button class="menu-button" routerLink="/dashboard/almacen/producto">
+        <mat-icon>inventory_2</mat-icon>
+        <span>Producto</span>
+    </button>
+</div>
 
-<button mat-button class="menu-button" routerLink="/dashboard/almacen/categoria">
-    <mat-icon>category</mat-icon>
-    <span>Categoria</span>
-</button>
+<!-- COMPRAS -->
+<div *appRole="['ADMIN']">
+    <mat-divider></mat-divider>
+    <button mat-button class="menu-button" routerLink="/dashboard/compras/compra">
+        <mat-icon>storefront</mat-icon>
+        <span>Compras</span>
+    </button>
 
-<button mat-button class="menu-button" routerLink="/dashboard/almacen/producto">
-    <mat-icon>inventory_2</mat-icon>
-    <span>Producto</span>
-</button>
+    <button mat-button class="menu-button" routerLink="/dashboard/compras/proveedor">
+        <mat-icon>groups</mat-icon>
+        <span>Proveedores</span>
+    </button>
+</div>
 
-<mat-divider></mat-divider>
+<!-- VENTAS -->
+<div *appRole="['ADMIN','EMPLEADO']">
+    <mat-divider></mat-divider>
+    <button mat-button class="menu-button" routerLink="/dashboard/ventas/venta">
+        <mat-icon>storefront</mat-icon>
+        <span>Ventas</span>
+    </button>
 
-<button mat-button class="menu-button" routerLink="/dashboard/compras/compra">
-    <mat-icon>storefront</mat-icon>
-    <span>Compras</span>
-</button>
+    <button mat-button class="menu-button" routerLink="/dashboard/ventas/cliente">
+        <mat-icon>groups</mat-icon>
+        <span>Clientes</span>
+    </button>
+</div>
 
-<button mat-button class="menu-button" routerLink="/dashboard/compras/proveedor">
-    <mat-icon>groups</mat-icon>
-    <span>Proveedores</span>
-</button>
-
-<mat-divider></mat-divider>
-
-<button mat-button class="menu-button" routerLink="/dashboard/ventas/venta">
-    <mat-icon>storefront</mat-icon>
-    <span>Ventas</span>
-</button>
-
-<button mat-button class="menu-button" routerLink="/dashboard/ventas/cliente">
-    <mat-icon>groups</mat-icon>
-    <span>Clientes</span>
-</button>
+<!-- CONFIGURACIONES -->
+<div *appRole="['ADMIN']">
+    <mat-divider></mat-divider>
+    <button mat-button class="menu-button" routerLink="/dashboard/configuraciones">
+        <mat-icon>settings</mat-icon>
+        <span>Configuraciones globales</span>
+    </button>
+</div>

@@ -27,12 +27,17 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 import {MatCardModule} from '@angular/material/card';  
+import { RoleDirective } from 'src/app/directives/role.directive';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { ConfigGlobalDirective } from 'src/app/directives/config-global.directive';
 
 @NgModule({
   declarations: [
     NavBarComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    RoleDirective,
+    ConfigGlobalDirective
   ],
   imports: [
     CommonModule,
@@ -58,8 +63,7 @@ import {MatCardModule} from '@angular/material/card';
     MatDialogModule,
     MatAutocompleteModule,
     MatCardModule,
-
-    
+    MatCheckboxModule    
   ],
   exports:[
     CommonModule,
@@ -88,6 +92,8 @@ import {MatCardModule} from '@angular/material/card';
     MatDialogModule,
     MatAutocompleteModule,
     MatCardModule,
+    MatCheckboxModule,
+    ConfigGlobalDirective
   ]
 })
 export class SharedModule { }

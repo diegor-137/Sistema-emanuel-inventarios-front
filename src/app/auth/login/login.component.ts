@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,9 @@ export class LoginComponent implements OnInit {
   
   constructor(private fb:FormBuilder,
               private _snackBar: MatSnackBar,
-              private router:Router) {
+              private router:Router,
+              private authService:AuthService
+              ) {
     this.form = this.fb.group({
       usuario:['',Validators.required],
       password:['',Validators.required]
@@ -25,7 +28,19 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  ingresar(){
+  login(){
+    const {usuario, password} = this.form.value;
+    this.authService.login(usuario, password).subscribe(ok =>{      
+      if(ok ===true){      
+        this.fakeLoading()
+      }else{      
+        this.error(ok)
+      }
+    });
+  }
+
+
+/*   ingresar(){
     //console.log(this.form);
     const usuario = this.form.value.usuario
     const password = this.form.value.password
@@ -33,13 +48,13 @@ export class LoginComponent implements OnInit {
     if (usuario == 'abel' && password == 'abel') {
       this.fakeLoading()
     }else{
-      this.error()
+      this.error('Usuario o pass no validos');
       this.form.reset()
     }
-  }
+  } */
 
-  error(){
-    this._snackBar.open('Usuario o pass no validos','',{
+  error(message:string){
+    this._snackBar.open(message,'',{
       duration:4000,
       horizontalPosition:'center',
       verticalPosition:'bottom'
