@@ -24,7 +24,14 @@ interface Empleado {
     telefono:string;
     estado: boolean;
     createdAt?: Date;
-    email:string
+    email:string;
+    sucursal:Sucursal;
+}
+
+interface Sucursal {
+    id:number;
+    nombre:string;
+    estado:boolean
 }
 
 
