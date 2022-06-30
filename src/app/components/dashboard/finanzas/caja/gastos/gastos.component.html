@@ -1,0 +1,97 @@
+<p-toast></p-toast>
+
+<div class="card">
+    <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrir()"></button>
+        </ng-template>
+
+        <ng-template pTemplate="right" [formGroup]="gastoService.form">
+            <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="allGastos()" [disabled]="gastoService.form.invalid"></p-button>
+        <p-calendar formControlName="dates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2"></p-calendar>
+        <p-dropdown [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true">
+            <ng-template let-item pTemplate="item">
+                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
+                <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
+            </ng-template>
+            <ng-template let-item pTemplate="selectedItem">
+                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
+                <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
+            </ng-template>
+        </p-dropdown>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="gastos" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll"
+        [(selection)]="selectedGasto" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros." [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h2 class="m-0">Gastos</h2>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($any($event).target.value, 'contains')" placeholder="Buscar..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Descripcion</th>
+                <th>Documento</th>
+                <th>Monto</th>
+                <th>Caja - Empleado</th>
+                <th>Responsable</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-gasto>
+            <tr>
+                <td>{{gasto.id}}</td>
+                <td>{{gasto.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
+                <td>{{gasto.descripcion}}</td>
+                <td>{{gasto.documento}}</td>
+                <td>{{gasto.monto}}</td>
+                <td>{{gasto.caja.lugar + ' - '+ gasto.caja.empleado.nombre + ' ' + gasto.caja.empleado.apellido}}</td>
+                <td>{{gasto.empleado.nombre + ' ' + gasto.empleado.apellido }}</td>                
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+        </ng-template>
+    </p-table>
+</div>
+
+<div [formGroup]="gastoService.formGasto">
+<p-dialog [(visible)]="dialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label>Documento.</label>
+            <input type="text" pInputText required formControlName="documento" />
+            <small *ngIf="campoValido('documento')" class="p-error block">Debe ingresar un No. Documento.</small>
+        </div>
+        <div class="field">
+            <label>Descripcion</label>
+            <textarea  pInputTextarea required rows="3" cols="20" formControlName="descripcion"></textarea>
+            <small *ngIf="campoValido('descripcion')" class="p-error block">Debe ingresar un No. Documento.</small>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="price">Monto</label>
+                <p-inputNumber mode="currency" currency="USD" locale="en-US" formControlName="monto"></p-inputNumber>
+                <small *ngIf="campoValido('monto')" class="p-error block">Debe ingresar un No. Documento.</small>
+            </div>
+        </div>
+    </ng-template>
+    
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveGasto()" [disabled]="gastoService.formGasto.invalid"></button>
+    </ng-template>
+
+</p-dialog>
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

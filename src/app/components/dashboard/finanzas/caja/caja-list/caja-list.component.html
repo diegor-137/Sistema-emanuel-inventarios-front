@@ -1,0 +1,58 @@
+<p-toast position="bottom-center"></p-toast>
+<div *ngIf="load">
+<p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+        <button pButton pRipple label="Cobros" icon="pi pi-plus" class="p-button-success mr-2"
+            (click)="openCobrosRealizados()"></button>
+    </ng-template>
+    <ng-template pTemplate="right">
+        <div class="mr-2">
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-calendar-plus"></i></span>
+                <input type="text"  pInputText [ngModel]="corte.fechas | date: 'short'" [disabled]="disabled">                  
+            </div>
+        </div>
+        <div class="mr-2">
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                <input type="text"  pInputText [ngModel]="corte.empleado.nombre + ' ' +corte.empleado.apellido" [disabled]="disabled">
+            </div> 
+        </div>
+        <p-button icon="pi pi-briefcase" label="Corte" class="mr-2" (click)="openCorte()"></p-button>
+    </ng-template>
+</p-toolbar>
+<div class="card">
+    <p-table [value]="ventas" selectionMode="single" [(selection)]="ventaSelect" dataKey="id" [paginator]="true"
+        [rows]="10" [scrollable]="true" (onRowSelect)="openCobro($event)" styleClass="p-datatable-striped"
+        responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h2 class="m-0">Ventas por cobrar</h2>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Estatus</th>
+                <th>Total</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-venta>
+            <tr [pSelectableRow]="venta">
+                <td>{{venta.id}}</td>
+                <td>{{venta.cliente}}</td>
+                <td>{{venta.fecha | date:'short'}}</td>
+                <td>{{venta.status}}</td>
+                <td>{{venta.total}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">Sin cobros por realizar.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+</div>

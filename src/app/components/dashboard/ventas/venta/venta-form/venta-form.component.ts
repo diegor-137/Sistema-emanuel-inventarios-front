@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { ClienteFormComponent } from '../../cliente/cliente-form/cliente-form.component';
 import { ClienteService } from '../../cliente/services/cliente.service';
 import { ProductoComponent } from '../../producto/producto.component';
+import { Socket } from 'ngx-socket-io';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -42,7 +43,8 @@ export class VentaFormComponent implements OnInit {
     private toastr:ToastrService,
     public dialogRef:MatDialogRef<VentaFormComponent>,
     private dialog:MatDialog,
-    public router:Router) { }
+    public router:Router,
+    private socket: Socket) { }
 
   ngOnInit(): void {
     this.service.form.get('cliente')?.valueChanges.subscribe(
@@ -126,7 +128,8 @@ export class VentaFormComponent implements OnInit {
             this.toastr.success( `ingresada con exito`,`Compra #${res.id}`,{
               positionClass:'toast-bottom-right'      
             })
-            this.onClose()
+            this.onClose();
+            this.socket.emit('getFacturas')
           },
           err => {
             this.toastr.error(`${err.message}`,`Succedio un error`,{

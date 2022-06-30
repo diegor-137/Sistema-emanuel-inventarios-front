@@ -1,0 +1,77 @@
+<p-toast position="bottom-center"></p-toast>
+<div class="card">
+    <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Registrar caja" icon="pi pi-plus" class="p-button-success mr-2" (click)="registrarCaja()"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="cajas" [rows]="10" [paginator]="true" 
+        [(selection)]="selectedCajas" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [globalFilterFields]="['id','lugar','empleado.nombre', 'estado']">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h2 class="m-0">Listado de cajas</h2>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="lugar">Caja <p-sortIcon field="lugar"></p-sortIcon></th>
+                <th pSortableColumn="empleado.nombre">Vendedor <p-sortIcon field="empleado.nombre"></p-sortIcon></th>
+                <th pSortableColumn="estado">Status <p-sortIcon field="estado"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-caja>
+            <tr>
+                <td>{{caja.id}}</td>
+                <td>{{caja.lugar}}</td>
+                <td>{{caja.empleado.nombre + ' '+ caja.empleado.apellido }}</td>
+                <td><span [class]="'product-badge status-' + caja.estado">{{caja.estado}}</span></td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editCaja(caja)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
+
+
+
+
+<!-- DIALOGO Y MENSAJE DE CONFIRMACION -->
+
+<p-dialog [(visible)]="cajaDialog"  header="Crear nueva caja" [modal]="true" styleClass="p-fluid">
+
+    <ng-template pTemplate="content" [formGroup]="cajaConfigService.form">
+        <div class="field" formGroupName="empleado">
+            <label>Empleado</label>
+            <p-dropdown [options]="empleados" formControlName="id" optionValue="id" optionLabel="nombre" placeholder="Seleccione un empleado" [showClear]="true">
+                <ng-template let-item pTemplate="item">{{item.nombre}} {{item.apellido}}</ng-template>
+                <ng-template let-item pTemplate="selectedItem">{{item.nombre}} {{item.apellido}}</ng-template>
+            </p-dropdown>
+            <small *ngIf="campoValido('empleado.id')" class="p-error block">Debe seleccionar un empleado</small>
+        </div>        
+        <div class="field">
+            <label >Ubicacion Caja</label>
+            <input type="text" pInputText formControlName="lugar"/>
+            <small *ngIf="campoValido('lugar')" class="p-error block">Debe ingresar una descripcion.</small>
+        </div>  
+        <div class="field">
+            <label >Monto de apertura.</label>
+            <p-inputNumber formControlName="monto"></p-inputNumber>
+            <small *ngIf="campoValido('monto')" class="p-error block">Debe ingresar un monto.</small>
+        </div>       
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()" [disabled]="cajaConfigService.form.invalid"></button>
+    </ng-template>
+
+</p-dialog>
+
+
+<p-confirmDialog></p-confirmDialog>

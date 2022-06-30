@@ -32,18 +32,18 @@ export class AuthService {
       );
   }
 
-  validarToken(): Observable<boolean> {
+  validarToken() {
     const url = `${this.BASE_URL}/auth/profile`;
-    const headers = new HttpHeaders({
+    /* const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`
-    })
-    return this.http.get<AuthResponse>(url, { headers })
+    }) */
+    return this.http.get<AuthResponse>(url)
       .pipe(
         map(resp => {          
           this._usuario = {
             id:resp.id, user:resp.user, role: resp.role, empleado: resp.empleado            
-          }
+          }                    
           return resp.ok
         }),
         catchError(err => of(false))

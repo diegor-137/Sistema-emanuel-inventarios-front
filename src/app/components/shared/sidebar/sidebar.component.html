@@ -82,3 +82,33 @@
         <span>Configuraciones globales</span>
     </button>
 </div>
+
+<!-- FINANZAS -->
+<div>
+    <mat-divider></mat-divider>
+    
+    <button *appRole="['CAJERO']" mat-button class="menu-button" routerLink="/dashboard/finanzas">
+        <mat-icon>point_of_sale</mat-icon>
+        <span>Caja</span>
+    </button>
+    <button *appRole="['ADMIN']" mat-button class="menu-button" routerLink="/dashboard/finanzas/caja-config">
+        <mat-icon>settings</mat-icon>
+        <span>Configuracion</span>
+    </button>
+    <button *appRole="['ADMIN']" mat-button class="menu-button" routerLink="/dashboard/finanzas/caja-corte-list">
+        <mat-icon>list</mat-icon>
+        <span>Cortes</span>
+    </button>
+    <button *appRole="['ADMIN']" mat-button class="menu-button" routerLink="/dashboard/finanzas/caja-movimientos">
+        <mat-icon>drive_file_move</mat-icon>
+        <span>Movimientos</span>
+    </button>
+    <button *appRole="['ADMIN']" mat-button class="menu-button" routerLink="/dashboard/finanzas/cobro-list">
+        <mat-icon>drive_file_move</mat-icon>
+        <span>Listado de cobros</span>
+    </button>
+    <button *appRole="['CAJERO']" mat-button class="menu-button" routerLink="/dashboard/finanzas/caja-gastos">
+        <mat-icon>drive_file_move</mat-icon>
+        <span>Gastos</span>
+    </button>
+</div>

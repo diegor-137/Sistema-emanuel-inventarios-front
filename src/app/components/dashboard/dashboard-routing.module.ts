@@ -37,6 +37,11 @@ const routes: Routes = [
         canActivate: [ValidarTokenGuard], canLoad: [ValidarTokenGuard],
         data: { userRoles: [Role.ADMIN] }
       },
+      {
+        path: 'finanzas', loadChildren: () => import('./finanzas/finanzas.module').then(x => x.FinanzasModule),
+        canActivate: [ValidarTokenGuard], canLoad: [ValidarTokenGuard],
+        data: { userRoles: [Role.ADMIN, Role.CAJERO] }
+      },
       { path: '**', redirectTo: '', pathMatch: 'full' },
     ]
   },
