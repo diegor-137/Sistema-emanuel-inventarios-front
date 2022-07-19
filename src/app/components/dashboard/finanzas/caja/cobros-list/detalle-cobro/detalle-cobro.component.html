@@ -1,0 +1,89 @@
+    <div *ngIf="load">
+        <p-panel header="Datos caja">
+            <div class="flex align-items-center">
+                <p-chip label="{{cobro.caja?.empleado?.nombre}} {{cobro.caja?.empleado?.apellido}}"  icon="pi pi-user" styleClass="mr-2"></p-chip>
+                <p-chip label="{{cobro.caja?.lugar}}" styleClass="mr-2"><mat-icon>point_of_sale</mat-icon></p-chip>
+            </div>
+            <div class="grid p-fluid" >
+                <div class="col-12 md:col-6">
+                    <label>Id</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><mat-icon>point_of_sale</mat-icon></span>
+                        <input type="text" placeholder="{{cobro.id}}" pInputText> 
+                    </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label>Fecha</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+                        <input type="text" placeholder="{{cobro.fecha | date : 'EEEE, MMMM d, y, h:mm a'}}" pInputText> 
+                    </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label>Empleado</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" placeholder="{{cobro.empleado.nombre}} {{cobro.empleado.apellido}}" pInputText> 
+                    </div>
+                </div>
+            </div>
+
+            
+        </p-panel>
+
+        <p-panel header="Datos de la venta">
+            <div class="grid p-fluid" >
+                <div class="col-12 md:col-6">
+                    <label>Id</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><mat-icon>point_of_sale</mat-icon></span>
+                        <input type="text" placeholder="{{cobro.venta.id}}" pInputText> 
+                    </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label>Fecha</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+                        <input type="text" placeholder="{{cobro.venta.createdAt | date : 'EEEE, MMMM d, y, h:mm a'}}" pInputText> 
+                    </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label>Cliente</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" placeholder="{{cobro.venta.cliente.nombre}}" pInputText> 
+                    </div>
+                </div>
+
+                <div class="col-12 md:col-6">
+                    <label>Direccion</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" placeholder="{{cobro.venta.cliente.direccion}}" pInputText> 
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+
+        <p-table [value]="cobro.detalleCobro" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                Detalle Cobro
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Id</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                    <th>Tipo Cobro.</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detalle>
+                <tr>
+                    <td>{{detalle.id}}</td>
+                    <td>{{detalle.descripcion}}</td>
+                    <td>{{detalle.cantidad}}</td>
+                    <td>{{detalle.tipoCobro.nombre}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>

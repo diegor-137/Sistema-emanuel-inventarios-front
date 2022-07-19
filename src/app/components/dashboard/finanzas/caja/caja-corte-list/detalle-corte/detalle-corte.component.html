@@ -1,0 +1,64 @@
+    <div *ngIf="load">
+        <p-panel header="Datos caja">
+            <div class="flex align-items-center">
+                <p-chip label="{{corte.caja?.empleado?.nombre}} {{corte.caja?.empleado?.apellido}}"  icon="pi pi-user" styleClass="mr-2"></p-chip>
+                <p-chip label="{{corte.caja?.lugar}}" styleClass="mr-2"><mat-icon>point_of_sale</mat-icon></p-chip>
+            </div>
+            <div class="grid p-fluid" >
+                <div class="col-12 md:col-6">
+                    <label>Id</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><mat-icon>point_of_sale</mat-icon></span>
+                        <input type="text" placeholder="{{corte.id}}" pInputText> 
+                    </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label>Fecha</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+                        <input type="text" placeholder="{{corte.fechas | date : 'EEEE, MMMM d, y, h:mm a'}}" pInputText> 
+                    </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <label>Empleado</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" placeholder="{{corte.empleado.nombre}} {{corte.empleado.apellido}}" pInputText> 
+                    </div>
+                </div>
+            </div>
+        </p-panel>
+
+        <p-table [value]="mov" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                Movimiento
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Descripcion</th>
+                    <th>Ingreso</th>
+                    <th>Egreso</th>
+                    <th>Saldo.</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detalle>
+                <tr>
+                    <td>{{detalle.concepto}}</td>
+                    <td>{{detalle.ingreso}}</td>
+                    <td>{{detalle.egreso}}</td>
+                    <td>{{detalle.saldo}}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                Observaciones
+                <div class="grid">
+                    <div class="col-12">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-tags" style="line-height: 1.25;"></i></span>   
+                            <input type="text" pInputText placeholder="{{corte.observacion}}">   
+                        </div>         
+                    </div>                    
+                </div>
+            </ng-template>
+        </p-table>
+    </div>

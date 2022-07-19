@@ -1,0 +1,28 @@
+<p-toolbar>
+    <p-button icon="pi pi-save" label="Guardar corte" styleClass="p-button-success mr-2" (onClick)="create()"></p-button>
+</p-toolbar>
+
+
+<div class="p-fluid grid" [formGroup]="cajaCorteService.formCorte">
+
+    <div class="field col-12 md:col-6" *ngIf="load">
+        <label>Efectivo calculado</label>
+        <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+            <p-inputNumber [disabled]="disabled" placeholder="{{balance}}" [inputStyle]="{background: 'skyblue'}"></p-inputNumber>
+        </div>
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <label>Monto a retirar</label>
+        <div class="p-inputgroup">
+            <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+            <p-inputNumber formControlName="monto" [minFractionDigits]="2"></p-inputNumber>
+        </div>
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <label>Comentario.</label>
+        <textarea rows="3" style="resize: none;" cols="30" pInputTextarea formControlName="observacion"></textarea>
+    </div>
+</div>
