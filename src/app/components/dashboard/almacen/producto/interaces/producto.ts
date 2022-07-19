@@ -1,6 +1,6 @@
 import { Categoria } from '../../categoria/interfaces/categoria';
-import { Inventario } from '../../inventario/interfaces/inventario';
 import { Marca } from '../../marca/interfaces/marca';
+import { Inventario } from './inventario';
 import { Precio } from './precio';
 export interface Producto {
     id?: number;

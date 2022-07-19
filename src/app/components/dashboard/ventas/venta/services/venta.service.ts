@@ -1,12 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from '../../../almacen/producto/interaces/producto';
 import { RequireMatch } from '../../../almacen/producto/services/requireMatch';
 import { Observable } from 'rxjs';
 import { Venta } from '../interfaces/venta';
-import { Precio } from '../../../almacen/producto/interaces/precio';
-
+import { ValidadoresService } from './validadores.service';
+import { Inventario } from '../Validators/existencia-validator';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,14 +24,15 @@ export class VentaService {
   datos:Producto[] = []
 
   constructor(private http:HttpClient,
-    private formBuilder:FormBuilder) {}
+              private formBuilder:FormBuilder,
+              private validadores:ValidadoresService) {}
 
      form = this.formBuilder.group({
       id:[''],
       cliente:['',(Validators.required,RequireMatch)],
-      empleado:['',(Validators.required,RequireMatch)],
+      empleado:['',],
       sucursal:this.formBuilder.group({
-        id:['',Validators.required],
+        id:[''],
         nombre:['']
       }),
       observacion:[''],
@@ -51,6 +52,7 @@ export class VentaService {
         this.form.get(key)?.setErrors(null)
       });
       this.form.updateValueAndValidity()
+      this.total()
     }
   
     initializeFormBuilder(){
@@ -67,6 +69,7 @@ export class VentaService {
         estado:true,
         fecha:''
       })
+      this.total()
     }
   
     llenarFormulario(data:any){
@@ -83,6 +86,7 @@ export class VentaService {
         })
         this.form.setControl('detalle',this.setDetalle(data.detalle))
       })
+      this.total()
     }
 
     llenarFormularioCotizacion(data:any){
@@ -98,6 +102,7 @@ export class VentaService {
           fecha:data.createdAt
         })
         this.form.setControl('detalle',this.setDetalle(data.detalle))
+        this.total()
       })
     }
     /*********Funcion para llenar detalle factura o cotizacion realizada, vizualizar registro************/
@@ -121,7 +126,7 @@ export class VentaService {
     continuarCotizacion(){
       if (this.form.invalid) {
         this.llenarFormularioCotizacion(this.id)
-        console.log('object :asdasdsadsadsa>> ');
+        //console.log('object :asdasdsadsadsa>> ');
       }
     }
 
@@ -129,7 +134,7 @@ export class VentaService {
     /********seleccion de productos productos *****/
   //formulario donde indicamos la cantidad y precio de producto a vender
   formCantidadProd = this.formBuilder.group({
-    id_compra:[null],
+    id_producto:[null],
     nombre:[''],
     costo:[''],
     precio:[''],
@@ -140,7 +145,7 @@ export class VentaService {
   //funcion para llenar el forumalrio de arriba
   llenarProducto(data:Producto){
     this.formCantidadProd.setValue({
-      id_compra:data.id,
+      id_producto:data.id,
       nombre:data.nombre,
       costo:data.costo_prom,
       precio:data.precio[0],
@@ -154,14 +159,25 @@ export class VentaService {
       return this.form.controls["detalle"] as FormArray
     }
 
+    removeValidation(){
+      const refParent = this.form.get('detalle') as FormArray
+      //const refParent2 = this.form.controls["detalle"] as FormArray
+      //const refSingle = refParent.at(this.form.value.detalle.length).get('cantidad') as FormGroup
+      console.log(refParent)
+      //console.log(refParent2)
+      //console.log(this.form.value.detalle.length)
+      //console.log(refSingle)
+      /* refSingle.clearValidators()
+      refSingle.updateValueAndValidity() */
+    }
+
     //funcion del boton agregar al listado de productos
     AgregarDetalle(){
       const dato = this.formCantidadProd.value
-      console.log('object :>> ', dato.precios); 
       const detalleForm = this.formBuilder.group({
-        producto:[dato.id_compra],
+        producto:[dato.id_producto],
         nombre_p: [dato.nombre,Validators.required],
-        cantidad:[dato.cantidad,Validators.required],
+        cantidad:[dato.cantidad,{asyncValidators:[Inventario(this.validadores)]}],
         precio_compra:[dato.costo, Validators.required],
         precio_venta:[dato.precio.precio,Validators.required],
         precio_seleccionado:[dato.precio, Validators.required],
@@ -174,8 +190,7 @@ export class VentaService {
         estado:true
       })
       this.form.updateValueAndValidity()
-      this.total()  
-      //console.log(this.form.value.detalle[0].precio_venta);
+      this.total()   
     }
 
 
@@ -204,15 +219,17 @@ export class VentaService {
       this.Titulo = 'Venta'
       this.view = false
       this.orden = false
+
     }
 
-    configNuevaOrdenCompra(){
+    configNuevaCotizacion(){
       this.Titulo = 'Cotizacion'
       this.orden = true
       this.view = false
+      this.removeValidation()
     }
 
-    configViewOrdenCompra(){
+    configViewCotizacion(){
       this.nuevo = 'Visualizacion'
       this.Titulo = 'Cotizacion'
       this.view = true
@@ -226,6 +243,10 @@ export class VentaService {
       this.orden = false
     }
 
+    verificarInventario(id:number){
+      return this.getInventario(id)
+    }
+
   getVentas():Observable<Venta[]>{
       return this.http.get<Venta[]>(`${this.BASE_URL}/venta/encontrar`)
   }
@@ -235,7 +256,11 @@ export class VentaService {
   }
 
   createVenta():Observable<Venta>{
-      return this.http.post<Venta>(`${this.BASE_URL}/venta`,this.form.value)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+      return this.http.post<Venta>(`${this.BASE_URL}/venta`,this.form.value,{ headers})
   }
 
   deleteVenta(id:number):Observable<Venta>{
@@ -244,7 +269,19 @@ export class VentaService {
   
   
   getProductos():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${this.BASE_URL}/producto/venta`)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+    return this.http.get<Producto[]>(`${this.BASE_URL}/producto/transacciones`,{ headers})
+  }
+
+  getInventario(id:any):Observable<Producto>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+    return this.http.get<Producto>(`${this.BASE_URL}/producto/inventario/${id}`,{ headers})
   }
 
   
@@ -257,7 +294,11 @@ export class VentaService {
   }
 
   createCotizacion():Observable<Venta>{
-      return this.http.post<Venta>(`${this.BASE_URL}/cotizacion`,this.form.value)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+      return this.http.post<Venta>(`${this.BASE_URL}/cotizacion`,this.form.value,{ headers})
   }
 
   deleteCotizacion(id:number):Observable<Venta>{

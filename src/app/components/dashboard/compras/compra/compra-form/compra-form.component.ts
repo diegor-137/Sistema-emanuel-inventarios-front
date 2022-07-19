@@ -87,7 +87,8 @@ export class CompraFormComponent implements OnInit {
 
   onClose(){
     this.service.resetFormBuilder()
-    //this.service.initializeFormBuilder()
+    this.service.configNuevo()
+    this.service.initializeFormBuilder()
   }
 
 
@@ -219,5 +220,6 @@ export class CompraFormComponent implements OnInit {
     this.service.configNuevo()
     //console.log('object :>> ', this.service.form.value.id);
     this.service.llenarFormularioOrden(this.service.id)
+    this.service.total()
   }
 }

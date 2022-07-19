@@ -75,7 +75,7 @@ export class CotizacionComponent implements OnInit {
   }
   verCotizacion(data:Venta){
     this.service.resetFormBuilder()
-    this.service.configView()
+    this.service.configViewCotizacion()
     this.service.llenarFormularioCotizacion(data)
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false

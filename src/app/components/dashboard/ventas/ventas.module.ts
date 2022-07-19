@@ -14,6 +14,7 @@ import { VistaComponent } from './venta/vista/vista.component';
 
 
 
+
 @NgModule({
   declarations: [
     VentasComponent,

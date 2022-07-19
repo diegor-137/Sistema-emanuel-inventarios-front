@@ -8,11 +8,14 @@ import { InicioalmacenComponent } from './inicioalmacen/inicioalmacen.component'
 import { MarcaFormComponent } from './marca/marca-form/marca-form.component';
 import { ProductoListComponent } from './producto/producto-list/producto-list.component';
 import { ProductoFormComponent } from './producto/producto-form/producto-form.component';
+import { InventarioListComponent } from './producto/inventario-list/inventario-list.component';
+import { ProductoComponent } from '../ventas/producto/producto.component';
 
 const routes: Routes = [
   {path:'',component:AlmacenComponent,children:[
     {path:'',component:InicioalmacenComponent},
 
+    
     {path:'marca',component:MarcaListComponent},
     {path:'marca-form',component:MarcaFormComponent},
     
@@ -21,6 +24,12 @@ const routes: Routes = [
 
     {path:'producto',component:ProductoListComponent},
     {path:'producto-form',component:ProductoFormComponent},
+
+    {path:'inventario-list',component:InventarioListComponent},
+
+    {path:'productos',component:ProductoComponent},
+
+
   ]}
 ];
 

@@ -5,6 +5,8 @@ import {ButtonModule} from 'primeng/button';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ToastModule} from 'primeng/toast';
 import {DialogModule} from 'primeng/dialog';
+import {TableModule} from 'primeng/table';
+import {SliderModule} from 'primeng/slider';
 
 
 
@@ -18,7 +20,9 @@ import {DialogModule} from 'primeng/dialog';
     CheckboxModule,
     ButtonModule,
     ToastModule,
-    DialogModule
+    DialogModule,
+    TableModule,
+    SliderModule
   ]
 })
 export class PrimeModule { }

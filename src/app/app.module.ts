@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmpleadoFormComponent } from './components/dashboard/recursos-humanos/empleado/empleado-form/empleado-form.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,6 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
     SharedModule,
     ToastrModule.forRoot(),
     SweetAlert2Module.forRoot(),
-
     MatDialogModule,
   ],
   providers: [     {
