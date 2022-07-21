@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, Validators, Form } from '@angular/forms';
 import { Producto } from '../interaces/producto';
@@ -145,5 +145,16 @@ export class ProductoService {
   }
   updateProducto():Observable<Producto>{
     return this.http.put<Producto>(`${this.BASE_URL}/producto/${this.form.value.id}`,this.form.value)
+  }
+
+  getInventario():Observable<Producto[]>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+    return this.http.get<Producto[]>(`${this.BASE_URL}/producto/inventario`,{ headers})
+  }
+  updateInventario(id:number,prod:Producto):Observable<Producto>{
+    return this.http.put<Producto>(`${this.BASE_URL}/producto/inventario/${id}`,prod)
   }
 }

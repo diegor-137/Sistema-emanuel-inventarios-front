@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { RequireMatch } from '../../../almacen/producto/services/requireMatch';
@@ -20,7 +20,7 @@ export class CompraService {
   BASE_URL:string = 'http://[::1]:3000'
   total_factura:number = 0
 
-  datos:Producto[] = []
+  //datos:Producto[] = []
 
   constructor(private http:HttpClient,
     private formBuilder:FormBuilder) {
@@ -31,9 +31,9 @@ export class CompraService {
       id:[''],
       documento:[''],
       proveedor:['',(Validators.required,RequireMatch)],
-      empleado:['',(Validators.required,RequireMatch)],
+      empleado:[],
       sucursal:this.formBuilder.group({
-        id:['',Validators.required]
+        id:['']
       }),
       observacion:[''],
       estado:[true],
@@ -52,6 +52,7 @@ export class CompraService {
         this.form.get(key)?.setErrors(null)
       });
       this.form.updateValueAndValidity()
+      this.total()
     }
   
     initializeFormBuilder(){
@@ -68,6 +69,7 @@ export class CompraService {
         estado:true,
         fecha:''
       })
+      this.total()
     }
   
     llenarFormulario(data:any){
@@ -89,7 +91,7 @@ export class CompraService {
     }
 
     llenarFormularioOrden(data:any){
-      console.log('object :>> ', data.total);
+      //console.log('object :>> ', data.total);
       this.getOrdenCompra(data).subscribe(data=>{
          this.form.patchValue({
           id:data.id,
@@ -106,7 +108,7 @@ export class CompraService {
       this.total()
     }
 
-    /*********Funcion para llenar formulario, vizualizar registro************/
+    /******Funcion para vizualizar registros de compras*******/
     setDetalle(detalle:any[]): FormArray {
       const formArray = new FormArray([])
       detalle.forEach(e =>{
@@ -123,14 +125,14 @@ export class CompraService {
 
     /*********Inicia funcion para agregar producto al listado de compra************/ 
     /********seleccion de productos productos *****/
-  //formulario
+  //formulario de producto seleccionado
   formCantidadProd = this.formBuilder.group({
     id_compra:[null],
     nombre_c:[''],
     costo_c:[''],
     cantidad_c:['',Validators.required]
   })
-  //funcion
+  //funcion para poblar formulario de arriba
   llenarProducto(data:Producto){
     this.formCantidadProd.setValue({
       id_compra:data.id,
@@ -139,24 +141,22 @@ export class CompraService {
       cantidad_c:1
     })
   }
-
+    //simplificar el llamado del formulario de listado de  producto
     get Detalle(){
       return this.form.controls["detalle"] as FormArray
     }
-
     //funcion del boton agregar al listado de productos
     AgregarDetalle(){
-      var cant:number=+this.formCantidadProd.value.costo_c
-      var precio:number=+this.formCantidadProd.value.cantidad_c
-      this.datos = this.formCantidadProd.value
+
+      const dato = this.formCantidadProd.value
       //console.log('object :>> ',this.datos);
       const detalleForm = this.formBuilder.group({
-        producto:[this.formCantidadProd.value.id_compra],
-        nombre_p: [this.formCantidadProd.value.nombre_c,Validators.required],
-        cantidad:[this.formCantidadProd.value.cantidad_c,Validators.required],
-        precio:[this.formCantidadProd.value.costo_c, Validators.required],
+        producto:[dato.id_compra],
+        nombre_p: [dato.nombre_c,Validators.required],
+        cantidad:[dato.cantidad_c,Validators.required],
+        precio:[dato.costo_c, Validators.required],
         estado:true,
-        subtotal:[+this.formCantidadProd.value.costo_c*+this.formCantidadProd.value.cantidad_c]
+        subtotal:[(+dato.costo_c)*+(dato.cantidad_c)]
       })
   
       this.Detalle.push(detalleForm)
@@ -215,7 +215,11 @@ export class CompraService {
   }
 
   createCompra():Observable<Compra>{
-      return this.http.post<Compra>(`${this.BASE_URL}/compra`,this.form.value)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+      return this.http.post<Compra>(`${this.BASE_URL}/compra`,this.form.value,{ headers})
   }
 
   deleteCompra(id:number):Observable<Compra>{
@@ -226,7 +230,6 @@ export class CompraService {
   getProductos():Observable<Producto[]>{
     return this.http.get<Producto[]>(`${this.BASE_URL}/producto/productos`)
   }
-
   
   getOrdencompras():Observable<Compra[]>{
     return this.http.get<Compra[]>(`${this.BASE_URL}/pedido/encontrar`)
@@ -237,13 +240,15 @@ export class CompraService {
   }
 
   createOrdenCompra():Observable<Compra>{
-      return this.http.post<Compra>(`${this.BASE_URL}/pedido`,this.form.value)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    })
+      return this.http.post<Compra>(`${this.BASE_URL}/pedido`,this.form.value,{ headers})
   }
 
   deleteOrdenCompra(id:number):Observable<Compra>{
       return this.http.delete<Compra>(`${this.BASE_URL}/pedido/${id}`)
   }
-
-
 }
 

@@ -44,6 +44,27 @@ export class ProductoComponent implements OnInit {
     })
   }
 
+  AgregarDetalle(){
+    let valid:boolean=true
+    var prod = this.service.formCantidadProd.value
+
+    for (let index = 0; index < this.service.form.value.detalle.length; index++) {
+        var dato = this.service.form.value.detalle[index]
+        if (dato.producto === prod.id_compra) {
+          valid = false
+          dato.cantidad = dato.cantidad + prod.cantidad_c
+          console.log(dato.cantidad)
+          console.log(prod.cantidad)
+          this.service.formCantidadProd.reset({
+            estado:true
+          })
+        }
+      }
+    if (valid){
+      this.service.AgregarDetalle()
+    }
+  }
+
   close(){
     this.dialogRef.close()
   }

@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, FormArray } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, FormArray, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Empleado } from '../../../recursos-humanos/empleado/interfaces/empleado';
 import { Cliente } from '../../cliente/interfaces/cliente';
 import { Sucursal } from '../../../sucursal/interfaces/sucursal';
 import { VentaService } from '../services/venta.service';
-import { EmpleadoService } from '../../../recursos-humanos/empleado/services/empleado.service';
 import { ToastrService } from 'ngx-toastr';
-import { SucursalService } from '../../../sucursal/services/sucursal.service';
 import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
-import { CompraFormComponent } from '../../../compras/compra/compra-form/compra-form.component';
 import { Router } from '@angular/router';
 import { ClienteFormComponent } from '../../cliente/cliente-form/cliente-form.component';
 import { ClienteService } from '../../cliente/services/cliente.service';
 import { ProductoComponent } from '../../producto/producto.component';
 import { Socket } from 'ngx-socket-io';
 import { CustomSocket } from '../../../finanzas/caja/socekts/custom-socket-ventas'
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -39,8 +37,7 @@ export class VentaFormComponent implements OnInit {
 
   constructor(public service:VentaService,
     private clienteService:ClienteService,
-    private empleadoService:EmpleadoService,
-    private sucursalService:SucursalService,
+    private authService:AuthService,
     private toastr:ToastrService,
     public dialogRef:MatDialogRef<VentaFormComponent>,
     private dialog:MatDialog,
@@ -51,11 +48,6 @@ export class VentaFormComponent implements OnInit {
     this.service.form.get('cliente')?.valueChanges.subscribe(
       nombre => this.getClienteBuscar(nombre)
     )
-    this.service.form.get('empleado')?.valueChanges.subscribe(
-      nombre => this.getEmpleadoBuscar(nombre)
-    )
-    this.getSucursal()
-    
     if (this.service.view == false) {
       this.service.resetFormBuilder()
       this.service.configNuevo()
@@ -74,39 +66,34 @@ export class VentaFormComponent implements OnInit {
       this.Cliente = data
     })
   }
-  getEmpleadoBuscar(nombre:string){
-    return this.empleadoService.getBuscar(nombre).subscribe(data=>{
-      this.Empleado = data
-    })
-  }
-  
-  getSucursal(){
-    return this.sucursalService.getSucursales().subscribe(data=>{
-      this.Sucursal = data
-    })
+  get usuario(){
+    return this.authService.usuario;
   }
   
   displayFn(nombre:Cliente): string {
     return nombre? nombre.nombre :nombre;
   }
 
-  displayFnn(nombre:Empleado): string {
-    return nombre? nombre.nombre :nombre;
-  }
-
-
   onClose(){
     this.service.resetFormBuilder()
+    this.service.configNuevo()
+    this.service.initializeFormBuilder()
   }
 
 
   agregarCotizacion(){
+    if (this.service.form.value.detalle.length===0) {
+      this.toastr.error(`Ingrese producto para realizar Cotizacion`,`No hay productos`,{
+        positionClass:'toast-bottom-right'      
+      })
+      return
+    }
       //return console.log(this.service.form.value);
         this.service.createCotizacion()
         .subscribe(
           res => {
             //console.log('object :>> ',res);
-            this.toastr.success( `realizado con exito`,`Orden de Compra #${res.id}`,{
+            this.toastr.success( `realizado con exito`,`Cotizacion #${res.id}`,{
               positionClass:'toast-bottom-right'      
             })
             this.onClose()
@@ -121,12 +108,17 @@ export class VentaFormComponent implements OnInit {
   }
 
   agregar(){
-     //return console.log(this.service.form.value);
+        if (this.service.form.value.detalle.length===0) {
+          this.toastr.error(`Ingrese producto para realizar venta`,`No hay productos`,{
+            positionClass:'toast-bottom-right'      
+          })
+          return
+        }
         this.service.createVenta()
         .subscribe(
           res => {
             //console.log('object :>> ',res);
-            this.toastr.success( `ingresada con exito`,`Compra #${res.id}`,{
+            this.toastr.success( `ingresada con exito`,`Venta #${res.id}`,{
               positionClass:'toast-bottom-right'      
             })
             this.onClose();
@@ -217,6 +209,10 @@ export class VentaFormComponent implements OnInit {
     return this.service.form.get('cliente')
   }
 
+  get CantidadForm(){
+    return this.service.form.controls["detalle"].get('cantidad')
+  }
+
   CerrarVenta(){
     this.service.resetFormBuilder()
     this.service.configNuevo()
@@ -224,9 +220,7 @@ export class VentaFormComponent implements OnInit {
     this.dialogRef.close()
   }
 
-
-  continuarOrden(){
-    //return console.log('object :>> ', this.service.form.value.id);
+  continuarCotizacion(){
     this.dialogRef.close()
     this.service.id = this.service.form.value.id
     this.service.configNuevo()

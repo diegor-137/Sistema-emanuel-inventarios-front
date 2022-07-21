@@ -17,6 +17,7 @@ export class ProductoComponent implements OnInit {
 
   Producto:Producto[] = []
   Precios:Precio[] = []
+  Listado:any[]=[]
 
   displayedColumns: string[] = ['id', 'nombre','precio','inventario','acciones'];
   dataSource!:MatTableDataSource<any>;
@@ -57,32 +58,22 @@ export class ProductoComponent implements OnInit {
   }
 
   AgregarDetalle(){
+    let valid:boolean=true
     var prod = this.service.formCantidadProd.value
-    if (prod.cantidad>prod.inventario.cantidad) {
-      this.toastr.error( `Cantidad mayor a la existencia`,`Sin existencia`,{
-        positionClass:'toast-bottom-right'      
-      })
-    }else{
-      if (this.service.form.value.detalle.length>0) {
-        for (let index = 0; index < this.service.form.value.detalle.length; index++) {
-          var dato = this.service.form.value.detalle[index]
-          if (prod.id_compra === dato.producto) {
-            console.log('Sono iguales');
-            dato.cantidad = dato.cantidad + prod.cantidad
-            //this.service.form.updateValueAndValidity()
-            this.service.formCantidadProd.reset({
-              estado:true
-            })
-            return
-          }else{
-            //console.log('No son iguales');
-            return this.service.AgregarDetalle()
-          }
+    this.Listado = this.service.form.value
+    for (let index = 0; index < this.service.form.value.detalle.length; index++) {
+        var dato = this.service.form.value.detalle[index]
+        if (dato.producto === prod.id_venta) {
+          valid = false
+          dato.cantidad = dato.cantidad + prod.cantidad
+          console.log("duplicado")
+          this.service.formCantidadProd.reset({
+            estado:true
+          })
         }
-      } else {
-        this.service.AgregarDetalle()
       }
-
+    if (valid){
+      this.service.AgregarDetalle()
     }
   }
 

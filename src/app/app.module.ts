@@ -19,6 +19,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 registerLocaleData(localePy, 'es');
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +34,6 @@ registerLocaleData(localePy, 'es');
     SharedModule,
     ToastrModule.forRoot(),
     SweetAlert2Module.forRoot(),
-
     MatDialogModule,
   ],
   providers: [     {

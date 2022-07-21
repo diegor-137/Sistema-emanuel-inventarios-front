@@ -11,8 +11,9 @@ import { MarcaFormComponent } from './marca/marca-form/marca-form.component';
 import { ProductoFormComponent } from './producto/producto-form/producto-form.component';
 import { ProductoListComponent } from './producto/producto-list/producto-list.component';
 import { SharedModule } from '../../shared/shared.module';
-
-
+import { InventarioListComponent } from './producto/inventario-list/inventario-list.component';
+import { PrimeModule } from '../../prime/prime.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,11 +25,14 @@ import { SharedModule } from '../../shared/shared.module';
     MarcaFormComponent,
     ProductoFormComponent,
     ProductoListComponent,
+    InventarioListComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
-    AlmacenRoutingModule
+    AlmacenRoutingModule,
+    PrimeModule,
+    FormsModule,
   ]
 })
 export class AlmacenModule { }
