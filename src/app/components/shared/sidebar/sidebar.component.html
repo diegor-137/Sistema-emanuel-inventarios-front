@@ -100,15 +100,19 @@
         <span>Cortes</span>
     </button>
     <button *appRole="['ADMIN']" mat-button class="menu-button" routerLink="/dashboard/finanzas/caja-movimientos">
-        <mat-icon>drive_file_move</mat-icon>
+        <mat-icon>menu_book</mat-icon>
         <span>Movimientos</span>
     </button>
     <button *appRole="['ADMIN']" mat-button class="menu-button" routerLink="/dashboard/finanzas/cobro-list">
-        <mat-icon>drive_file_move</mat-icon>
+        <mat-icon>featured_play_list</mat-icon>
         <span>Listado de cobros</span>
     </button>
-    <button *appRole="['CAJERO']" mat-button class="menu-button" routerLink="/dashboard/finanzas/caja-gastos">
+    <button *appRole="['CAJERO', 'ADMIN']" mat-button class="menu-button" routerLink="/dashboard/finanzas/caja-gastos">
         <mat-icon>drive_file_move</mat-icon>
         <span>Gastos</span>
+    </button>
+    <button *appRole="['CAJERO', 'ADMIN']" mat-button class="menu-button" routerLink="/dashboard/finanzas/caja-ingresos">
+        <mat-icon>drive_file_move</mat-icon>
+        <span>Ingresos</span>
     </button>
 </div>

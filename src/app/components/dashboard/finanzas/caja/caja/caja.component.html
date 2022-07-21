@@ -43,7 +43,7 @@
 
 <!-- DIALOGO Y MENSAJE DE CONFIRMACION -->
 
-<p-dialog [(visible)]="cajaDialog"  header="Crear nueva caja" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="cajaDialog"  header="Crear nueva caja" [modal]="true" styleClass="p-fluid" [closable]="false">
 
     <ng-template pTemplate="content" [formGroup]="cajaConfigService.form">
         <div class="field" formGroupName="empleado">
@@ -61,14 +61,14 @@
         </div>  
         <div class="field">
             <label >Monto de apertura.</label>
-            <p-inputNumber formControlName="monto"></p-inputNumber>
+            <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" formControlName="monto"></p-inputNumber>
             <small *ngIf="campoValido('monto')" class="p-error block">Debe ingresar un monto.</small>
         </div>       
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()" [disabled]="cajaConfigService.form.invalid"></button>
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="save()" [disabled]="cajaConfigService.form.invalid"></button>
     </ng-template>
 
 </p-dialog>

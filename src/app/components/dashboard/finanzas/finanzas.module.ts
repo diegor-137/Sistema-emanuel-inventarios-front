@@ -16,6 +16,8 @@ import { MovimientosComponent } from './caja/movimientos/movimientos.component';
 import { CobroListComponent } from './caja/cobros-list/cobro-list.component';
 import { DetalleCobroComponent } from './caja/cobros-list/detalle-cobro/detalle-cobro.component';
 import { GastosComponent } from './caja/gastos/gastos.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import { IngresosComponent } from './caja/ingresos/ingresos.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { GastosComponent } from './caja/gastos/gastos.component';
     MovimientosComponent,
     CobroListComponent,
     DetalleCobroComponent,
-    GastosComponent
+    GastosComponent,
+    IngresosComponent
   ],
   imports: [
     CommonModule,
@@ -39,5 +42,6 @@ import { GastosComponent } from './caja/gastos/gastos.component';
     PrimeModule,
     FormsModule
   ],
+  providers: [DialogService]
 })
 export class FinanzasModule { }

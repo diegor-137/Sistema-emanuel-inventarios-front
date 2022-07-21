@@ -1,0 +1,4 @@
+:host ::ng-deep .anulado {
+    /* background-color: #FF5252 !important; */
+    color: #ff0000 !important;
+}

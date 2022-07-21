@@ -15,6 +15,7 @@ import { ClienteFormComponent } from '../../cliente/cliente-form/cliente-form.co
 import { ClienteService } from '../../cliente/services/cliente.service';
 import { ProductoComponent } from '../../producto/producto.component';
 import { Socket } from 'ngx-socket-io';
+import { CustomSocket } from '../../../finanzas/caja/socekts/custom-socket-ventas'
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -44,7 +45,7 @@ export class VentaFormComponent implements OnInit {
     public dialogRef:MatDialogRef<VentaFormComponent>,
     private dialog:MatDialog,
     public router:Router,
-    private socket: Socket) { }
+    private socket: CustomSocket) { }
 
   ngOnInit(): void {
     this.service.form.get('cliente')?.valueChanges.subscribe(

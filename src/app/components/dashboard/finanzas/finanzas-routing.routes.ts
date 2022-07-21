@@ -7,6 +7,7 @@ import { CajaCorteListComponent } from './caja/caja-corte-list/caja-corte-list.c
 import { MovimientosComponent } from './caja/movimientos/movimientos.component';
 import { CobroListComponent } from './caja/cobros-list/cobro-list.component';
 import { GastosComponent } from './caja/gastos/gastos.component';
+import { IngresosComponent } from './caja/ingresos/ingresos.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
       { path: 'caja-movimientos', component: MovimientosComponent },
       { path: 'cobro-list', component: CobroListComponent },
       { path: 'caja-gastos', component: GastosComponent },
+      { path: 'caja-ingresos', component: IngresosComponent },
     ]
   },];
 

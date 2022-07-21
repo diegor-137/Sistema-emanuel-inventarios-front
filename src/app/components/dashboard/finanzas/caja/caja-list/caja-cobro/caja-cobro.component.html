@@ -140,18 +140,18 @@
             <p-button icon="pi pi-times" (click)="cobrar()" label="Cobrar"></p-button> -->
 
 
-
+            <p-toast position="bottom-center"></p-toast>
 
             <p-toolbar>
                 <div class="grid p-fluid">    
                     <div class="col-12 md:col-4">
-                        <h4>Cliente<input type="text" pInputText [disabled]="disabled" placeholder="{{venta.cliente}}" /></h4 >                                            
+                        <h4>Cliente<input type="text" pInputText [readonly]="true"  [ngModel]="venta.cliente"/></h4 >                                            
                     </div>   
                     <div class="col-12 md:col-4">
-                        <h4>Fecha<input type="text" pInputText [disabled]="disabled" placeholder="{{venta.fecha | date: 'short'}}" /></h4 >                    
+                        <h4>Fecha<input type="text" pInputText [readonly]="true" [ngModel]="venta.fecha | date: 'short'"/></h4 >                    
                     </div>   
                     <div class="col-12 md:col-4">
-                        <h4>Total<input type="text" pInputText [disabled]="disabled" placeholder="{{venta.total}}" /></h4 >                    
+                        <h4>Total<input type="text" pInputText [readonly]="true" [ngModel]="venta.total"/></h4 >                    
                     </div>   
                 </div>
             </p-toolbar>
@@ -162,7 +162,7 @@
                     <label>{{item.tipoCobro.nombre}}</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi {{item.icon}}"></i></span>
-                        <p-inputNumber [minFractionDigits]="2" [(ngModel)]="item.cantidad"></p-inputNumber>
+                        <p-inputNumber [minFractionDigits]="2" [(ngModel)]="item.cantidad" [disabled]="item.estado"></p-inputNumber>
                     </div>
                 </div>                    
             </div>
@@ -173,7 +173,7 @@
                             <label>Descripcion {{detalle.tipoCobro.nombre}}</label>
                             <div class="p-inputgroup">
                                 <span class="p-inputgroup-addon"><i class="pi {{detalle.icon}}"></i></span>
-                                <input type="text" [(ngModel)]="detalle.descripcion" pInputText/>                    
+                                <input type="text" [(ngModel)]="detalle.descripcion" [disabled]="detalle.estado" pInputText/>                    
                             </div>
                         </div>
                     </div>

@@ -16,7 +16,3 @@
     font-size: 12px;
     letter-spacing: .3px;
 }
-
-:host ::ng-deep .gastoDeleted{
-    color: #FF5252 !important;
-}

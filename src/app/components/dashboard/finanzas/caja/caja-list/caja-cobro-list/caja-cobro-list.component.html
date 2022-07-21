@@ -1,27 +1,31 @@
-<p-table [value]="ventas" responsiveLayout="scroll" [paginator]="true" [rows]="5" [responsive]="true"
+<p-toast position="bottom-center"></p-toast>
+<p-table [value]="cobros" responsiveLayout="scroll" [paginator]="true" [rows]="5" [responsive]="true"
     selectionMode="single" styleClass="p-datatable-striped">
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon>
             </th>
-            <th pSortableColumn="cliente">Cliente <p-sortIcon field="cliente"></p-sortIcon>
+            <th pSortableColumn="cliente">Fecha<p-sortIcon field="cliente"></p-sortIcon>
             </th>
-            <th pSortableColumn="fecha">Fecha Venta <p-sortIcon field="fecha"></p-sortIcon>
+            <th pSortableColumn="fecha">Codigo Venta<p-sortIcon field="fecha"></p-sortIcon>
             </th>
-            <th pSortableColumn="total">Total venta <p-sortIcon field="total"></p-sortIcon>
+            <th pSortableColumn="total">Cliente <p-sortIcon field="total"></p-sortIcon>
+            </th>
+            <th pSortableColumn="total">Total Cobro<p-sortIcon field="total"></p-sortIcon>
             </th>
             <th>Tipos de pagos</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-venta>
+    <ng-template pTemplate="body" let-cobro>
         <tr>
-            <td>{{venta.id}}</td>
-            <td>{{venta.cliente}}</td>
-            <td>{{venta.fecha | date: 'short'}}</td>
-            <td>{{venta.total}}</td>
+            <td>{{cobro.id}}</td>
+            <td>{{cobro.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
+            <td>{{cobro.venta}}</td>
+            <td>{{cobro.cliente}}</td>
+            <td>{{cobro.total}}</td>
             <td>
-                <button pButton pRipple icon="pi pi-search"class="p-button-rounded p-button-success mr-2"(click)="getDetalleCobro(venta.idcobro); op.toggle($event)"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteCobro(venta)"></button>
+                <button pButton pRipple icon="pi pi-search"class="p-button-rounded p-button-success mr-2" (click)="getDetalleCobro(cobro.id); op.toggle($event)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteCobro(cobro)"></button>
             </td>
         </tr>
     </ng-template>

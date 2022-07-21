@@ -9,13 +9,13 @@
         <div class="mr-2">
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-calendar-plus"></i></span>
-                <input type="text"  pInputText [ngModel]="corte.fechas | date: 'short'" [disabled]="disabled">                  
+                <input type="text"  pInputText [ngModel]="corte.fechas | date: 'short'" readonly>                  
             </div>
         </div>
         <div class="mr-2">
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                <input type="text"  pInputText [ngModel]="corte.empleado.nombre + ' ' +corte.empleado.apellido" [disabled]="disabled">
+                <input type="text"  pInputText [ngModel]="corte.empleado.nombre + ' ' +corte.empleado.apellido" readonly>
             </div> 
         </div>
         <p-button icon="pi pi-briefcase" label="Corte" class="mr-2" (click)="openCorte()"></p-button>
@@ -56,3 +56,6 @@
     </p-table>
 </div>
 </div>
+
+
+<p-button label="Anular Venta" (click)="anularVenta()"></p-button>

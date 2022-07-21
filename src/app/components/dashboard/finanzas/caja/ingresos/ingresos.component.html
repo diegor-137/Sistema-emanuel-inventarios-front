@@ -1,10 +1,11 @@
-<h2>COBROS DE CAJA</h2>
+<h2>INGRESOS CAJA</h2>
 <p-toolbar>
-    <div class="p-toolbar-group-left" [formGroup]="cajaService.form">
-        <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="getCobros()" [disabled]="cajaService.form.invalid"></p-button>        
+    <div class="p-toolbar-group-left" [formGroup]="ingresosService.form">
+        <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="getIngresos()" [disabled]="ingresosService.form.invalid"></p-button>
+        
+
 
         <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2" formControlName="dates"></p-calendar>
-
         <p-dropdown [options]="cajasList" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true" formControlName="caja">
             <ng-template let-item pTemplate="item">
                 <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
@@ -20,30 +21,22 @@
     <div class="p-toolbar-group-right">      
     </div>
 </p-toolbar>
-<p-table [value]="cobros" responsiveLayout="scroll" [paginator]="true" [rows]="10" [responsive]="true"
+<p-table [value]="ingresos" responsiveLayout="scroll" [paginator]="true" [rows]="10" [responsive]="true"
     selectionMode="single" styleClass=" p-datatable-gridlines">
     <ng-template pTemplate="header">
         <tr>
             <th>Id </th>
             <th>Fecha </th>
-            <th>Empleado </th>
-            <th>Codigo Venta </th>
-            <th>Cliente </th>
-            <th>Total Cobro </th>
+            <th>Descripcion </th>
+            <th>Monto </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-cobro>
+    <ng-template pTemplate="body" let-ingreso>
         <tr>
-            <td>{{cobro.id}}</td>
-            <td>{{cobro.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
-            <td>{{cobro.nombre + '' + cobro.apellido}}</td>
-            <td>{{cobro.venta}}</td>
-            <td>{{cobro.cliente}}</td>
-            <td>{{cobro.total}}</td>
-            <td>
-                <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success mr-2" (click)="cobroDetallado(cobro.id)"></button>
-            </td>
-
+            <td>{{ingreso.id}}</td>
+            <td>{{ingreso.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
+            <td>{{ingreso.descripcion}}</td>
+            <td>{{ingreso.monto}}</td>
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">

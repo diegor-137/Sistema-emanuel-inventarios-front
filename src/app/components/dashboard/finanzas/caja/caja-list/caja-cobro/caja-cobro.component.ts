@@ -10,15 +10,16 @@ import { Role } from '../../../../../../app.roles';
 @Component({
   selector: 'app-caja-cobro',
   templateUrl: './caja-cobro.component.html',
-  styleUrls: ['./caja-cobro.component.css']
+  styleUrls: ['./caja-cobro.component.css'],
+  providers: [MessageService, DialogService]
 })
 export class CajaCobroComponent implements OnInit{
 
   detalleCobro: DetalleCobro [] = [
-    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Efectivo.", id:1}, icon: 'pi-money-bill'},
-    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Tarjeta.", id:2}, icon: 'pi-credit-card'},
-    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Cheque.", id:3}, icon: 'pi-id-card'},
-    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Transferencia.", id:4}, icon: 'pi-wallet'},
+    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Efectivo.", id:1}, icon: 'pi-money-bill', estado: false},
+    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Tarjeta.", id:2}, icon: 'pi-credit-card', estado: true},
+    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Cheque.", id:3}, icon: 'pi-id-card', estado: true},
+    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Transferencia.", id:4}, icon: 'pi-wallet', estado: true},
   ]
 
   tipoCobro!: any[]
@@ -96,9 +97,8 @@ export class CajaCobroComponent implements OnInit{
 
     ref?.onClose.subscribe((resp:any)=>{
         if(resp){
-          this.cajaService.cobro(resp).subscribe(()=>{
-            this.messageService.add({severity:'info', summary:'Cobro Realizado', detail: 'Cobro Realizado'});
-            this.ref.close()
+          this.cajaService.cobro(resp).subscribe(()=>{            
+            this.ref.close(true)
           },e=>{
               console.log(e);            
           }) 

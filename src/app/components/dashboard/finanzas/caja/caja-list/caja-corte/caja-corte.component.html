@@ -1,28 +1,77 @@
 <p-toolbar>
-    <p-button icon="pi pi-save" label="Guardar corte" styleClass="p-button-success mr-2" (onClick)="create()"></p-button>
+    <p-button icon="pi pi-save" label="Guardar corte" styleClass="p-button-success mr-2" (onClick)="create()" [disabled]="cajaCorteService.formCorte.invalid">
+    </p-button>
 </p-toolbar>
 
-
-<div class="p-fluid grid" [formGroup]="cajaCorteService.formCorte">
-
-    <div class="field col-12 md:col-6" *ngIf="load">
-        <label>Efectivo calculado</label>
-        <div class="p-inputgroup">
-            <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-            <p-inputNumber [disabled]="disabled" placeholder="{{balance}}" [inputStyle]="{background: 'skyblue'}"></p-inputNumber>
+<div *ngIf="load">
+    <div class="p-fluid grid">
+        <div class="col-6">
+            <label>Saldo</label>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                <p-inputNumber [ngModel]="saldo" [readonly]="true"></p-inputNumber>
+            </div>
+        </div>
+    </div>
+    <div class="p-fluid grid">
+        <div class="col-6">
+            <label>Ventas/cobros</label>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                <p-inputNumber [ngModel]="totalCobro" [readonly]="true"></p-inputNumber>
+            </div>
+        </div>
+    </div>
+    <div class="p-fluid grid">
+        <div class="col-6">
+            <label>Ingresos</label>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                <p-inputNumber [ngModel]="totalIngreso" [readonly]="true"></p-inputNumber>
+            </div>
+        </div>
+    </div>
+    <div class="p-fluid grid">
+        <div class="col-6">
+            <label>Gastos</label>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                <p-inputNumber [ngModel]="totalGasto" [readonly]="true"></p-inputNumber>
+            </div>
         </div>
     </div>
 
-    <div class="field col-12 md:col-6">
-        <label>Monto a retirar</label>
-        <div class="p-inputgroup">
-            <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-            <p-inputNumber formControlName="monto" [minFractionDigits]="2"></p-inputNumber>
+    <div class="p-fluid grid">
+        <div class="col-6">
+            <label>Egresos</label>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                <p-inputNumber [ngModel]="totalEgreso" [readonly]="true"></p-inputNumber>
+            </div>
         </div>
     </div>
 
-    <div class="field col-12 md:col-6">
-        <label>Comentario.</label>
-        <textarea rows="3" style="resize: none;" cols="30" pInputTextarea formControlName="observacion"></textarea>
+    <div class="p-fluid grid" [formGroup]="cajaCorteService.formCorte">
+
+        <div class="field col-12 md:col-6">
+            <label>Efectivo calculado</label>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                <p-inputNumber placeholder="{{balance}}" [readonly]="true"></p-inputNumber>
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label>Monto a retirar</label>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                <p-inputNumber formControlName="monto" [minFractionDigits]="2" [required]="true"></p-inputNumber>                
+            </div>
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <label>Comentario.</label>
+            <textarea rows="3" style="resize: none;" cols="30" pInputTextarea formControlName="observacion"></textarea>
+        </div>
     </div>
 </div>

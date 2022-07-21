@@ -64,7 +64,7 @@ export class CajaService {
   }
 
   getCobrosDay(){
-    return this.http.get<Venta[]>(`${this.BASE_URL}/cobro/todos`)
+    return this.http.get<Cobros[]>(`${this.BASE_URL}/cobro/cobros-dia`)
   }
   
   getDetalleCobro(id:number){    
@@ -96,5 +96,10 @@ export class CajaService {
 
 
 
+  /* PRUEBA UNICAMENTE */
+
+  anularVenta(){
+    return this.http.delete(`${this.BASE_URL}/cobro/anular/${115}`)
+  }
 }
 

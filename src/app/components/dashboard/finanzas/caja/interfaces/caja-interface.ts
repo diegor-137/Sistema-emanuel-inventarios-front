@@ -1,7 +1,7 @@
 export interface Venta {
+    id: number
     cliente: string
     fecha: Date
-    id: 19
     status: string
     total: number
     idcobro?: number
@@ -38,6 +38,7 @@ export interface CobroDetallado {
   }
   caja:Caja
   detalleCobro:DetalleCobro[]
+  deletedAt?:Date
 }
 
 export interface DetalleCobro {
@@ -46,6 +47,7 @@ export interface DetalleCobro {
   cantidad:number
   tipoCobro: TipoCobro
   icon:string
+  estado: boolean
 }
 
 interface TipoCobro {
@@ -112,4 +114,24 @@ export interface Gasto {
   documento:string
   empleado:Empleado
   caja:Caja
+  deletedAt?:Date
+  deleteResponsible?: {
+    nombre:string
+    apellido:string
+  }
+}
+
+
+export interface Ingreso{
+  id: number
+  fecha: Date
+  descripcion: string
+  monto:number
+}
+
+export interface Egreso{
+  id: number
+  fecha: Date
+  descripcion: string
+  monto:number
 }

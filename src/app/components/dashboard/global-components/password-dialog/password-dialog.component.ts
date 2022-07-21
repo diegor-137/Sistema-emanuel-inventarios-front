@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PasswordDialogService } from '../services/password-dialog.service';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-password-dialog',
@@ -12,12 +13,17 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 })
 export class PasswordDialogComponent implements OnInit {
 
+  get usuario(){
+    return this.authService.usuario;
+  }
+
   form: FormGroup
   constructor(private fb: FormBuilder,
               private service:PasswordDialogService, 
               private messageService: MessageService, 
               public ref: DynamicDialogRef,
-              public config: DynamicDialogConfig) 
+              public config: DynamicDialogConfig, 
+              public authService:AuthService) 
   {
     this.form = this.fb.group({
       usuario: ['', Validators.required],
@@ -25,7 +31,9 @@ export class PasswordDialogComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form.controls.usuario.patchValue(this.usuario.user)
+  }
 
   authorization(){
     const {usuario, password} = this.form.value;

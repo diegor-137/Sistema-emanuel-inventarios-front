@@ -33,7 +33,7 @@ export class CobroListComponent implements OnInit {
   cobroDetallado(id:number){
     const ref = this.dialogService.open(DetalleCobroComponent, {
       data:id, 
-      header: 'Realizar Cobro',
+      header: 'Detalle de cobro',
       width: '70%',
       contentStyle: {"max-height": "500px", "overflow": "auto"},
       baseZIndex: 10000,

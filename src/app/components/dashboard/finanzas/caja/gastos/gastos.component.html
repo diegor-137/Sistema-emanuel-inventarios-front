@@ -3,13 +3,17 @@
 <div class="card">
     <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
-            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrir()"></button>
+            <button *appRole="['CAJERO']" pButton pRipple label="Generar Gasto" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrir()"></button>
         </ng-template>
 
         <ng-template pTemplate="right" [formGroup]="gastoService.form">
-            <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="allGastos()" [disabled]="gastoService.form.invalid"></p-button>
+            <div class="mr-2" *appRole="['ADMIN']">
+                <label for="binary" class="mr-2">Cobros eliminados</label>
+                <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary" [ngModelOptions]="{standalone: true}" ></p-checkbox>
+            </div>
+                <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="allGastos()" [disabled]="gastoService.form.invalid"></p-button>
         <p-calendar formControlName="dates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2"></p-calendar>
-        <p-dropdown [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true">
+        <p-dropdown *appRole="['ADMIN']" [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true">
             <ng-template let-item pTemplate="item">
                 <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
@@ -36,6 +40,7 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
+                <th></th>
                 <th>Id</th>
                 <th>Fecha</th>
                 <th>Descripcion</th>
@@ -43,26 +48,37 @@
                 <th>Monto</th>
                 <th>Caja - Empleado</th>
                 <th>Responsable</th>
+                <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-gasto>
-            <tr>
+            <tr [ngClass]="{'gastoDeleted': gasto.deletedAt != null}">
+                <td><p-button *ngIf="gasto.deletedAt != null" icon="pi pi-search" styleClass="p-button-danger" (click)="deleteResponsible(gasto);op.toggle($event)"></p-button></td>
                 <td>{{gasto.id}}</td>
                 <td>{{gasto.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
                 <td>{{gasto.descripcion}}</td>
                 <td>{{gasto.documento}}</td>
                 <td>{{gasto.monto}}</td>
                 <td>{{gasto.caja.lugar + ' - '+ gasto.caja.empleado.nombre + ' ' + gasto.caja.empleado.apellido}}</td>
-                <td>{{gasto.empleado.nombre + ' ' + gasto.empleado.apellido }}</td>                
+                <td>{{gasto.empleado.nombre + ' ' + gasto.empleado.apellido }}</td> 
+                <td><button *appRole="['CAJERO']" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteGasto(gasto)"></button></td>               
             </tr>
         </ng-template>
-        <ng-template pTemplate="summary">
+        <ng-template pTemplate="footer">
+            <tr>
+                <td></td>
+                <td colspan="4" class="text-right">Total</td>
+                <td>{{total}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
         </ng-template>
     </p-table>
 </div>
 
 <div [formGroup]="gastoService.formGasto">
-<p-dialog [(visible)]="dialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="dialog" [style]="{width: '450px'}" header="Generar gasto" [modal]="true" [closable]="false" styleClass="p-fluid">
 
     <ng-template pTemplate="content">
         <div class="field">
@@ -73,14 +89,14 @@
         <div class="field">
             <label>Descripcion</label>
             <textarea  pInputTextarea required rows="3" cols="20" formControlName="descripcion"></textarea>
-            <small *ngIf="campoValido('descripcion')" class="p-error block">Debe ingresar un No. Documento.</small>
+            <small *ngIf="campoValido('descripcion')" class="p-error block">Debe ingresar una descripcion.</small>
         </div>
 
         <div class="formgrid grid">
             <div class="field col">
                 <label for="price">Monto</label>
-                <p-inputNumber mode="currency" currency="USD" locale="en-US" formControlName="monto"></p-inputNumber>
-                <small *ngIf="campoValido('monto')" class="p-error block">Debe ingresar un No. Documento.</small>
+                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" formControlName="monto"></p-inputNumber>
+                <small *ngIf="campoValido('monto')" class="p-error block">Debe ingresar un monto.</small>
             </div>
         </div>
     </ng-template>
@@ -95,3 +111,25 @@
 </div>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
+
+
+<p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
+    <ng-template pTemplate>
+        <p-table [value]="deleteRespon">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Resposable</th>
+                    <th>Fecha eliminacion</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-respo>
+                <tr>
+                    <td>{{respo.nombre + ' ' + respo.apellido}}</td>
+                    <td>{{respo.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+</p-overlayPanel>

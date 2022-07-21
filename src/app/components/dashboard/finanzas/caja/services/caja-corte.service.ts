@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Corte } from '../interfaces/caja-interface';
+import { CobroDetallado, Corte, Gasto, Ingreso, Egreso } from '../interfaces/caja-interface';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class CajaCorteService {
   }
 
   formCorte = this.formBuilder.group({
-      monto:[], 
+      monto:[null, [Validators.min(1), Validators.required]], 
       observacion: [],    
       token: []    
   })
@@ -51,6 +52,87 @@ export class CajaCorteService {
   findOne(id:number){
     return this.http.get<Corte>(`${this.BASE_URL}/corte-caja/${id}`);
   }
+
+  saldo(){
+    return this.http.get<any>(`${this.BASE_URL}/corte-caja/saldo/caja`)
+              .pipe(map((resp)=>{
+                  if (resp==null) {
+                     resp = 0;
+                     return resp 
+                  }
+                  return resp
+                })
+              )
+  }
+
+  totalCobro(){
+    return this.http.get<any>(`${this.BASE_URL}/corte-caja/totalCobro/caja`)
+              .pipe(map((resp)=>{                              
+                  if (resp==null) {
+                     resp = 0;
+                     return resp 
+                  }
+                  return resp
+                })
+              );
+  }
+
+  totalGasto(){
+    return this.http.get<any>(`${this.BASE_URL}/corte-caja/totalGasto/caja`)
+              .pipe(map((resp)=>{
+                  if (resp==null) {
+                     resp = 0;                     
+                     return resp 
+                  }
+                  return resp
+                })
+              );
+  }
+
+  totalIngreso(){
+    return this.http.get<any>(`${this.BASE_URL}/corte-caja/ingreso/caja`)
+              .pipe(map((resp)=>{
+                  if (resp==null) {
+                     resp = 0;                     
+                     return resp 
+                  }
+                  return resp
+                })
+              );
+  }
+
+  totalEgreso(){
+    return this.http.get<any>(`${this.BASE_URL}/corte-caja/egreso/caja`)
+              .pipe(map((resp)=>{
+                  if (resp==null) {
+                     resp = 0;                     
+                     return resp 
+                  }
+                  return resp
+                })
+              );
+  }
   
+
+  /* DETALLES DE CORTE */
+
+  ventasCobrosCorte(idCorte:number, idCaja:number){
+    return this.http.get<CobroDetallado[]>(`${this.BASE_URL}/corte-caja/detalle/ventas-cobros/${idCorte}/${idCaja}`)
+  }
+
+  gastosCorte(idCorte:number, idCaja:number){
+    return this.http.get<Gasto[]>(`${this.BASE_URL}/corte-caja/detalle/gastos/${idCorte}/${idCaja}`)
+  }
+
+  ingresosCorte(idCorte:number, idCaja:number){
+    return this.http.get<Ingreso[]>(`${this.BASE_URL}/corte-caja/detalle/ingresos/${idCorte}/${idCaja}`)
+  }
+
+  egresosCorte(idCorte:number, idCaja:number){
+    return this.http.get<Egreso[]>(`${this.BASE_URL}/corte-caja/detalle/egresos/${idCorte}/${idCaja}`)
+  }
+
+
+
 }
 

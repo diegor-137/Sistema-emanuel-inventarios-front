@@ -9,7 +9,17 @@ import { ComprasComponent } from './compras/compras.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { GlobalComponentsModule } from './global-components/global-components.module';
 
-const config: SocketIoConfig = { url: 'http://localhost:91', options: {} };
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
+  /* const transportOptions = {
+      extraHeaders: {
+        Authorization: tokenGetter(),
+      }
+  } */
+
+
+//const config: SocketIoConfig = { url: 'http://localhost:91', options: {transportOptions} };
 
 @NgModule({
   declarations: [
@@ -22,7 +32,7 @@ const config: SocketIoConfig = { url: 'http://localhost:91', options: {} };
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-    SocketIoModule.forRoot(config),
+    //SocketIoModule.forRoot(config),
     GlobalComponentsModule
   ],
   exports:[

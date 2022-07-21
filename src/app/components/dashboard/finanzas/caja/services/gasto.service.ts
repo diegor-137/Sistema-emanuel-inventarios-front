@@ -12,13 +12,13 @@ export class GastoService {
   formGasto = this.formBuilder.group({
       documento: ['', [Validators.required]],
       descripcion:['', [Validators.required]],
-      monto: ['', [Validators.required]],
-      token: [],
+      monto: [0, [Validators.required]],
+      token: [''],
   })
 
   form = this.formBuilder.group({
     dates:[null, [Validators.required]],
-    caja:[null, [Validators.required]],
+    caja:[0, [Validators.required]],
   })
 
   constructor(private http:HttpClient, private formBuilder:FormBuilder) { }
@@ -36,6 +36,16 @@ export class GastoService {
     const dates:Array<Date> = this.form.value.dates;
     const id = this.form.value.caja
     return this.http.get<Gasto[]>(`${this.BASE_URL}/gastos?start=${dates[0]}&end=${dates[1]}&id=${id}`)
+  }
+
+  delete(id:number){
+    return this.http.delete(`${this.BASE_URL}/gastos/delete/${id}`)
+  }
+
+  findAllDeletedGastos(){
+    const dates:Array<Date> = this.form.value.dates;
+    const id = this.form.value.caja
+    return this.http.get<Gasto[]>(`${this.BASE_URL}/gastos/deleted/all?start=${dates[0]}&end=${dates[1]}&id=${id}`)
   }
 
   

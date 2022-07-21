@@ -9,21 +9,21 @@
                     <label>Id</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><mat-icon>point_of_sale</mat-icon></span>
-                        <input type="text" placeholder="{{corte.id}}" pInputText> 
+                        <input type="text" [ngModel]="corte.id" pInputText readonly> 
                     </div>
                 </div>
                 <div class="col-12 md:col-6">
                     <label>Fecha</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
-                        <input type="text" placeholder="{{corte.fechas | date : 'EEEE, MMMM d, y, h:mm a'}}" pInputText> 
+                        <input type="text" [ngModel]="corte.fechas | date : 'EEEE, MMMM d, y, h:mm a'" pInputText readonly> 
                     </div>
                 </div>
                 <div class="col-12 md:col-6">
                     <label>Empleado</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                        <input type="text" placeholder="{{corte.empleado.nombre}} {{corte.empleado.apellido}}" pInputText> 
+                        <input type="text" [ngModel]="corte.empleado.nombre + ' ' +corte.empleado.apellido" pInputText readonly> 
                     </div>
                 </div>
             </div>
@@ -55,10 +55,155 @@
                     <div class="col-12">
                         <div class="p-inputgroup">
                             <span class="p-inputgroup-addon"><i class="pi pi-tags" style="line-height: 1.25;"></i></span>   
-                            <input type="text" pInputText placeholder="{{corte.observacion}}">   
+                            <input type="text" pInputText [ngModel]="corte.observacion" readonly>   
                         </div>         
                     </div>                    
                 </div>
             </ng-template>
         </p-table>
     </div>
+
+    <br/>
+
+    <p-panel header="Detalles del corte" *ngIf="det">
+        <p-table [value]="cobros" [paginator]="true" [rows]="5" responsiveLayout="scroll" *ngIf="cobro">
+            <ng-template pTemplate="caption">
+                Ventas
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>No.Cobro</th>
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>No. Factura</th>
+                    <th>Cliente</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-cobro>
+                <tr [pSelectableRow]="rowData" [ngClass]="{'anulado': cobro.deletedAt != null}">
+                    <td>{{cobro.id}}</td>
+                    <td>{{cobro.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
+                    <td>{{cobro.detalleCobro[0].cantidad}}</td>
+                    <td>{{cobro.venta.id}}</td>
+                    <td>{{cobro.venta.cliente.nombre}}</td>
+                    <td><p-button *ngIf="cobro.deletedAt != null" icon="pi pi-calendar" styleClass="p-button-danger" (click)="op.show($event)">
+                        <p-overlayPanel #op>
+                            <ng-template pTemplate>
+                                {{cobro.deletedAt | date: 'EEEE, MMMM d, y, h:mm a'}}
+                            </ng-template>
+                        </p-overlayPanel>
+                    </p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td colspan="2" class="text-right">Total</td>
+                    <td>{{totalCobros}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <p-table [value]="gastos" [paginator]="true" [rows]="5" responsiveLayout="scroll" *ngIf="gasto">
+            <ng-template pTemplate="caption">
+                Gastos
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th >No. Doc</th>
+                    <th>Descripcion</th>
+                    <th>Monto</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-gasto>                
+                <tr [pSelectableRow]="rowData" [ngClass]="{'anulado': gasto.deletedAt != null}">
+                    <td>{{gasto.id}}</td>
+                    <td>{{gasto.descripcion}}</td>
+                    <td>{{gasto.monto}}</td>  
+                    <td><p-button *ngIf="gasto.deletedAt != null" icon="pi pi-calendar" styleClass="p-button-danger" (click)="op.show($event)">
+                        <p-overlayPanel #op>
+                            <ng-template pTemplate>
+                                {{gasto.deletedAt | date: 'EEEE, MMMM d, y, h:mm a'}}
+                            </ng-template>
+                        </p-overlayPanel>
+                    </p-button>
+                    </td>                  
+                </tr>                
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td colspan="2" class="text-right">Total</td>
+                    <td>{{totalGastos}}</td>
+                    <td></td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+        <p-table [value]="ingresos" [paginator]="true" [rows]="5" responsiveLayout="scroll" *ngIf="ingreso">
+            <ng-template pTemplate="caption">
+                Ingresos
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>No. </th>
+                    <th>Fecha</th>
+                    <th>Descripcion</th>
+                    <th>Monto</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-ingreso>                
+                <tr [pSelectableRow]="rowData">
+                    <td>{{ingreso.id}}</td>
+                    <td>{{ingreso.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
+                    <td>{{ingreso.descripcion}}</td>
+                    <td>{{ingreso.monto}}</td>                                   
+                </tr>                
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td colspan="3" class="text-right">Total</td>
+                    <td>{{totalIngresos}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+
+        <p-table [value]="egresos" [paginator]="true" [rows]="5" responsiveLayout="scroll" *ngIf="egreso">
+            <ng-template pTemplate="caption">
+                Egresos
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>No. </th>
+                    <th>Fecha</th>
+                    <th>Descripcion</th>
+                    <th>Monto</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-egreso>                
+                <tr [pSelectableRow]="rowData">
+                    <td>{{egreso.id}}</td>
+                    <td>{{egreso.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
+                    <td>{{egreso.descripcion}}</td>
+                    <td>{{egreso.monto}}</td>                                   
+                </tr>                
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td colspan="3" class="text-right">Total</td>
+                    <td>{{totalEgresos}}</td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+    </p-panel>
+
+   

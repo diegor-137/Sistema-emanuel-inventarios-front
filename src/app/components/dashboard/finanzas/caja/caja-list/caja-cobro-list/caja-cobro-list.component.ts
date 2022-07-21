@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Cobro, Venta } from '../../interfaces/caja-interface';
+import { DialogService } from 'primeng/dynamicdialog';
+import { Cobro, Venta, Cobros } from '../../interfaces/caja-interface';
 import { CajaService } from '../../services/caja.service';
 
 @Component({
   selector: 'app-caja-cobro-list',
   templateUrl: './caja-cobro-list.component.html',
-  styleUrls: ['./caja-cobro-list.component.css']
+  styleUrls: ['./caja-cobro-list.component.css'],
+  providers: [MessageService]
 })
 export class CajaCobroListComponent implements OnInit {
 
-  ventas!:Venta[]
+  cobros!:Cobros[]
   cobro!:Cobro
   loadDetalleCobro:boolean=false
   
@@ -21,7 +23,7 @@ export class CajaCobroListComponent implements OnInit {
   }
 
   getCobros(){
-    this.cajaService.getCobrosDay().subscribe(resp=> this.ventas = resp);
+    this.cajaService.getCobrosDay().subscribe(resp=> this.cobros = resp);
   }
 
   getDetalleCobro(id:number){
@@ -33,16 +35,18 @@ export class CajaCobroListComponent implements OnInit {
     );    
   }
 
-  deleteCobro(venta:Venta){
+  deleteCobro(cobro:Cobros){
 
     this.confirmationService.confirm({
-      message: `¿Estas seguro de eliminar el cobro de la venta ${venta.id} del cliente ${venta.cliente} con total de ${venta.total}?`,
+      message: `¿Estas seguro de eliminar el cobro de la venta ${cobro.id} del cliente ${cobro.cliente} con total de ${cobro.total}?`,
       header: 'Confirmar eliminacion.',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.cajaService.deleteCobro(venta.idcobro!).subscribe(() =>{
-          this.messageService.add({severity:'success', summary: 'Cobro eliminado', detail: `El cobro de la venta ${venta.id} del cliente ${venta.cliente} ha sido eliminado`, life: 3000});
-          this.getCobros()
+        this.cajaService.deleteCobro(cobro.id).subscribe((res) =>{
+          this.messageService.add({severity:'success', summary: 'Cobro eliminado', detail: `El cobro ${cobro.id} del cliente ${cobro.cliente} ha sido eliminado`, life: 2000});
+          this.getCobros()         
+        }, e=>{
+          this.messageService.add({severity:'error', summary: 'Error', detail: e.error.message, life: 2000});
         })
       }
   });

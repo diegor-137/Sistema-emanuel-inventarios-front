@@ -13,7 +13,11 @@ import { CajaCorteService } from '../../services/caja-corte.service';
   providers: [MessageService, DialogService]
 })
 export class CajaCorteComponent implements OnInit {
-
+  saldo!:any
+  totalCobro!:any
+  totalGasto!:any
+  totalIngreso!:any
+  totalEgreso!:any
 
   disabled: boolean = true;
   balance!:number
@@ -23,15 +27,29 @@ export class CajaCorteComponent implements OnInit {
               public ref: DynamicDialogRef, 
               public dialogService: DialogService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.ultimoMovimiento()
   }
 
   ultimoMovimiento(){
     this.cajaCorteService.ultimoMovimiento().subscribe(resp =>{
       this.balance = resp
+      this.detalle()
       this.load = true
     });
+  }
+
+  detalle(){
+    this.cajaCorteService.saldo().subscribe(resp=> this.saldo = resp);
+    this.cajaCorteService.totalCobro().subscribe(resp=>this.totalCobro = resp);
+    this.cajaCorteService.totalGasto().subscribe(resp=> this.totalGasto = resp);
+    this.cajaCorteService.totalIngreso().subscribe(resp=> this.totalIngreso = resp);
+    this.cajaCorteService.totalEgreso().subscribe(resp=> this.totalEgreso = resp);
+  }
+
+  campoValido(campo:string){
+    return this.cajaCorteService.formCorte.get(campo)?.errors
+            && this.cajaCorteService.formCorte.get(campo)?.touched;
   }
 
   create(){

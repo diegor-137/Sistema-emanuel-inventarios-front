@@ -11,7 +11,7 @@ export class CajaConfigService {
 
   form: FormGroup = this.formBuilder.group({
       lugar:['', [Validators.required]],
-      monto:['', [Validators.required]],
+      monto:[0, [Validators.required]],
       empleado: this.formBuilder.group({
         id:[null,[Validators.required]]
       })

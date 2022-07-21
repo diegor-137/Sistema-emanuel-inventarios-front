@@ -27,6 +27,7 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {PanelModule} from 'primeng/panel';
 import {TabViewModule} from 'primeng/tabview';
 import { ChipModule } from 'primeng/chip';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [],
@@ -59,7 +60,8 @@ import { ChipModule } from 'primeng/chip';
     OverlayPanelModule,
     PanelModule,
     TabViewModule,
-    ChipModule
+    ChipModule,
+    TooltipModule
   ]
 })
 export class PrimeModule { }

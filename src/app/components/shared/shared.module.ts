@@ -93,7 +93,8 @@ import { ConfigGlobalDirective } from 'src/app/directives/config-global.directiv
     MatAutocompleteModule,
     MatCardModule,
     MatCheckboxModule,
-    ConfigGlobalDirective
+    ConfigGlobalDirective,
+    RoleDirective
   ]
 })
 export class SharedModule { }

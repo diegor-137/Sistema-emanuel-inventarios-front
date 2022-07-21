@@ -9,21 +9,21 @@
                     <label>Id</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><mat-icon>point_of_sale</mat-icon></span>
-                        <input type="text" placeholder="{{cobro.id}}" pInputText> 
+                        <input type="text" [ngModel]="cobro.id" pInputText readonly> 
                     </div>
                 </div>
                 <div class="col-12 md:col-6">
                     <label>Fecha</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
-                        <input type="text" placeholder="{{cobro.fecha | date : 'EEEE, MMMM d, y, h:mm a'}}" pInputText> 
+                        <input type="text" [ngModel]="cobro.fecha | date : 'EEEE, MMMM d, y, h:mm a'" pInputText readonly> 
                     </div>
                 </div>
                 <div class="col-12 md:col-6">
                     <label>Empleado</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                        <input type="text" placeholder="{{cobro.empleado.nombre}} {{cobro.empleado.apellido}}" pInputText> 
+                        <input type="text" [ngModel]="cobro.empleado.nombre +' '+cobro.empleado.apellido" pInputText readonly> 
                     </div>
                 </div>
             </div>
@@ -37,21 +37,21 @@
                     <label>Id</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><mat-icon>point_of_sale</mat-icon></span>
-                        <input type="text" placeholder="{{cobro.venta.id}}" pInputText> 
+                        <input type="text" [ngModel]="cobro.venta.id" pInputText readonly> 
                     </div>
                 </div>
                 <div class="col-12 md:col-6">
                     <label>Fecha</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
-                        <input type="text" placeholder="{{cobro.venta.createdAt | date : 'EEEE, MMMM d, y, h:mm a'}}" pInputText> 
+                        <input type="text" [ngModel]="cobro.venta.createdAt | date : 'EEEE, MMMM d, y, h:mm a'" pInputText readonly> 
                     </div>
                 </div>
                 <div class="col-12 md:col-6">
                     <label>Cliente</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                        <input type="text" placeholder="{{cobro.venta.cliente.nombre}}" pInputText> 
+                        <input type="text" [ngModel]="cobro.venta.cliente.nombre" pInputText readonly> 
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@
                     <label>Direccion</label>
                     <div class="p-inputgroup">
                         <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                        <input type="text" placeholder="{{cobro.venta.cliente.direccion}}" pInputText> 
+                        <input type="text" [ngModel]="cobro.venta.cliente.direccion" pInputText readonly> 
                     </div>
                 </div>
             </div>

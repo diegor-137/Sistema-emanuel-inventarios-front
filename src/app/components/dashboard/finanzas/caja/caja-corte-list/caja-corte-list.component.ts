@@ -14,10 +14,10 @@ import { DetalleCorteComponent } from './detalle-corte/detalle-corte.component';
 export class CajaCorteListComponent implements OnInit, OnDestroy {
 
   cajasList!:Caja[]
-  cajaSelected!: Caja
   cortes!:Corte[]
   rangeDates!: Date[];
   ref!: DynamicDialogRef;
+  detalle:number[]=[]
   constructor(public readonly cajaCorteService:CajaCorteService, private readonly cajaConfigService:CajaConfigService, public dialogService: DialogService) { }
 
   ngOnInit(): void {
@@ -33,8 +33,9 @@ export class CajaCorteListComponent implements OnInit, OnDestroy {
   }
 
   detalleCorte(id:number){
+    this.detalle = this.detalle.filter(val=> id === val);
     this.ref =this.dialogService.open(DetalleCorteComponent, {
-      data : id,
+      data : [id, this.detalle],
       header: 'Detalle corte',
       width: '70%',
       contentStyle: {"max-height": "500px", "overflow": "auto"},
