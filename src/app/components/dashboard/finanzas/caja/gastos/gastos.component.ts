@@ -70,9 +70,9 @@ export class GastosComponent implements OnInit {
             this.messageService.add({severity:'success', summary:'Corte Realizado', detail: 'El corte ya se ha realizado.'});
             this.gastoService.formGasto.reset()
             this.dialog = false;                        
-          }, e => console.log(e))   
-          console.log(resp);
-                 
+          }, e =>{
+            this.messageService.add({severity:'error', summary:'No', detail: e.error.message});    
+          })                    
         }
     })
     
@@ -100,8 +100,6 @@ export class GastosComponent implements OnInit {
     if(this.checked){
       this.gastoService.findAllDeletedGastos().subscribe(resp=>{
         this.gastos = resp
-        console.log(this.gastos);
-        
         this.total = this.gastos.reduce((sum, a)=> sum +  Number(a.monto), 0.00);                      
        })
     }else{

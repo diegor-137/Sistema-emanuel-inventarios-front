@@ -18,6 +18,7 @@ import { DetalleCobroComponent } from './caja/cobros-list/detalle-cobro/detalle-
 import { GastosComponent } from './caja/gastos/gastos.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { IngresosComponent } from './caja/ingresos/ingresos.component';
+import { EgresosComponent } from './caja/egresos/egresos.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { IngresosComponent } from './caja/ingresos/ingresos.component';
     CobroListComponent,
     DetalleCobroComponent,
     GastosComponent,
-    IngresosComponent
+    IngresosComponent,
+    EgresosComponent
   ],
   imports: [
     CommonModule,

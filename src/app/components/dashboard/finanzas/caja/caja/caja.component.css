@@ -16,3 +16,19 @@
     font-size: 12px;
     letter-spacing: .3px;
 }
+
+.false-icon {
+    color: #c63737;
+}
+
+.pi-check-circle {
+    content: "\e90a";
+}
+
+.true-icon {
+    color: #509c55;
+}
+
+.pi-times-circle {
+    content: "\e90c";
+}

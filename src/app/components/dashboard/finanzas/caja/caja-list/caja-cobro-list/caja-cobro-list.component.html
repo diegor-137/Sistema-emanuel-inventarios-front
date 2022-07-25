@@ -3,16 +3,11 @@
     selectionMode="single" styleClass="p-datatable-striped">
     <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon>
-            </th>
-            <th pSortableColumn="cliente">Fecha<p-sortIcon field="cliente"></p-sortIcon>
-            </th>
-            <th pSortableColumn="fecha">Codigo Venta<p-sortIcon field="fecha"></p-sortIcon>
-            </th>
-            <th pSortableColumn="total">Cliente <p-sortIcon field="total"></p-sortIcon>
-            </th>
-            <th pSortableColumn="total">Total Cobro<p-sortIcon field="total"></p-sortIcon>
-            </th>
+            <th>Id</th>
+            <th>Fecha</th>
+            <th>Codigo Venta</th>
+            <th>Cliente</th>
+            <th>Total Cobro</th>
             <th>Tipos de pagos</th>
         </tr>
     </ng-template>
@@ -31,7 +26,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="4">Sin cobros realizados.</td>
+            <td colspan="6">Sin cobros realizados.</td>
         </tr>
     </ng-template>
 </p-table>

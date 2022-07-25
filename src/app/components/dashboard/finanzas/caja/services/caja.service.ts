@@ -94,12 +94,10 @@ export class CajaService {
     return this.http.get<Cobros[]>(`${this.BASE_URL}/cobro?start=${dates[0]}&end=${dates[1]}&id=${id}`)
   }
 
-
-
-  /* PRUEBA UNICAMENTE */
-
-  anularVenta(){
-    return this.http.delete(`${this.BASE_URL}/cobro/anular/${115}`)
+  getAllCobrosDeleted(){
+    const dates:Array<Date> = this.form.value.dates;
+    const id = this.form.value.caja    
+    return this.http.get<Cobros[]>(`${this.BASE_URL}/cobro/deleted?start=${dates[0]}&end=${dates[1]}&id=${id}`)
   }
 }
 

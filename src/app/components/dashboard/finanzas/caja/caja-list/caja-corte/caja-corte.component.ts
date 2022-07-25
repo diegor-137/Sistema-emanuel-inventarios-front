@@ -10,14 +10,14 @@ import { CajaCorteService } from '../../services/caja-corte.service';
   selector: 'app-caja-corte',
   templateUrl: './caja-corte.component.html',
   styleUrls: ['./caja-corte.component.css'],
-  providers: [MessageService, DialogService]
+  providers: [DialogService, MessageService]
 })
 export class CajaCorteComponent implements OnInit {
-  saldo!:any
-  totalCobro!:any
-  totalGasto!:any
-  totalIngreso!:any
-  totalEgreso!:any
+  saldo!:number
+  totalCobro!:number
+  totalGasto!:number
+  totalIngreso!:number
+  totalEgreso!:number
 
   disabled: boolean = true;
   balance!:number
@@ -62,10 +62,12 @@ export class CajaCorteComponent implements OnInit {
     ref.onClose.subscribe((resp:any)=>{
         if(resp){
           this.cajaCorteService.create(resp).subscribe(()=>{
-            this.ref.close();
-            this.messageService.add({severity:'success', summary:'Corte Realizado', detail: 'El corte ya se ha realizado.'});
+            this.ref.close(true);            
             this.cajaCorteService.formCorte.reset()
-          }, e => console.log(e))          
+          }, e =>{      
+            console.log('data');
+            this.messageService.add({severity:'error', summary:'No', detail: e.error.message});                      
+          })          
         }
     })
   }

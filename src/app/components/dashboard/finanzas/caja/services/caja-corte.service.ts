@@ -15,7 +15,7 @@ export class CajaCorteService {
   }
 
   formCorte = this.formBuilder.group({
-      monto:[null, [Validators.min(1), Validators.required]], 
+      monto:[0, [Validators.min(1), Validators.required]], 
       observacion: [],    
       token: []    
   })
@@ -36,11 +36,7 @@ export class CajaCorteService {
   }
 
   ultimoMovimiento(){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    })
-    return this.http.get<number>(`${this.BASE_URL}/movimiento-caja`, { headers })
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/ultimoMovimiento/caja`)
   }
 
   cortes(){
@@ -54,7 +50,7 @@ export class CajaCorteService {
   }
 
   saldo(){
-    return this.http.get<any>(`${this.BASE_URL}/corte-caja/saldo/caja`)
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/saldo/caja`)
               .pipe(map((resp)=>{
                   if (resp==null) {
                      resp = 0;
@@ -66,7 +62,7 @@ export class CajaCorteService {
   }
 
   totalCobro(){
-    return this.http.get<any>(`${this.BASE_URL}/corte-caja/totalCobro/caja`)
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/totalCobro/caja`)
               .pipe(map((resp)=>{                              
                   if (resp==null) {
                      resp = 0;
@@ -78,7 +74,7 @@ export class CajaCorteService {
   }
 
   totalGasto(){
-    return this.http.get<any>(`${this.BASE_URL}/corte-caja/totalGasto/caja`)
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/totalGasto/caja`)
               .pipe(map((resp)=>{
                   if (resp==null) {
                      resp = 0;                     
@@ -90,7 +86,7 @@ export class CajaCorteService {
   }
 
   totalIngreso(){
-    return this.http.get<any>(`${this.BASE_URL}/corte-caja/ingreso/caja`)
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/ingreso/caja`)
               .pipe(map((resp)=>{
                   if (resp==null) {
                      resp = 0;                     
@@ -102,7 +98,7 @@ export class CajaCorteService {
   }
 
   totalEgreso(){
-    return this.http.get<any>(`${this.BASE_URL}/corte-caja/egreso/caja`)
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/egreso/caja`)
               .pipe(map((resp)=>{
                   if (resp==null) {
                      resp = 0;                     

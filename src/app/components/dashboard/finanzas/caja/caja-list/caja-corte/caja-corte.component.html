@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <p-toolbar>
     <p-button icon="pi pi-save" label="Guardar corte" styleClass="p-button-success mr-2" (onClick)="create()" [disabled]="cajaCorteService.formCorte.invalid">
     </p-button>
@@ -9,7 +10,7 @@
             <label>Saldo</label>
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-                <p-inputNumber [ngModel]="saldo" [readonly]="true"></p-inputNumber>
+                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" [ngModel]="saldo" [readonly]="true"></p-inputNumber>
             </div>
         </div>
     </div>
@@ -18,7 +19,7 @@
             <label>Ventas/cobros</label>
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-                <p-inputNumber [ngModel]="totalCobro" [readonly]="true"></p-inputNumber>
+                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" [ngModel]="totalCobro" [readonly]="true"></p-inputNumber>
             </div>
         </div>
     </div>
@@ -27,7 +28,7 @@
             <label>Ingresos</label>
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-                <p-inputNumber [ngModel]="totalIngreso" [readonly]="true"></p-inputNumber>
+                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" [ngModel]="totalIngreso" [readonly]="true"></p-inputNumber>
             </div>
         </div>
     </div>
@@ -36,7 +37,7 @@
             <label>Gastos</label>
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-                <p-inputNumber [ngModel]="totalGasto" [readonly]="true"></p-inputNumber>
+                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" [ngModel]="totalGasto" [readonly]="true"></p-inputNumber>
             </div>
         </div>
     </div>
@@ -46,10 +47,11 @@
             <label>Egresos</label>
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-                <p-inputNumber [ngModel]="totalEgreso" [readonly]="true"></p-inputNumber>
+                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" [ngModel]="totalEgreso" [readonly]="true"></p-inputNumber>
             </div>
         </div>
     </div>
+    
 
     <div class="p-fluid grid" [formGroup]="cajaCorteService.formCorte">
 
@@ -57,7 +59,7 @@
             <label>Efectivo calculado</label>
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-                <p-inputNumber placeholder="{{balance}}" [readonly]="true"></p-inputNumber>
+                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" ngModel="{{balance}}" [readonly]="true" [ngModelOptions]="{standalone: true}"></p-inputNumber>
             </div>
         </div>
 
@@ -65,7 +67,7 @@
             <label>Monto a retirar</label>
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-                <p-inputNumber formControlName="monto" [minFractionDigits]="2" [required]="true"></p-inputNumber>                
+                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" formControlName="monto" [required]="true"></p-inputNumber>                
             </div>
         </div>
 

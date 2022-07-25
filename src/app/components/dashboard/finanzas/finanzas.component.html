@@ -1,1 +1,10 @@
-<router-outlet></router-outlet> 
+<p-menubar [model]="items" *appRole="['ADMIN']">
+    <ng-template pTemplate="start">
+        <img src="https://www.primefaces.org/primeng/assets/showcase/images/primeng.svg" height="40" class="mr-2">
+    </ng-template>
+    <ng-template pTemplate="end">                
+    </ng-template>
+</p-menubar>
+<p-card>
+    <router-outlet></router-outlet> 
+</p-card>

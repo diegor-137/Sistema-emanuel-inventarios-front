@@ -12,7 +12,7 @@ import { ClienteFormComponent } from '../../cliente/cliente-form/cliente-form.co
 import { ClienteService } from '../../cliente/services/cliente.service';
 import { ProductoComponent } from '../../producto/producto.component';
 import { Socket } from 'ngx-socket-io';
-import { CustomSocket } from '../../../finanzas/caja/socekts/custom-socket-ventas'
+import { CustomSocket } from '../../../finanzas/caja/socekts/custom-sockets'
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -122,7 +122,7 @@ export class VentaFormComponent implements OnInit {
               positionClass:'toast-bottom-right'      
             })
             this.onClose();
-            this.socket.emit('getFacturas')
+            this.socket.emit('getFacturas', {token: this.usuario.accessToken})
           },
           err => {
             this.toastr.error(`${err.message}`,`Succedio un error`,{

@@ -14,6 +14,7 @@ export interface Usuario {
     user:string
     role: string[];
     empleado:Empleado
+    accessToken?:string
 }
 
 interface Empleado {

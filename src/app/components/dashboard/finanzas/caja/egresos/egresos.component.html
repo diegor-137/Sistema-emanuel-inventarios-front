@@ -1,8 +1,8 @@
 <p-toast></p-toast>
-<h2>INGRESOS CAJA</h2>
+<h2>EGRESOS CAJA</h2>
 <p-toolbar>
-    <div class="p-toolbar-group-left" [formGroup]="ingresosService.form">
-        <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="getIngresos()" [disabled]="ingresosService.form.invalid"></p-button>
+    <div class="p-toolbar-group-left" [formGroup]="egresosService.form">
+        <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="getIngresos()" [disabled]="egresosService.form.invalid"></p-button>
         
 
         <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2" formControlName="dates"></p-calendar>
@@ -18,12 +18,12 @@
         </p-dropdown>  
     </div>
     
-    <div class="p-toolbar-group-right" [formGroup]="ingresosService.form">  
-        <button *appRole="['CAJERO']" pButton pRipple label="Generar Ingreso" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrir()"></button>              
+    <div class="p-toolbar-group-right" [formGroup]="egresosService.form">  
+        <button *appRole="['CAJERO']" pButton pRipple label="Generar Egreso" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrir()"></button>              
     </div>
 </p-toolbar>
-<p-table [value]="ingresos" responsiveLayout="scroll" [paginator]="true" [rows]="10" [responsive]="true"
-    selectionMode="single" >
+<p-table [value]="egresos" responsiveLayout="scroll" [paginator]="true" [rows]="10" [responsive]="true"
+    selectionMode="single">
     <ng-template pTemplate="header">
         <tr>
             <th>Id </th>
@@ -49,7 +49,7 @@
 
 
 
-<div [formGroup]="ingresosService.formIngreso">
+<div [formGroup]="egresosService.formEgreso">
     <p-dialog [(visible)]="dialog" [style]="{width: '450px'}" header="Generar gasto" [modal]="true" [closable]="false" styleClass="p-fluid">
     
         <ng-template pTemplate="content">
@@ -71,7 +71,7 @@
     
         <ng-template pTemplate="footer">
             <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveIngreso()" [disabled]="ingresosService.formIngreso.invalid"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveIngreso()" [disabled]="egresosService.formEgreso.invalid"></button>
         </ng-template>
     
     </p-dialog>

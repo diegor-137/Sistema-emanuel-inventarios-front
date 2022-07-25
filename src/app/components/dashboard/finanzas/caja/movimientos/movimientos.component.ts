@@ -26,7 +26,9 @@ export class MovimientosComponent implements OnInit {
   }
 
   cajas(){
-    this.cajaConfigService.cajas().subscribe(resp => this.cajasList = resp)
+    this.cajaConfigService.cajas().subscribe(resp => {this.cajasList = resp
+    console.log(this.cajasList);
+    })
   }
 
   getMovimientos(){  

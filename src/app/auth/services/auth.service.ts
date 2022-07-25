@@ -42,7 +42,7 @@ export class AuthService {
       .pipe(
         map(resp => {          
           this._usuario = {
-            id:resp.id, user:resp.user, role: resp.role, empleado: resp.empleado            
+            id:resp.id, user:resp.user, role: resp.role, empleado: resp.empleado, accessToken: resp.accessToken           
           }                    
           return resp.ok
         }),
@@ -51,6 +51,7 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem('token');
     localStorage.clear()
   }
 

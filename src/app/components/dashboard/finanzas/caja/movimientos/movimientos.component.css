@@ -23,3 +23,13 @@
     font-size: 12px;
     letter-spacing: .3px;
 }
+
+.product-badge.status-INACTIVO {
+    background: #FFCDD2;
+    color: #c63737;
+}
+
+.product-badge.status-ACTIVO {
+    background: #C8E6C9;
+    color: #256029;
+}

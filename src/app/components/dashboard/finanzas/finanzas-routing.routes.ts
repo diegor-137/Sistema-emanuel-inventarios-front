@@ -8,17 +8,20 @@ import { MovimientosComponent } from './caja/movimientos/movimientos.component';
 import { CobroListComponent } from './caja/cobros-list/cobro-list.component';
 import { GastosComponent } from './caja/gastos/gastos.component';
 import { IngresosComponent } from './caja/ingresos/ingresos.component';
+import { EgresosComponent } from './caja/egresos/egresos.component';
+import { ValidarCajaGuard } from 'src/app/guards/validar-caja.guard';
 
 const routes: Routes = [
   {
     path: '', component: FinanzasComponent, children: [
-      { path: '', component: CajaListComponent },
+      { path: '', component: CajaListComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard]},
       { path: 'caja-config', component: CajaComponent },
       { path: 'caja-corte-list', component: CajaCorteListComponent },
       { path: 'caja-movimientos', component: MovimientosComponent },
       { path: 'cobro-list', component: CobroListComponent },
-      { path: 'caja-gastos', component: GastosComponent },
-      { path: 'caja-ingresos', component: IngresosComponent },
+      { path: 'caja-gastos', component: GastosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
+      { path: 'caja-ingresos', component: IngresosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
+      { path: 'caja-egresos', component: EgresosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
     ]
   },];
 

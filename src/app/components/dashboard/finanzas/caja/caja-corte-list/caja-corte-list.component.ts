@@ -13,6 +13,7 @@ import { DetalleCorteComponent } from './detalle-corte/detalle-corte.component';
 })
 export class CajaCorteListComponent implements OnInit, OnDestroy {
 
+  id!:number;
   cajasList!:Caja[]
   cortes!:Corte[]
   rangeDates!: Date[];
@@ -47,7 +48,9 @@ export class CajaCorteListComponent implements OnInit, OnDestroy {
     if (this.ref) {
         this.ref.close();
     }
-  }  
+  }
+  
+  find(){}
 
 }
 

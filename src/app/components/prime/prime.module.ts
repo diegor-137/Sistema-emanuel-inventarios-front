@@ -28,6 +28,8 @@ import {PanelModule} from 'primeng/panel';
 import {TabViewModule} from 'primeng/tabview';
 import { ChipModule } from 'primeng/chip';
 import {TooltipModule} from 'primeng/tooltip';
+import {MenubarModule} from 'primeng/menubar';
+import {CardModule} from 'primeng/card';
 
 @NgModule({
   declarations: [],
@@ -61,7 +63,9 @@ import {TooltipModule} from 'primeng/tooltip';
     PanelModule,
     TabViewModule,
     ChipModule,
-    TooltipModule
+    TooltipModule,
+    MenubarModule,
+    CardModule
   ]
 })
 export class PrimeModule { }

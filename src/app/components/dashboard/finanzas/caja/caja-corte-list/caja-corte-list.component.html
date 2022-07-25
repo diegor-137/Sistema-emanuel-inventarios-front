@@ -5,23 +5,25 @@
         <p-calendar formControlName="dates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2"></p-calendar>
         <p-dropdown [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true">
             <ng-template let-item pTemplate="item">
-                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
             <ng-template let-item pTemplate="selectedItem">
-                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
         </p-dropdown>
     </div>
     
     <div class="p-toolbar-group-right">
-        <p-button icon="pi pi-search" class="mr-2"></p-button>
-        <p-button icon="pi pi-times" styleClass="p-button-danger"></p-button>
+        <!-- <div class="p-inputgroup mr-2">
+            <p-inputNumber [(ngModel)]="id" placeholder="Codigo" ></p-inputNumber>   
+            <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-warn" (click)="find()"></button>      
+        </div> -->
     </div>
 </p-toolbar>
 <p-table [value]="cortes" responsiveLayout="scroll" [paginator]="true" [rows]="10" [responsive]="true"
-    selectionMode="single" styleClass="p-datatable-striped p-datatable-gridlines">
+    selectionMode="single" >
     <ng-template pTemplate="header">
         <tr>
             <th>Id </th>

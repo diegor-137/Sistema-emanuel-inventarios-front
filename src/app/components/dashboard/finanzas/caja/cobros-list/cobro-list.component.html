@@ -1,42 +1,49 @@
-<h2>COBROS DE CAJA</h2>
+<h2>COBROS CAJA</h2>
 <p-toolbar>
     <div class="p-toolbar-group-left" [formGroup]="cajaService.form">
         <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="getCobros()" [disabled]="cajaService.form.invalid"></p-button>        
 
         <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2" formControlName="dates"></p-calendar>
 
-        <p-dropdown [options]="cajasList" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true" formControlName="caja">
+        <p-dropdown class="mr-2" [options]="cajasList" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true" formControlName="caja">
             <ng-template let-item pTemplate="item">
-                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
             <ng-template let-item pTemplate="selectedItem">
-                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
-        </p-dropdown>        
+        </p-dropdown> 
+        <div class="mr-2" *appRole="['ADMIN']">
+            <p-checkbox class="mr-2" [(ngModel)]="checked" [binary]="true" inputId="binary" [ngModelOptions]="{standalone: true}" ></p-checkbox>
+            <label for="binary" class="mr-2">Cobros eliminados</label>
+        </div>       
     </div>
     
     <div class="p-toolbar-group-right">      
     </div>
 </p-toolbar>
 <p-table [value]="cobros" responsiveLayout="scroll" [paginator]="true" [rows]="10" [responsive]="true"
-    selectionMode="single" styleClass=" p-datatable-gridlines">
+    selectionMode="single">
     <ng-template pTemplate="header">
         <tr>
+            <th></th>
             <th>Id </th>
             <th>Fecha </th>
             <th>Empleado </th>
             <th>Codigo Venta </th>
             <th>Cliente </th>
             <th>Total Cobro </th>
+            <th></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-cobro>
-        <tr>
+        <tr [ngClass]="{'cobroDeleted': cobro.deletedat != null}">
+            <td><p-button *ngIf="cobro.deletedat != null" icon="pi pi-search" styleClass="p-button-danger" (click)="deleteResponsible(cobro);op.toggle($event)"></p-button></td>
             <td>{{cobro.id}}</td>
             <td>{{cobro.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
-            <td>{{cobro.nombre + '' + cobro.apellido}}</td>
+            <td>{{cobro.nombre + ' ' + cobro.apellido}}</td>
             <td>{{cobro.venta}}</td>
             <td>{{cobro.cliente}}</td>
             <td>{{cobro.total}}</td>
@@ -48,7 +55,29 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="6">Seleccione una fecha.</td>
+            <td colspan="7">Seleccione una fecha.</td>
         </tr>
     </ng-template>
 </p-table>
+
+
+
+
+<p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
+    <ng-template pTemplate>
+        <p-table [value]="deleteRespon">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Resposable</th>
+                    <th>Fecha eliminacion</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-respo>
+                <tr>
+                    <td>{{respo.nombre + ' ' + respo.apellido}}</td>
+                    <td>{{respo.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+</p-overlayPanel>

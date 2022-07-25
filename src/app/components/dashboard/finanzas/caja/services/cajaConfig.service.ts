@@ -36,6 +36,10 @@ export class CajaConfigService {
     return this.http.delete(`${this.BASE_URL}/caja/${id}`)
   }
 
+  cajeroCaja(id:number){
+    return this.http.get<any>(`${this.BASE_URL}/caja/${id}`);
+
+  }
 
 
 

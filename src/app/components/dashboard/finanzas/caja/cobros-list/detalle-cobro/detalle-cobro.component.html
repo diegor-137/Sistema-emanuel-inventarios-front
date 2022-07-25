@@ -1,8 +1,8 @@
     <div *ngIf="load">
         <p-panel header="Datos caja">
             <div class="flex align-items-center">
-                <p-chip label="{{cobro.caja?.empleado?.nombre}} {{cobro.caja?.empleado?.apellido}}"  icon="pi pi-user" styleClass="mr-2"></p-chip>
-                <p-chip label="{{cobro.caja?.lugar}}" styleClass="mr-2"><mat-icon>point_of_sale</mat-icon></p-chip>
+                <p-chip label="{{cobro.caja.empleado.nombre}} {{cobro.caja.empleado.apellido}}"  icon="pi pi-user" styleClass="mr-2"></p-chip>
+                <p-chip label="{{cobro.caja.lugar}}" styleClass="mr-2"><mat-icon>point_of_sale</mat-icon></p-chip>
             </div>
             <div class="grid p-fluid" >
                 <div class="col-12 md:col-6">

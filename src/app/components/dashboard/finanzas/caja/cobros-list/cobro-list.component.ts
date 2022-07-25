@@ -13,8 +13,10 @@ import { DetalleCobroComponent } from './detalle-cobro/detalle-cobro.component';
 })
 export class CobroListComponent implements OnInit {
 
+  checked: boolean = false;
   cajasList!:Caja[]
   cobros!:Cobros[]
+  deleteRespon!:Array<any>
   constructor(public readonly cajaService:CajaService,
               private readonly cajaConfigService:CajaConfigService, public dialogService: DialogService){}
 
@@ -26,8 +28,16 @@ export class CobroListComponent implements OnInit {
     this.cajaConfigService.cajas().subscribe(resp => this.cajasList = resp)
   }
 
-  getCobros(){  
-    this.cajaService.getAllCobros().subscribe(resp=>this.cobros=resp)
+  getCobros(){ 
+    if(this.checked){
+      this.cajaService.getAllCobrosDeleted().subscribe(resp=>{
+        this.cobros=resp
+        console.log(this.cobros);
+        
+      })      
+    }else{
+      this.cajaService.getAllCobros().subscribe(resp=>this.cobros=resp)
+    } 
   }
 
   cobroDetallado(id:number){
@@ -40,4 +50,14 @@ export class CobroListComponent implements OnInit {
     })
   }
 
+  deleteResponsible(cobro:Cobros){
+    this.deleteRespon =[
+      {
+        nombre: cobro.nombreresp,
+        apellido: cobro.apellidoresp,
+        fecha: cobro.deletedat
+      }
+    ]
+    
+  }
 }

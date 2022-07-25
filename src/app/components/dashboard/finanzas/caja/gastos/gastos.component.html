@@ -1,43 +1,33 @@
 <p-toast></p-toast>
-
-<div class="card">
-    <p-toolbar styleClass="mb-4">
-        <ng-template pTemplate="left">
+<h2>GASTOS CAJA</h2>
+<p-toolbar>
+        <ng-template pTemplate="right">
             <button *appRole="['CAJERO']" pButton pRipple label="Generar Gasto" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrir()"></button>
         </ng-template>
 
-        <ng-template pTemplate="right" [formGroup]="gastoService.form">
+        <ng-template pTemplate="left" [formGroup]="gastoService.form">            
+            <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="allGastos()" [disabled]="gastoService.form.invalid"></p-button>
+            <p-calendar formControlName="dates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2"></p-calendar>
+            <p-dropdown class="mr-2" *appRole="['ADMIN']" [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true">
+                <ng-template let-item pTemplate="item">
+                    <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
+                    <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
+                </ng-template>
+                <ng-template let-item pTemplate="selectedItem">
+                    <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
+                    <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
+                </ng-template>
+            </p-dropdown>
             <div class="mr-2" *appRole="['ADMIN']">
-                <label for="binary" class="mr-2">Cobros eliminados</label>
-                <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary" [ngModelOptions]="{standalone: true}" ></p-checkbox>
+                <p-checkbox class="mr-2" [(ngModel)]="checked" [binary]="true" inputId="binary" [ngModelOptions]="{standalone: true}" ></p-checkbox>
+                <label for="binary" class="mr-2">Gastos eliminados</label>
             </div>
-                <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="allGastos()" [disabled]="gastoService.form.invalid"></p-button>
-        <p-calendar formControlName="dates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2"></p-calendar>
-        <p-dropdown *appRole="['ADMIN']" [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true">
-            <ng-template let-item pTemplate="item">
-                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
-                <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
-            </ng-template>
-            <ng-template let-item pTemplate="selectedItem">
-                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
-                <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
-            </ng-template>
-        </p-dropdown>
         </ng-template>
-    </p-toolbar>
+</p-toolbar>
 
     <p-table #dt [value]="gastos" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll"
         [(selection)]="selectedGasto" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros." [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <h2 class="m-0">Gastos</h2>
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($any($event).target.value, 'contains')" placeholder="Buscar..." />
-                </span>
-            </div>
-        </ng-template>
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros." [showCurrentPageReport]="true" >
         <ng-template pTemplate="header">
             <tr>
                 <th></th>
@@ -64,6 +54,11 @@
                 <td><button *appRole="['CAJERO']" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteGasto(gasto)"></button></td>               
             </tr>
         </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="9">Seleccione una fecha.</td>
+            </tr>
+        </ng-template>
         <ng-template pTemplate="footer">
             <tr>
                 <td></td>
@@ -75,7 +70,7 @@
             </tr>
         </ng-template>
     </p-table>
-</div>
+
 
 <div [formGroup]="gastoService.formGasto">
 <p-dialog [(visible)]="dialog" [style]="{width: '450px'}" header="Generar gasto" [modal]="true" [closable]="false" styleClass="p-fluid">

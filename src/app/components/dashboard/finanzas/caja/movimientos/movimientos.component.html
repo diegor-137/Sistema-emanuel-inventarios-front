@@ -3,30 +3,24 @@
     <div class="p-toolbar-group-left" [formGroup]="movimientoService.form">
         <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="getMovimientos()" [disabled]="movimientoService.form.invalid"></p-button>
         
-
-
         <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2" formControlName="dates"></p-calendar>
-
-        <!-- <p-calendar inputId="basic" [(ngModel)]="date" [readonlyInput]="true" [showIcon]="true" class="mr-2"></p-calendar> -->
         <p-dropdown [options]="cajasList" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true" formControlName="caja">
             <ng-template let-item pTemplate="item">
-                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
             <ng-template let-item pTemplate="selectedItem">
-                <span [class]="'product-badge status-caja'">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
         </p-dropdown>        
     </div>
     
     <div class="p-toolbar-group-right">
-        <div class="p-inputgroup mr-2">
+        <!-- <div class="p-inputgroup mr-2">
             <p-inputNumber [(ngModel)]="id" placeholder="Codigo" ></p-inputNumber>   
             <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-warn" (click)="find()"></button>      
-        </div>
-        <p-dropdown [options]="cajasList" placeholder="Select a City" optionLabel="lugar" placeholder="Tipo busqueda" [showClear]="true" class="mr-2">
-        </p-dropdown>        
+        </div>  -->      
     </div>
 </p-toolbar>
 <p-table [value]="movimientos" responsiveLayout="scroll" [paginator]="true" [rows]="10" [responsive]="true"

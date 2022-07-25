@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Caja, Ingreso } from '../interfaces/caja-interface';
+import { Caja, Egreso } from '../interfaces/caja-interface';
 import { CajaConfigService } from '../services/cajaConfig.service';
-import { IngresosService } from './ingresos.service';
+import { EgresosService } from './egresos.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PasswordDialogComponent } from '../../../global-components/password-dialog/password-dialog.component';
 import { Role } from '../../../../../app.roles';
@@ -9,20 +9,20 @@ import { MessageService } from 'primeng/api';
 import { AuthService } from '../../../../../auth/services/auth.service';
 
 @Component({
-  selector: 'app-ingresos',
-  templateUrl: './ingresos.component.html',
-  styleUrls: ['./ingresos.component.css'],
+  selector: 'app-egresos',
+  templateUrl: './egresos.component.html',
+  styleUrls: ['./egresos.component.css'],
   providers: [DialogService, MessageService]
 })
-export class IngresosComponent implements OnInit {
+export class EgresosComponent implements OnInit {
 
   dialog!: boolean;
   cajasList!:Caja[]
-  ingresos!:Ingreso[]
+  egresos!:Egreso[]
   get usuario(){
     return this.authService.usuario;
   }
-  constructor(public ingresosService:IngresosService, 
+  constructor(public egresosService:EgresosService, 
               private readonly cajaConfigService:CajaConfigService, 
               public dialogService: DialogService,
               private messageService: MessageService,
@@ -35,10 +35,10 @@ export class IngresosComponent implements OnInit {
   cajero(){
     const roles = [Role.CAJERO.toString()]
     if (this.usuario.role.some(r =>roles.includes(r))) {
-      this.ingresosService.form.get('caja')?.clearValidators();
-      this.ingresosService.form.get('caja')?.updateValueAndValidity();
+      this.egresosService.form.get('caja')?.clearValidators();
+      this.egresosService.form.get('caja')?.updateValueAndValidity();
     }else{
-      this.ingresosService.form.controls.caja.setValue(null)
+      this.egresosService.form.controls.caja.setValue(null)
       this.cajas()
     }
   } 
@@ -48,7 +48,7 @@ export class IngresosComponent implements OnInit {
   }
 
   getIngresos(){
-    this.ingresosService.getIngresos().subscribe(resp=> this.ingresos = resp)
+    this.egresosService.getEgresos().subscribe(resp=> this.egresos = resp)
   }
 
   abrir() {
@@ -57,7 +57,7 @@ export class IngresosComponent implements OnInit {
 
   hideDialog() {
     this.dialog = false;
-    this.ingresosService.formIngreso.reset()
+    this.egresosService.formEgreso.reset()
   }
 
   saveIngreso(){
@@ -69,9 +69,9 @@ export class IngresosComponent implements OnInit {
     
     ref.onClose.subscribe((resp:any)=>{
         if(resp){
-          this.ingresosService.crearIngreso(resp).subscribe(()=>{
+          this.egresosService.crearEgreso(resp).subscribe(()=>{
             this.messageService.add({severity:'success', summary:'Corte Realizado', detail: 'El corte ya se ha realizado.'});
-            this.ingresosService.formIngreso.reset()
+            this.egresosService.formEgreso.reset()
             this.dialog = false;                        
           }, e =>{
             this.messageService.add({severity:'error', summary:'No', detail: e.error.message});    
@@ -82,8 +82,8 @@ export class IngresosComponent implements OnInit {
   }
 
   campoValido(campo:string){
-    return this.ingresosService.formIngreso.get(campo)?.errors
-            && this.ingresosService.formIngreso.get(campo)?.touched;
+    return this.egresosService.formEgreso.get(campo)?.errors
+            && this.egresosService.formEgreso.get(campo)?.touched;
   }
 
 }

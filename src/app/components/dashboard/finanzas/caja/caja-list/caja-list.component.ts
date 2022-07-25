@@ -8,7 +8,7 @@ import { CajaCobroComponent } from './caja-cobro/caja-cobro.component';
 import { CajaCobroListComponent } from './caja-cobro-list/caja-cobro-list.component';
 import { CajaCorteComponent } from './caja-corte/caja-corte.component';
 import { AuthService } from '../../../../../auth/services/auth.service';
-import { CustomSocket } from '../socekts/custom-socket-ventas';
+import { CustomSocket } from '../socekts/custom-sockets';
 
 @Component({
   selector: 'app-caja',
@@ -54,6 +54,8 @@ export class CajaListComponent implements OnInit{
   /* SOCKET PARA ESCUCHAR LOS CAMBIOS DE NUEVAS VENTAS HECHAS */
   upDate(){
     this.socket.fromEvent(this.usuario.empleado.sucursal.nombre).subscribe((ventas: any)=>{
+        console.log(this.usuario.empleado.sucursal.nombre);
+        
         this.ventas = ventas;
     })
   }
@@ -100,15 +102,9 @@ export class CajaListComponent implements OnInit{
       contentStyle: {"max-height": "500px", "overflow": "auto"},
       baseZIndex: 10000
     })
-    ref.onClose.subscribe(()=>{
+    ref.onClose.subscribe((resp)=>{
+      if(resp)this.messageService.add({severity:'success', summary:'Corte Realizado', detail: 'El corte ya se ha realizado.'});
       this.lastCorte();
     })
   }
-
-
-  anularVenta(){
-    this.cajaService.anularVenta().subscribe(console.log);
-  }
-
-
 }

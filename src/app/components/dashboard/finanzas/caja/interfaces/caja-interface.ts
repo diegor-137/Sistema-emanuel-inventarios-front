@@ -20,7 +20,10 @@ export interface Cobros{
   apellido:string
   venta:number
   cliente:string
-  total:number
+  total:number,
+  deletedat:Date
+  nombreresp?:string
+  apellidoresp?:string
 }
 
 export interface CobroDetallado {
@@ -62,6 +65,7 @@ export interface Caja {
   lugar: string;
   estado:string;
   empleado: Empleado;
+  status:boolean
 }
 
 export interface Empleado {

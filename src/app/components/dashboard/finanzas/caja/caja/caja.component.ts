@@ -32,7 +32,10 @@ export class CajaComponent implements OnInit, AfterViewChecked {
   }
 
   getCajas(){
-    this.cajaConfigService.cajas().subscribe(resp =>this.cajas = resp)
+    this.cajaConfigService.cajas().subscribe(resp =>{this.cajas = resp
+      console.log(this.cajas);
+      
+    })
   }
 
   getCajeros(){
@@ -40,7 +43,8 @@ export class CajaComponent implements OnInit, AfterViewChecked {
   }
 
   registrarCaja(){
-      this.onClear()        
+      this.onClear()
+      this.getCajeros();         
       this.cajaDialog = true;        
   }
 
@@ -52,6 +56,9 @@ export class CajaComponent implements OnInit, AfterViewChecked {
       accept: () => {
           this.cajaConfigService.disableCaja(caja.id).subscribe(()=>{
             this.messageService.add({severity:'success', summary:'Guardado', detail: 'Se ha deshabilitado la caja.'});
+            this.getCajas();
+          }, e =>{
+            this.messageService.add({severity:'error', summary:'No', detail: e.error.message});    
           })
       }
   }); 

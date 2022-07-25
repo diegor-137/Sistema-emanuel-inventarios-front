@@ -1,25 +1,20 @@
+<h2>CONFIGURACION CAJA</h2>
 <p-toast position="bottom-center"></p-toast>
-<div class="card">
-    <p-toolbar styleClass="mb-4">
+    <p-toolbar>
         <ng-template pTemplate="left">
             <button pButton pRipple label="Registrar caja" icon="pi pi-plus" class="p-button-success mr-2" (click)="registrarCaja()"></button>
         </ng-template>
     </p-toolbar>
 
     <p-table #dt [value]="cajas" [rows]="10" [paginator]="true" 
-        [(selection)]="selectedCajas" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true" [globalFilterFields]="['id','lugar','empleado.nombre', 'estado']">
-        <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
-                <h2 class="m-0">Listado de cajas</h2>
-            </div>
-        </ng-template>
+        [(selection)]="selectedCajas" [rowHover]="true" dataKey="id">
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
-                <th pSortableColumn="lugar">Caja <p-sortIcon field="lugar"></p-sortIcon></th>
-                <th pSortableColumn="empleado.nombre">Vendedor <p-sortIcon field="empleado.nombre"></p-sortIcon></th>
-                <th pSortableColumn="estado">Status <p-sortIcon field="estado"></p-sortIcon></th>
+                <th>Id</th>
+                <th>Caja</th>
+                <th>Vendedor</th>
+                <th>Estado</th>
+                <th>Status</th>
                 <th></th>
             </tr>
         </ng-template>
@@ -30,13 +25,14 @@
                 <td>{{caja.empleado.nombre + ' '+ caja.empleado.apellido }}</td>
                 <td><span [class]="'product-badge status-' + caja.estado">{{caja.estado}}</span></td>
                 <td>
+                    <i class="pi" [ngClass]="{'true-icon pi-check-circle': caja.status, 'false-icon pi-times-circle': !caja.status}"></i>
+                </td>
+                <td>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editCaja(caja)"></button>
                 </td>
             </tr>
         </ng-template>
     </p-table>
-
-</div>
 
 
 

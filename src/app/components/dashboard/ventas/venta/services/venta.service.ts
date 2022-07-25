@@ -256,11 +256,11 @@ export class VentaService {
   }
 
   createVenta():Observable<Venta>{
-    const headers = new HttpHeaders({
+    /* const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`
-    })
-      return this.http.post<Venta>(`${this.BASE_URL}/venta`,this.form.value,{ headers})
+    }) */
+      return this.http.post<Venta>(`${this.BASE_URL}/venta`,this.form.value/* ,{ headers} */)
   }
 
   deleteVenta(id:number):Observable<Venta>{
