@@ -80,7 +80,7 @@ export class ProveedorService {
   }
 
   getProveedor(id:number):Observable<Proveedor>{
-      return this.http.get<Proveedor>(`${this.BASE_URL}/proveedor/${id}`)
+      return this.http.get<Proveedor>(`${this.BASE_URL}/proveedor/uno/${id}`)
   }
 
   createProveedor():Observable<Proveedor>{

@@ -10,6 +10,7 @@ import { CompraListComponent } from './compra/compra-list/compra-list.component'
 import { InicioComprasComponent } from './inicio-compras/inicio-compras.component';
 import { ProductoComponent } from './compra/producto/producto.component';
 import { OrdenCompraComponent } from './compra/orden-compra/orden-compra.component';
+import { PrimeModule } from '../../prime/prime.module';
 
 
 
@@ -27,6 +28,7 @@ import { OrdenCompraComponent } from './compra/orden-compra/orden-compra.compone
     CommonModule,
     SharedModule,
     ComprasRoutingModule,
+    PrimeModule,
     
   ],
   exports:[

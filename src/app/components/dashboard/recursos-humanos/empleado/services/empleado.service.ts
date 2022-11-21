@@ -85,16 +85,12 @@ import { FormBuilder, Validators } from '@angular/forms';
         this.edit = true
       }
 
-      getBuscar(nombre:string):Observable<Empleado[]>{
-        return this.http.get<Empleado[]>(`${this.BASE_URL}/empleado/${nombre}`)
-      }
-
     getEmpleados():Observable<Empleado[]>{
-        return this.http.get<Empleado[]>(`${this.BASE_URL}/empleado/encontrar`)
+        return this.http.get<Empleado[]>(`${this.BASE_URL}/empleado`)
     }
 
     getEmpleado(id:number):Observable<Empleado>{
-        return this.http.get<Empleado>(`${this.BASE_URL}/empleado/encontrar/${id}`)
+        return this.http.get<Empleado>(`${this.BASE_URL}/empleado/${id}`)
     }
 
     createEmpleado():Observable<Empleado>{

@@ -41,7 +41,7 @@ export class ClienteListComponent implements OnInit {
   getClientes(){
     this.service.getClientes().subscribe(data=>{
       this.Cliente = data
-      //console.log('object :>> ',this.Puesto);
+      console.log(this.Cliente);
       this.dataSource = new MatTableDataSource (this.Cliente) 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

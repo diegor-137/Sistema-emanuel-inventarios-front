@@ -30,6 +30,8 @@ import {MatCardModule} from '@angular/material/card';
 import { RoleDirective } from 'src/app/directives/role.directive';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ConfigGlobalDirective } from 'src/app/directives/config-global.directive';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { ConfigGlobalDirective } from 'src/app/directives/config-global.directiv
     MatDialogModule,
     MatAutocompleteModule,
     MatCardModule,
-    MatCheckboxModule    
+    MatCheckboxModule,  
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   exports:[
     CommonModule,
@@ -94,7 +98,9 @@ import { ConfigGlobalDirective } from 'src/app/directives/config-global.directiv
     MatCardModule,
     MatCheckboxModule,
     ConfigGlobalDirective,
-    RoleDirective
+    RoleDirective,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ]
 })
 export class SharedModule { }

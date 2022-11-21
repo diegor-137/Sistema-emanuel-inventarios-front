@@ -11,6 +11,7 @@ import { VentaListComponent } from './venta/venta-list/venta-list.component';
 import { CotizacionComponent } from './venta/cotizacion/cotizacion.component';
 import { ProductoComponent } from './producto/producto.component';
 import { VistaComponent } from './venta/vista/vista.component';
+import { PrimeModule } from '../../prime/prime.module';
 
 
 
@@ -29,7 +30,8 @@ import { VistaComponent } from './venta/vista/vista.component';
   imports: [
     CommonModule,
     SharedModule,
-    VentasRoutingModule
+    VentasRoutingModule,
+    PrimeModule,
   ]
 })
 export class VentasModule { }

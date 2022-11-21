@@ -15,7 +15,7 @@ export class ProductoComponent implements OnInit {
 
   Producto:Producto[] = []
 
-  displayedColumns: string[] = ['id', 'nombre','costo','marca','acciones'];
+  displayedColumns: string[] = ['id', 'nombre','costo','inventario','acciones'];
   dataSource!:MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -37,6 +37,7 @@ export class ProductoComponent implements OnInit {
   getProductos(){
     this.service.getProductos().subscribe(data=>{
       this.Producto = data
+      console.log(this.Producto)
       //console.log('object :>> ',this.Producto[0].precio[0].tipoPrecio.id);
       this.dataSource = new MatTableDataSource (this.Producto) 
       this.dataSource.paginator = this.paginator;

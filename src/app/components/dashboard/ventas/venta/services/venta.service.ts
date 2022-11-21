@@ -14,6 +14,7 @@ export class VentaService {
 
   id:number = 0
   fecha : Date = new Date()
+  fechas:Array<Date> = []
   nuevo = 'Nueva'
   Titulo = 'Venta'
   view:boolean = false
@@ -42,6 +43,10 @@ export class VentaService {
       fecha:[''],
     })
 
+    //rango de busqueda de registros
+    range = this.formBuilder.group({
+      dates:['',(Validators.required)]
+    })
 
     resetFormBuilder(){
       this.form.reset({
@@ -74,7 +79,7 @@ export class VentaService {
   
     llenarFormulario(data:any){
       this.getVenta(data.id).subscribe(data=>{
-        console.log('object :>> ', data.detalle);
+        //console.log('object :>> ', data.detalle);
          this.form.patchValue({
           id:data.id,
           cliente:data.cliente,
@@ -90,8 +95,8 @@ export class VentaService {
     }
 
     llenarFormularioCotizacion(data:any){
-      this.getCotizacion(data).subscribe(data=>{
-         console.log('datos cargados', data);
+      this.getCotizacion(data.id).subscribe(data=>{
+         //console.log('datos cargados', data);
          this.form.patchValue({
           id:data.id,
           cliente:data.cliente,
@@ -161,14 +166,7 @@ export class VentaService {
 
     removeValidation(){
       const refParent = this.form.get('detalle') as FormArray
-      //const refParent2 = this.form.controls["detalle"] as FormArray
-      //const refSingle = refParent.at(this.form.value.detalle.length).get('cantidad') as FormGroup
-      console.log(refParent)
-      //console.log(refParent2)
-      //console.log(this.form.value.detalle.length)
-      //console.log(refSingle)
-      /* refSingle.clearValidators()
-      refSingle.updateValueAndValidity() */
+            console.log(refParent)
     }
 
     //funcion del boton agregar al listado de productos
@@ -248,18 +246,15 @@ export class VentaService {
     }
 
   getVentas():Observable<Venta[]>{
-      return this.http.get<Venta[]>(`${this.BASE_URL}/venta/encontrar`)
+    this.fechas = this.range.value.dates
+      return this.http.get<Venta[]>(`${this.BASE_URL}/venta?start=${this.fechas[0]}&end=${this.fechas[1]}`)
   }
 
   getVenta(id:any):Observable<Venta>{
-      return this.http.get<Venta>(`${this.BASE_URL}/venta/encontrar/${id}`)
+      return this.http.get<Venta>(`${this.BASE_URL}/venta/${id}`)
   }
 
   createVenta():Observable<Venta>{
-    /* const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }) */
       return this.http.post<Venta>(`${this.BASE_URL}/venta`,this.form.value/* ,{ headers} */)
   }
 
@@ -269,11 +264,7 @@ export class VentaService {
   
   
   getProductos():Observable<Producto[]>{
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    })
-    return this.http.get<Producto[]>(`${this.BASE_URL}/producto/transacciones`,{ headers})
+    return this.http.get<Producto[]>(`${this.BASE_URL}/producto/transacciones`)
   }
 
   getInventario(id:any):Observable<Producto>{
@@ -286,11 +277,12 @@ export class VentaService {
 
   
   getCotizaciones():Observable<Venta[]>{
-    return this.http.get<Venta[]>(`${this.BASE_URL}/cotizacion/encontrar`)
+    this.fechas = this.range.value.dates
+    return this.http.get<Venta[]>(`${this.BASE_URL}/cotizacion?start=${this.fechas[0]}&end=${this.fechas[1]}`)
   }
 
   getCotizacion(id:any):Observable<Venta>{
-      return this.http.get<Venta>(`${this.BASE_URL}/cotizacion/encontrar/${id}`)
+      return this.http.get<Venta>(`${this.BASE_URL}/cotizacion/${id}`)
   }
 
   createCotizacion():Observable<Venta>{

@@ -17,39 +17,50 @@ import { VistaComponent } from '../vista/vista.component';
 })
 export class VentaListComponent implements OnInit {
 
+  private dateToday: Date = new Date();
+  private dateYesterday: Date = new Date();
+
   Venta:Venta[] = []
 
-  displayedColumns: string[] = ['# DOC','Cliente','Fecha','Sucursal','Total','acciones'];
-  dataSource!:MatTableDataSource<any>;
+  loading: boolean;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-
-  constructor(private service:VentaService,
+  constructor(public service:VentaService,
     private toastr:ToastrService,
-    private dialog:MatDialog) { }
+    private dialog:MatDialog) {
+      this.loading = true;
+     }
 
   ngOnInit(): void {
+    this.dateYesterday = new Date(this.dateYesterday.setDate(this.dateYesterday.getDate() - 1))
+    this.service.fechas.push(this.dateYesterday,this.dateToday)
     this.getVentas()
   }
 
-  
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 
   getVentas(){
+    this.service.range.setValue({
+      dates:this.service.fechas
+    })
     this.service.getVentas().subscribe(data=>{
       this.Venta = data
-      //console.log('object :>> ',this.Venta);
-      this.dataSource = new MatTableDataSource (this.Venta) 
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;   
+      this.loading = false
     })
   }
-    eliminarVenta(id:any){
+
+  getPorFechas(){
+    if (this.service.range.value.dates[1]===null) {
+      this.toastr.error(`ingrese fechas validas`,`Error en fechas`,{positionClass:'toast-bottom-right'})  
+    }else{
+      this.loading = true;
+      setTimeout(() => {
+        this.service.getVentas().subscribe(data=>{
+          this.Venta = data
+          this.loading = false;
+        })
+        }, 100);
+    }
+  }
+    eliminarVenta(data:any){
       Swal.fire({
         title: 'Esta seguro de elminar registro?',
         text: 'Eliminara registro',
@@ -59,13 +70,12 @@ export class VentaListComponent implements OnInit {
         cancelButtonText: 'No'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.service.deleteVenta(+id)
+          this.service.deleteVenta(+data.id)
           .subscribe(
             res=>{
               this.toastr.error(`Venta #${res.id} eliminada`,`Eliminado con Exito`,{
-                positionClass:'toast-bottom-right'      
-              })
-              this.getVentas()
+                positionClass:'toast-bottom-right'})
+                this.Venta = this.Venta.filter(val => val.id !== data.id)
                   },
             error => {
               this.toastr.error(`${error.message}`,`Succedio un error`,{

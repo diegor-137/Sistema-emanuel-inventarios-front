@@ -173,7 +173,7 @@ export class VentaFormComponent implements OnInit {
   }
 
   onKey(event:KeyboardEvent){
-    
+    this.service.cambio()
     this.service.total()
   }
   
