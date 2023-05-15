@@ -27,6 +27,11 @@ interface Empleado {
     createdAt?: Date;
     email:string;
     sucursal:Sucursal;
+    foto:{
+        id:number,
+        url:string,
+        key:string
+    }
 }
 
 interface Sucursal {

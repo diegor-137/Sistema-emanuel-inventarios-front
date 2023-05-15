@@ -30,6 +30,14 @@ import { ChipModule } from 'primeng/chip';
 import {TooltipModule} from 'primeng/tooltip';
 import {MenubarModule} from 'primeng/menubar';
 import {CardModule} from 'primeng/card';
+import {PasswordModule} from 'primeng/password';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {ImageModule} from 'primeng/image';
+import {AvatarModule} from 'primeng/avatar';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {ListboxModule} from 'primeng/listbox';
+
 
 @NgModule({
   declarations: [],
@@ -65,7 +73,14 @@ import {CardModule} from 'primeng/card';
     ChipModule,
     TooltipModule,
     MenubarModule,
-    CardModule
+    CardModule,
+    PasswordModule,
+    MessagesModule,
+    MessageModule,
+    ImageModule,
+    AvatarModule,
+    AutoCompleteModule,
+    ListboxModule
   ]
 })
 export class PrimeModule { }

@@ -1,9 +1,14 @@
-<p-toast></p-toast>
+<!-- <p-toast></p-toast>
 
 <div *ngIf="carga">
     <div *ngFor="let item of permisos">
         <mat-checkbox [(ngModel)]="item.checked">{{item.name}}</mat-checkbox>
     </div>
 </div>
-<button mat-raised-button color="primary" (click)="getCheckboxes()">Guardar</button>
+<button mat-raised-button color="primary" (click)="getCheckboxes()">Guardar</button> -->
 
+<p-messages severity="warn">
+    <ng-template pTemplate>
+        <div class="ml-2">Modulo pendiente.</div>
+    </ng-template>
+</p-messages>

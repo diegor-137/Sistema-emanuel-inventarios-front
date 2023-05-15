@@ -11,7 +11,13 @@ import { VentaListComponent } from './venta/venta-list/venta-list.component';
 import { CotizacionComponent } from './venta/cotizacion/cotizacion.component';
 import { ProductoComponent } from './producto/producto.component';
 import { VistaComponent } from './venta/vista/vista.component';
+<<<<<<< HEAD
+import { CuentasPorCobrarComponent } from './creditos/cuentas-por-cobrar/cuentas-por-cobrar.component';
 import { PrimeModule } from '../../prime/prime.module';
+import { FormsModule } from '@angular/forms';
+=======
+import { PrimeModule } from '../../prime/prime.module';
+>>>>>>> a1da166b3c8bcbb92928b11ea83b5f3999100fee
 
 
 
@@ -26,12 +32,19 @@ import { PrimeModule } from '../../prime/prime.module';
     CotizacionComponent,
     ProductoComponent,
     VistaComponent,
+    CuentasPorCobrarComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
+<<<<<<< HEAD
+    VentasRoutingModule, 
+    PrimeModule, 
+    FormsModule
+=======
     VentasRoutingModule,
     PrimeModule,
+>>>>>>> a1da166b3c8bcbb92928b11ea83b5f3999100fee
   ]
 })
 export class VentasModule { }

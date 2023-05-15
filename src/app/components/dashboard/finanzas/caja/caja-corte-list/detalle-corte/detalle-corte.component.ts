@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { CuentaPorCobrarDetalle } from 'src/app/components/dashboard/ventas/creditos/interfaces/cuentas-por-cobrar';
 import { CobroDetallado, Corte, Egreso, Gasto, Ingreso } from '../../interfaces/caja-interface';
 import { CajaCorteService } from '../../services/caja-corte.service';
 
@@ -61,6 +62,10 @@ export class DetalleCorteComponent implements OnInit {
   egreso=false
   egresos!:Egreso[]
   totalEgresos!:number
+
+  cuentaPorCobrar=false
+  cuentasPorCobrar!:CuentaPorCobrarDetalle[]
+  totalCuentasPorCobrar!:number
   corteDetalles(){
     this.cajaCorteService.ventasCobrosCorte(this.corte.id, this.corte.caja!.id).subscribe(resp=>{
       this.cobros = resp;
@@ -91,6 +96,16 @@ export class DetalleCorteComponent implements OnInit {
       this.totalEgresos = this.egresos.reduce((sum, a)=> sum +  Number(a.monto), 0.00);
       if(this.totalEgresos>0){
         this.egreso = true
+      }
+    })
+
+    this.cajaCorteService.cuentasPorCobrarCorte(this.corte.id, this.corte.caja!.id).subscribe(resp=>{
+      console.log(resp, 'Cuentas Por Cobrar <----');
+            
+      this.cuentasPorCobrar = resp
+      this.totalCuentasPorCobrar = this.cuentasPorCobrar.reduce((sum, a)=> sum +  Number(a.monto), 0.00);
+      if(this.totalCuentasPorCobrar>0){
+        this.cuentaPorCobrar = true
       }
     })
   }

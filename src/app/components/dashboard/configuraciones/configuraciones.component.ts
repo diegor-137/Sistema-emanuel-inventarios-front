@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
+import { UsuarioService } from './usuarios/services/usuario.service';
 
 @Component({
   selector: 'app-configuraciones',
@@ -6,9 +8,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfiguracionesComponent implements OnInit {
 
-  constructor() { }
+    constructor(public usuarioService:UsuarioService){}
 
-  ngOnInit(): void {
-  }
+  items!: MenuItem[];
+
+    ngOnInit() {
+        this.items = [
+            {
+                label:'Configuracion',
+                icon:'pi pi-fw pi-cog',
+                routerLink: 'config'
+
+            },
+            {
+                label:'Usuarios',
+                icon:'pi pi-fw pi-user',
+                items:[
+                    {
+                        label:'Nuevo',
+                        icon:'pi pi-fw pi-user-plus',
+                        routerLink: 'usuarios'
+
+                    },
+                    {
+                        label:'Listado',
+                        icon:'pi pi-fw pi-users',  
+                        routerLink: 'listado-usuarios'                    
+                    }
+                ]
+            },            
+        ];
+    }
 
 }

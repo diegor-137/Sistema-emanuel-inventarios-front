@@ -17,7 +17,6 @@ import { AuthService } from '../../../../../auth/services/auth.service';
 export class GastosComponent implements OnInit {
   checked: boolean = false;
   dialog!: boolean;
-
   gastos: Gasto[]=[];
 
   selectedGasto!: any[];
@@ -30,6 +29,7 @@ export class GastosComponent implements OnInit {
 
   total!:number;
   deleteRespon!:Array<any>
+  
 
   constructor(public readonly gastoService:GastoService,
               public dialogService: DialogService,
@@ -63,10 +63,10 @@ export class GastosComponent implements OnInit {
       width: '30%',
       data: [Role.CAJERO, Role.ADMIN]
     })
-    
     ref.onClose.subscribe((resp:any)=>{
         if(resp){
-          this.gastoService.crearGasto(resp).subscribe(()=>{
+          this.gastoService.formGasto.controls['token'].setValue(resp.accessToken);
+          this.gastoService.crearGasto(this.gastoService.formGasto.value).subscribe((resp)=>{
             this.messageService.add({severity:'success', summary:'Corte Realizado', detail: 'El corte ya se ha realizado.'});
             this.gastoService.formGasto.reset()
             this.dialog = false;                        
@@ -75,7 +75,10 @@ export class GastosComponent implements OnInit {
           })                    
         }
     })
-    
+  }
+
+  onSelect(event:any, form:any){
+    this.gastoService.formGasto.controls.fotoSend.setValue(event.currentFiles[0])   
   }
 
   deleteGasto(gasto:Gasto){

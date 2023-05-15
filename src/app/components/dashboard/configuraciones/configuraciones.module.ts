@@ -9,6 +9,10 @@ import { PrimeModule } from '../../prime/prime.module';
 import { SharedModule } from '../../shared/shared.module';
 import { RegionListComponent } from './region/region-list/region-list.component';
 import { RegionFormComponent } from './region/region-form/region-form.component';
+import { UsuariosComponent } from './usuarios/usuario-form/usuarios.component';
+import { UsuarioListComponent } from './usuarios/usuario-list/usuario-list.component';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -16,13 +20,17 @@ import { RegionFormComponent } from './region/region-form/region-form.component'
     ConfiguracionGlobalComponent,
     RegionListComponent,
     RegionFormComponent,  
+    UsuariosComponent,
+    UsuarioListComponent
   ],
   imports: [
     CommonModule,
     ConfiguracionesRoutingModule,
     PrimeModule,
     FormsModule,
-    SharedModule        
-  ]
+    SharedModule,
+    PipesModule        
+  ],
+  providers: [DynamicDialogRef]
 })
 export class ConfiguracionesModule { }

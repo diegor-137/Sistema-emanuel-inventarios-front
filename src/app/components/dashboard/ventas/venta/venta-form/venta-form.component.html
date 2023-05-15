@@ -17,7 +17,7 @@
                 </h1>
                   <form class="example-form" [formGroup]="service.form" autocomplete="off">
                     <div class="row">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-8">
                             <mat-form-field class="ninety-width" appearance="fill">
                               <mat-label>Cliente</mat-label>
                               <input                               
@@ -41,6 +41,12 @@
                             <a *ngIf="!service.view" (click)="openCliente()" class="pointer mx-2" matTooltip="Agregar Proveedor">
                               <mat-icon>add_circle_outline</mat-icon>
                             </a>
+                        </div>
+                        <div class="form-group col-md-4" *ngIf="service.Titulo=='Venta'">
+                          <span class="p-float-label">
+                            <p-dropdown [autoDisplayFirst]="false" [options]="pago" formControlName="pago" optionLabel="name" [showClear]="true"></p-dropdown>
+                            <label for="dropdown">Forma Pago</label>
+                        </span>           
                         </div>
              
                         <button *ngIf="!service.view" type="button" class="btn btn-primary btn-block" (click)="openProducto()">+ Agregar Productos</button>

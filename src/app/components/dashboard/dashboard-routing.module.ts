@@ -11,7 +11,6 @@ const routes: Routes = [
   {
     path: '', component: DashboardComponent, children: [
       { path: '', component: InicioComponent },
-      { path: 'configuracion', component: InicioComponent },
       {
         path: 'rr-hh', loadChildren: () => import('./recursos-humanos/recursos-humanos.module').then(x => x.RecursosHumanosModule),
         canActivate: [ValidarTokenGuard], canLoad: [ValidarTokenGuard],
@@ -30,7 +29,7 @@ const routes: Routes = [
       {
         path: 'ventas', loadChildren: () => import('./ventas/ventas.module').then(x => x.VentasModule),
         canActivate: [ValidarTokenGuard], canLoad: [ValidarTokenGuard],
-        data: { userRoles: [Role.ADMIN, Role.EMPLEADO] }
+        data: { userRoles: [Role.ADMIN, Role.EMPLEADO,Role.CAJERO] }
       },
       {
         path: 'configuraciones', loadChildren: () => import('./configuraciones/configuraciones.module').then(x => x.ConfiguracionesModule),
@@ -41,6 +40,11 @@ const routes: Routes = [
         path: 'finanzas', loadChildren: () => import('./finanzas/finanzas.module').then(x => x.FinanzasModule),
         canActivate: [ValidarTokenGuard], canLoad: [ValidarTokenGuard],
         data: { userRoles: [Role.ADMIN, Role.CAJERO] }
+      },
+      {
+        path: 'configuracion-system', loadChildren: () => import('./config-system/config-system.module').then(x => x.ConfigSystemModule),
+        canActivate: [ValidarTokenGuard], canLoad: [ValidarTokenGuard],
+        data: { userRoles: [Role.SUPERADMIN] }
       },
       { path: '**', redirectTo: '', pathMatch: 'full' },
     ]

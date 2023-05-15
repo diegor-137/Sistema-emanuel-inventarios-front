@@ -61,7 +61,7 @@
                               </mat-select>
                             </mat-form-field>
                       </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <mat-form-field class="ninety-width" appearance="fill">
                               <mat-label>Proveedor</mat-label>
                               <input 
@@ -88,13 +88,19 @@
                         </div>
                         
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                           <mat-form-field class="example-full-width" appearance="fill">
                               <mat-label>Numero de Documento</mat-label>
                               <input type="text" name="someid" matInput formControlName="documento" [errorStateMatcher]="matcher"
                               placeholder="Numero Documento" [readonly]="service.view">
                           </mat-form-field>
-                        </div>  
+                        </div>                      
+                          <div class="form-group col-md-3" *ngIf="service.Titulo=='Compra'">
+                            <span class="p-float-label">
+                              <p-dropdown [autoDisplayFirst]="false" [options]="pago" formControlName="pago" optionLabel="name" [showClear]="true"></p-dropdown>
+                              <label for="dropdown">Forma Pago</label>
+                          </span>           
+                          </div>                  
 
                         
                         <button *ngIf="!service.view" type="button" class="btn btn-primary btn-block" (click)="openProducto()">+ Agregar Productos</button>

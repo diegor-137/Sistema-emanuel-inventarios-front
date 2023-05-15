@@ -1,4 +1,4 @@
-<img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
+<img class="avatar mat-elevation-z8" [src]="usuario.empleado.foto | nophoto" />
 
 <h4 class="name">{{usuario.empleado.nombre + ' ' + usuario.empleado.apellido}}</h4>
 <p class="designation">{{usuario.empleado.email}}</p>
@@ -91,7 +91,7 @@
 <!-- CONFIGURACIONES -->
 <div *appRole="['ADMIN']">
     <mat-divider></mat-divider>
-    <button mat-button class="menu-button" routerLink="/dashboard/configuraciones">
+    <button mat-button class="menu-button" routerLink="/dashboard/configuraciones/config">
         <mat-icon>settings</mat-icon>
         <span>Config</span>
     </button>
@@ -120,6 +120,16 @@
         <mat-icon>keyboard_double_arrow_right</mat-icon>
         <span>Egresos</span>
     </button>
+    <button *appRole="['CAJERO']" mat-button class="menu-button" routerLink="/dashboard/ventas/cuentas-por-cobrar">
+        <mat-icon>credit_card</mat-icon>
+        <span>Creditos</span>
+    </button>
 </div>
 
 
+<div *appRole="['SUPERADMIN']">
+    <button mat-button class="menu-button" routerLink="/dashboard/configuracion-system/sucursales">
+        <mat-icon>settings</mat-icon>
+        <span>Config</span>
+    </button>
+</div>

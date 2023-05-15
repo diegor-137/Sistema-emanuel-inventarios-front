@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Proveedor } from '../interfaces/proveedor';
 import { Observable } from 'rxjs';
 
@@ -26,7 +26,9 @@ export class ProveedorService {
       telefono:['',[Validators.required,Validators.minLength(8),Validators.maxLength(15),Validators.pattern("^[0-9]*$")]],
       nit:['',[Validators.required,Validators.minLength(5),Validators.maxLength(10)]],
       correo:['',Validators.maxLength(25)],
-      estado:[true]
+      estado:[true],
+      credit: [false], 
+      credito: this.formBuilder.array([])
     })
 
 
@@ -37,7 +39,7 @@ export class ProveedorService {
     }
   
     initializeFormBuilder(){
-      this.form.setValue({
+      this.form.patchValue({
         id:'',
         nombre:'',
         direccion:'',
@@ -45,7 +47,9 @@ export class ProveedorService {
         nit:'',
         correo:'',
         estado:true,
+        credit:false,
       })
+      this.form.setControl('credito',this.setCredito([{limite:0, diasCredito:0}]))
     }
   
     llenarFormulario(data:Proveedor){
@@ -58,7 +62,18 @@ export class ProveedorService {
           nit:data.nit,
           correo:data.correo,
           estado:true,
+          credit: data.credito[0]?.estado,
       })
+      this.form.setControl('credito',this.setCredito(data.credito))
+    }
+
+    setCredito(credito:any[]){      
+      if(!credito.length)credito = [{limite: 0, diasCredito :0}];
+      const formArray = new FormArray([])
+      credito.forEach(e =>{   
+        formArray.push(this.formBuilder.group({id:e?.id,limite:e.limite, diasCredito:e.diasCredito}))
+      })             
+      return formArray;
     }
     
     configNuevo(){
@@ -84,6 +99,7 @@ export class ProveedorService {
   }
 
   createProveedor():Observable<Proveedor>{
+      if(!this.form.value.credit)delete this.form.value.credito
       return this.http.post<Proveedor>(`${this.BASE_URL}/proveedor`,this.form.value)
   }
 
@@ -92,6 +108,10 @@ export class ProveedorService {
   }
 
   updateProveedor():Observable<Proveedor>{
+    if(!this.form.value.credit && this.form.value.credito[0].id === null){
+      delete this.form.value.credito
+    }
+    if(this.form.value.credit)this.form.value.credito[0].estado = true;
       return this.http.put<Proveedor>(`${this.BASE_URL}/proveedor/${this.form.value.id}`,this.form.value)
   }
 }

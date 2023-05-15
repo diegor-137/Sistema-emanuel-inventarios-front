@@ -51,6 +51,16 @@
             </div>
         </div>
     </div>
+
+    <div class="p-fluid grid">
+        <div class="col-6">
+            <label>Cuentas Por Cobrar</label>
+            <div class="p-inputgroup">
+                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" [ngModel]="totalCuentasPorCobrar" [readonly]="true"></p-inputNumber>
+            </div>
+        </div>
+    </div>
     
 
     <div class="p-fluid grid" [formGroup]="cajaCorteService.formCorte">

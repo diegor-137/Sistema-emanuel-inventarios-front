@@ -33,7 +33,8 @@ export class CompraFormComponent implements OnInit {
   Empleado!:Empleado[]
   Sucursal:Sucursal[] = []
   matcher = new MyErrorStateMatcher();
-
+  pago!: any[];
+  pagoSeleccionado!: Pago 
   constructor(public service:CompraService,
               private proveedorService:ProveedorService,
               private empleadoService:EmpleadoService,
@@ -42,7 +43,12 @@ export class CompraFormComponent implements OnInit {
               public dialogRef:MatDialogRef<CompraFormComponent>,
               private dialog:MatDialog,
               public router:Router,
-              ) {}
+              ) {
+                this.pago = [
+                  {name: 'Contado', code: false},                  
+                  {name: 'Credito', code: true},                  
+              ];              
+              }
 
   ngOnInit(): void {
     this.service.form.get('proveedor')?.valueChanges.subscribe(
@@ -220,4 +226,9 @@ export class CompraFormComponent implements OnInit {
     this.service.llenarFormularioOrden(this.service.id)
     this.service.total()
   }
+}
+
+interface Pago {
+  name: string,
+  code: boolean
 }

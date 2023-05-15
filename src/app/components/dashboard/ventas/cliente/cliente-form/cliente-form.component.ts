@@ -88,4 +88,8 @@ export class ClienteFormComponent implements OnInit {
       )   
   }
 
+  trackFn(index:any) {
+    return index;
+  }
+
 }

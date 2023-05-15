@@ -12,6 +12,8 @@ import { ProductoComponent } from './compra/producto/producto.component';
 import { OrdenCompraComponent } from './compra/orden-compra/orden-compra.component';
 import { PrimeModule } from '../../prime/prime.module';
 import { InventarioPorProductoComponent } from './compra/inventario-por-producto/inventario-por-producto.component';
+import { FormsModule } from '@angular/forms';
+import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-pagar.component';
 
 
 
@@ -25,12 +27,14 @@ import { InventarioPorProductoComponent } from './compra/inventario-por-producto
     ProductoComponent,
     OrdenCompraComponent,
     InventarioPorProductoComponent,
+    CuentaPorPagarComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     ComprasRoutingModule,
     PrimeModule,
+    FormsModule
     
   ],
   exports:[

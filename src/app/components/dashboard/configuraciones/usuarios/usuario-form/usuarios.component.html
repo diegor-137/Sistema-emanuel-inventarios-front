@@ -1,0 +1,97 @@
+<p-toast position="bottom-center"></p-toast>
+<h2>REGISTRAR USUARIO</h2>
+<div [formGroup]="usuarioService.form">
+    <div formGroupName="empleado">
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-6 lg:col-6 field">
+                <label>Nombre</label>
+                <div class="p-inputgroup ">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" pInputText placeholder="nombre" formControlName="nombre">
+                </div>
+            </div>
+            <div class="col-12 md:col-6 lg:col-6 field">
+                <label>Apellido</label>
+                <div class="p-inputgroup ">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" pInputText placeholder="apellido" formControlName="apellido">
+                </div>
+            </div>
+        </div>
+
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-6 lg:col-6 field">
+                <label>Direccion</label>
+                <div class="p-inputgroup ">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" pInputText placeholder="direccion" formControlName="direccion">
+                </div>
+            </div>
+            <div class="col-12 md:col-6 lg:col-6 field">
+                <label>Telefono</label>
+                <div class="p-inputgroup ">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" pInputText placeholder="telefono" formControlName="telefono">
+                </div>
+            </div>
+        </div>
+
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-6 lg:col-6 field">
+                <label>Email</label>
+                <div class="p-inputgroup ">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" pInputText placeholder="email" formControlName="email" [readonly]="usuarioService.form.controls['id'].value">
+                </div>
+                <small  *ngIf="usuarioService.form.controls.empleado.get('email')?.hasError('emailDuplicated')" class="p-error block">El email ya esta registrado!.</small>
+                <small  *ngIf="usuarioService.form.controls.empleado.get('email')?.errors?.pattern" class="p-error block">Debe ser un correo valido!</small>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="card">
+        <p-fileUpload name="demo[]" [customUpload]="true" (uploadHandler)="onUpload($event)" [auto]="true" [showUploadButton]="false">
+        </p-fileUpload>
+    </div> -->
+
+    
+    <h2>DATOS USUARIO</h2>
+
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-6 lg:col-6 field">
+            <label>Nombre de usuario</label>
+            <div class="p-inputgroup ">
+                <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                <input id="user" type="text" pInputText placeholder="nombre de usuario" formControlName="user" [readonly]="usuarioService.form.controls['id'].value">                
+            </div>
+            <small  *ngIf="usuarioService.form.controls.user.hasError('duplicated')" class="p-error block">El nombre de usuario ya existe!</small>
+        </div>
+        <div class="col-12 md:col-6 lg:col-6 field">
+            <label>Roles</label>
+            <p-multiSelect [options]="roles" defaultLabel="Seleccione los roles" formControlName="roles">
+            </p-multiSelect>
+        </div>
+
+    </div>
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-6 lg:col-6 field">
+            <label>Contraseña</label>
+            <p-password [feedback]="false" formControlName="password" (ngModelChange)="usuarioService.validateConfirmPassword()"></p-password>
+            <small  *ngIf="campoValido('password', 'required')" class="p-error block">Por favor confirma tu contraseña.</small>
+            <small  *ngIf="campoValido('password', 'minlength')" class="p-error block">Caracteres minimos 9.</small>
+        </div>        
+    </div>
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-6 lg:col-6 field">
+            <label>Confirmar Contraseña</label>
+            <p-password [feedback]="false" formControlName="confirm"></p-password>
+            <small *ngIf="campoValido('confirm', 'required')" class="p-error block">Por favor confirma tu contraseña.</small>
+            <small *ngIf="campoValido('confirm', 'confirm')" class="p-error block">La contraseña es inconsistente.</small>
+            <!-- <small *ngIf="usuarioService.campoValido('passwordConfirm')" class="p-error block">La contraseña es inconsistente.</small> -->
+            <!-- <small *ngIf="usuarioService.form.controls.confirm.hasError('required')" class="p-error block">Porfavor confirma tu contraseña.</small>
+            <small *ngIf="usuarioService.form.controls.confirm.hasError('confirm')" class="p-error block">La contraseña es inconsistente.</small> -->
+        </div>
+    </div>
+
+    <button pButton pRipple label="Registrar usuario" icon="pi pi-plus" class="p-button-success mr-2" (click)="guardar()" [disabled]="!usuarioService.form.valid" *ngIf="!usuarioService.form.controls['id'].value"></button>
+    <button pButton pRipple label="Editar" icon="pi pi-plus" class="p-button-success mr-2" (click)="edit()" [disabled]="usuarioService.form.invalid" *ngIf="usuarioService.form.controls['id'].value"></button>
+</div>

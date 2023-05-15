@@ -6,6 +6,7 @@ import { CotizacionComponent } from './venta/cotizacion/cotizacion.component';
 import { VentaFormComponent } from './venta/venta-form/venta-form.component';
 import { VentaListComponent } from './venta/venta-list/venta-list.component';
 import { VentasComponent } from './ventas.component';
+import { CuentasPorCobrarComponent } from './creditos/cuentas-por-cobrar/cuentas-por-cobrar.component';
 
 const routes: Routes = [
   {path:'',component:VentasComponent,children:[
@@ -16,6 +17,7 @@ const routes: Routes = [
 
     {path:'cliente', component:ClienteListComponent},
     {path:'cliente-form', component:ClienteFormComponent},
+    {path:'cuentas-por-cobrar', component:CuentasPorCobrarComponent},
     
     //{path:'', component:InicioComprasComponent},
     {path:'**', redirectTo:'', pathMatch:'full'},

@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { Producto } from '../../../almacen/producto/intefaces/producto';
+import { FormArray, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Cliente } from '../interfaces/cliente';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,9 @@ export class ClienteService {
       direccion:['',[Validators.maxLength(125)]],
       telefono:['',[Validators.maxLength(15),Validators.pattern("^[0-9]*$")]],
       nit:['',[Validators.maxLength(10)]],
-      estado:[true]
+      estado:[true],
+      credit: [false], 
+      credito: this.formBuilder.array([])
     })
 
 
@@ -36,18 +39,19 @@ export class ClienteService {
     }
   
     initializeFormBuilder(){
-      this.form.setValue({
+      this.form.patchValue({
         id:'',
         nombre:'',
         direccion:'',
         telefono:'',
         nit:'',
         estado:true,
+        credit:false,
       })
+      this.form.setControl('credito',this.setCredito([{limite:0, diasCredito:0}]))  
     }
-  
-    llenarFormulario(data:Cliente){
-      
+
+    llenarFormulario(data:Cliente){    
       this.form.patchValue({
           id:data.id,
           nombre:data.nombre,
@@ -55,7 +59,18 @@ export class ClienteService {
           telefono:data.telefono,
           nit:data.nit,
           estado:true,
+          credit: data.credito[0]?.estado,                     
       })
+      this.form.setControl('credito',this.setCredito(data.credito))           
+      }
+
+    setCredito(credito:any[]){      
+      if(!credito.length)credito = [{limite: 0, diasCredito :0}];
+      const formArray = new FormArray([])
+      credito.forEach(e =>{   
+        formArray.push(this.formBuilder.group({id:e?.id,limite:e.limite, diasCredito:e.diasCredito}))
+      })             
+      return formArray;
     }
     
     configNuevo(){
@@ -81,14 +96,19 @@ export class ClienteService {
   }
 
   createCliente():Observable<Cliente>{
-      return this.http.post<Cliente>(`${this.BASE_URL}/cliente`,this.form.value)
+    if(!this.form.value.credit)delete this.form.value.credito     
+    return this.http.post<Cliente>(`${this.BASE_URL}/cliente`,this.form.value)
   }
 
   deleteCliente(id:number):Observable<Cliente>{
       return this.http.delete<Cliente>(`${this.BASE_URL}/cliente/${id}`)
   }
 
-  updateCliente():Observable<Cliente>{
+  updateCliente():Observable<Cliente>{  
+    if(!this.form.value.credit && this.form.value.credito[0].id === null){
+      delete this.form.value.credito
+    }
+    if(this.form.value.credit)this.form.value.credito[0].estado = true;
       return this.http.put<Cliente>(`${this.BASE_URL}/cliente/${this.form.value.id}`,this.form.value)
   }
 

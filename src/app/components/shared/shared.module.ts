@@ -30,6 +30,7 @@ import {MatCardModule} from '@angular/material/card';
 import { RoleDirective } from 'src/app/directives/role.directive';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ConfigGlobalDirective } from 'src/app/directives/config-global.directive';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
@@ -43,6 +44,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   imports: [
     CommonModule,
+    PipesModule,
     MatSliderModule,
     MatFormFieldModule,
     MatInputModule,
