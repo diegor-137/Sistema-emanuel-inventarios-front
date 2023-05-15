@@ -54,9 +54,7 @@ export class CompraFormComponent implements OnInit {
     this.service.form.get('proveedor')?.valueChanges.subscribe(
       nombre => this.getProveedorBuscar(nombre)
     )
-    this.service.form.get('empleado')?.valueChanges.subscribe(
-      nombre => this.getEmpleadoBuscar(nombre)
-    )
+
     this.getSucursal()
     
     if (this.service.view == false) {
@@ -71,11 +69,7 @@ export class CompraFormComponent implements OnInit {
       this.Proveedor = data
     })
   }
-  getEmpleadoBuscar(nombre:string){
-    return this.empleadoService.getBuscar(nombre).subscribe(data=>{
-      this.Empleado = data
-    })
-  }
+
   
   getSucursal(){
     return this.sucursalService.getSucursales().subscribe(data=>{
@@ -119,7 +113,7 @@ export class CompraFormComponent implements OnInit {
   }
 
   agregar(){
-    //console.log(this.service.form.value);
+    //return console.log(this.service.form.value);
         this.service.createCompra()
         .subscribe(
           res => {
@@ -148,6 +142,11 @@ export class CompraFormComponent implements OnInit {
   }
 
 
+  onChange(data:any){
+    //console.log('object :>>', data);
+    //this.service.form
+    this.service.total()
+  }
 
   openProveedor(){   
     this.proveedorService.resetFormBuilder()
@@ -217,7 +216,6 @@ export class CompraFormComponent implements OnInit {
     this.service.configNuevo()
     this.service.initializeFormBuilder()
   }
-
 
   continuarOrden(){
     this.dialogRef.close()

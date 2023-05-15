@@ -92,7 +92,7 @@ export class ClienteService {
   }
 
   getCliente(id:number):Observable<Cliente>{
-      return this.http.get<Cliente>(`${this.BASE_URL}/cliente/${id}`)
+      return this.http.get<Cliente>(`${this.BASE_URL}/cliente/uno/${id}`)
   }
 
   createCliente():Observable<Cliente>{

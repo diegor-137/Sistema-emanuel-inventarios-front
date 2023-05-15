@@ -11,9 +11,12 @@ import { InicioComprasComponent } from './inicio-compras/inicio-compras.componen
 import { ProductoComponent } from './compra/producto/producto.component';
 import { OrdenCompraComponent } from './compra/orden-compra/orden-compra.component';
 import { PrimeModule } from '../../prime/prime.module';
+<<<<<<< HEAD
 import { FormsModule } from '@angular/forms';
 import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-pagar.component';
 
+=======
+>>>>>>> a1da166b3c8bcbb92928b11ea83b5f3999100fee
 
 
 
@@ -33,7 +36,11 @@ import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-
     SharedModule,
     ComprasRoutingModule,
     PrimeModule,
+<<<<<<< HEAD
     FormsModule
+=======
+    
+>>>>>>> a1da166b3c8bcbb92928b11ea83b5f3999100fee
   ],
   exports:[
 

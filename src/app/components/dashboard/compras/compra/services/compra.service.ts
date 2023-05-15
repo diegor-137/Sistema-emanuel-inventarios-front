@@ -12,7 +12,8 @@ import { Producto } from '../../../almacen/producto/interaces/producto';
 export class CompraService {
 
   id:number = 0
-  fecha : Date = new Date()
+  fecha:Date = new Date
+  fechas:Array<Date> = []
   nuevo = 'Nueva'
   Titulo = 'Compra'
   view:boolean = false
@@ -23,26 +24,25 @@ export class CompraService {
   //datos:Producto[] = []
 
   constructor(private http:HttpClient,
-    private formBuilder:FormBuilder) {
-
-     }
+    private formBuilder:FormBuilder) {}
 
      form = this.formBuilder.group({
       id:[''],
       documento:[''],
       proveedor:['',(Validators.required,RequireMatch)],
       empleado:[],
-      sucursal:this.formBuilder.group({
-        id:['']
-      }),
+      sucursal:this.formBuilder.group({id:['']}),
       observacion:[''],
       estado:[true],
-      detalle:this.formBuilder.array([    
-      ]),
+      detalle:this.formBuilder.array([]),
       fecha:[''],
       pago: ['', Validators.required],
     })
 
+    //rango de busqueda de registros
+    range = this.formBuilder.group({
+      dates:['',(Validators.required)]
+    })
 
     resetFormBuilder(){
       this.form.reset({
@@ -77,7 +77,7 @@ export class CompraService {
     }
   
     llenarFormulario(data:any){
-      //console.log('object :>> ', data.total);
+      //console.log('object :>> ', data.id);
       this.getCompra(data.id).subscribe(data=>{
          this.form.patchValue({
           id:data.id,
@@ -95,9 +95,8 @@ export class CompraService {
     }
 
     llenarFormularioOrden(data:any){
-      //console.log('object :>> ', data.total);
       this.getOrdenCompra(data).subscribe(data=>{
-         this.form.patchValue({
+        this.form.patchValue({
           id:data.id,
           documento:data.documento,
           proveedor:data.proveedor,
@@ -176,8 +175,9 @@ export class CompraService {
       this.total_factura = 0
       //console.log('object :>> ', this.form.value.detalle);
       for (let i = 0; i < this.form.value.detalle.length; i++) {
+        var detalle = this.form.value.detalle[i]
         //console.log('object :>> ', this.form.value.detalle[i]);
-        this.total_factura = this.total_factura + this.form.value.detalle[i].subtotal 
+        this.total_factura = this.total_factura + (detalle.cantidad * detalle.precio) 
       }
     }
     /*********Finaliza funcion para agregar producto al listado de compra************/
@@ -211,36 +211,35 @@ export class CompraService {
     }
 
   getCompras():Observable<Compra[]>{
-      return this.http.get<Compra[]>(`${this.BASE_URL}/compra/encontrar`)
+    this.fechas = this.range.value.dates
+      return this.http.get<Compra[]>(`${this.BASE_URL}/compra?start=${this.fechas[0]}&end=${this.fechas[1]}`)
   }
 
   getCompra(id:any):Observable<Compra>{
-      return this.http.get<Compra>(`${this.BASE_URL}/compra/encontrar/${id}`)
+      return this.http.get<Compra>(`${this.BASE_URL}/compra/${id}`)
   }
 
   createCompra():Observable<Compra>{
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    })
-      return this.http.post<Compra>(`${this.BASE_URL}/compra`,this.form.value,{ headers})
+      return this.http.post<Compra>(`${this.BASE_URL}/compra`,this.form.value)
   }
 
   deleteCompra(id:number):Observable<Compra>{
       return this.http.delete<Compra>(`${this.BASE_URL}/compra/${id}`)
   }
   
-  
+   
   getProductos():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${this.BASE_URL}/producto/productos`)
+    return this.http.get<Producto[]>(`${this.BASE_URL}/producto/transacciones`)
   }
   
   getOrdencompras():Observable<Compra[]>{
-    return this.http.get<Compra[]>(`${this.BASE_URL}/pedido/encontrar`)
+    this.fechas = this.range.value.dates
+    //console.log("servicio fechas",this.fechas)
+    return this.http.get<Compra[]>(`${this.BASE_URL}/pedido?start=${this.fechas[0]}&end=${this.fechas[1]}`)
   }
 
   getOrdenCompra(id:any):Observable<Compra>{
-      return this.http.get<Compra>(`${this.BASE_URL}/pedido/encontrar/${id}`)
+      return this.http.get<Compra>(`${this.BASE_URL}/pedido/${id}`)
   }
 
   createOrdenCompra():Observable<Compra>{
@@ -251,8 +250,8 @@ export class CompraService {
       return this.http.post<Compra>(`${this.BASE_URL}/pedido`,this.form.value,{ headers})
   }
 
-  deleteOrdenCompra(id:number):Observable<Compra>{
-      return this.http.delete<Compra>(`${this.BASE_URL}/pedido/${id}`)
+  deleteOrdenCompra(id:number){
+      return this.http.delete<Compra>(`${this.BASE_URL}/pedido/${id}`,this.form.value)
   }
 }
 

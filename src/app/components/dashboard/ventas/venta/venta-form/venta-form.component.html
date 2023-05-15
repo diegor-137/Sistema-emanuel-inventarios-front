@@ -67,7 +67,7 @@
                                   <tbody *ngFor="let control of service.Detalle.controls; let i = index" [formGroupName]="i">
                                     <tr FormGroup="control">
                                         <td> 
-                                            <input min="1" type="number" (keyup)="onKey($event)" [readonly]="service.view" formControlName="cantidad" 
+                                            <input min="1" type="number" (ngModelChange)="onChange($event)" [readonly]="service.view" formControlName="cantidad" 
                                             matInput pattern="^[0-9]+" placeholder="Cantidad" id="{{i}}" [value]="this.service.form.value.detalle[i].cantidad">
                                             
                                           </td>

@@ -8,6 +8,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CompraService } from '../services/compra.service';
 import Swal from 'sweetalert2';
 import { CompraFormComponent } from '../compra-form/compra-form.component';
+import { LazyLoadEvent } from 'primeng/api';
 
 @Component({
   selector: 'app-compra-list',
@@ -16,37 +17,65 @@ import { CompraFormComponent } from '../compra-form/compra-form.component';
 })
 export class CompraListComponent implements OnInit {
 
-  Compra:Compra[] = []
+  private dateToday: Date = new Date();
+  private dateYesterday: Date = new Date();
+  Compras:Compra[] = []
+  
 
-  displayedColumns: string[] = ['id', '# DOC','Proveedor','Fecha','Sucursal','Total','acciones'];
-  dataSource!:MatTableDataSource<any>;
+  loading: boolean;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  constructor(private service:CompraService,
+  constructor(public service:CompraService,
     private toastr:ToastrService,
-    private dialog:MatDialog) { }
+    private dialog:MatDialog) { 
+      this.loading = true
+    }
 
   ngOnInit(): void {
-    this.getCompras()
-  }
-  
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dateYesterday = new Date(this.dateYesterday.setDate(this.dateYesterday.getDate() - 1))
+    this.service.fechas.push(this.dateYesterday,this.dateToday)
   }
 
-  getCompras(){
-    this.service.getCompras().subscribe(data=>{
-      this.Compra = data
-      //console.log('object :>> ',this.Compra);
-      this.dataSource = new MatTableDataSource (this.Compra) 
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;   
+
+  getCompras(event: LazyLoadEvent){
+    this.loading = true;
+
+
+    setTimeout(() => {
+    this.service.range.reset({
+      dates:''
     })
+    this.service.range.setValue({
+      dates:''
+    })    
+    this.service.range.setValue({
+      dates:this.service.fechas
+    })
+    this.service.getCompras().subscribe(data=>{
+      this.Compras = data
+      this.loading = false;
+    })
+    }, 100);
   }
-    eliminarCompra(id:any){
+
+  getPorFechas(event: LazyLoadEvent){
+    //console.log(this.service.range.value.dates.length)
+
+    if (this.service.range.value.dates[1]===null) {
+      this.toastr.error(`ingrese fechas validas`,`Error en fechas`,{positionClass:'toast-bottom-right'})  
+    }else{
+      this.loading = true;
+      setTimeout(() => {
+        this.service.getCompras().subscribe(data=>{
+          this.Compras = data
+          this.loading = false;
+        })
+        }, 100);
+    }
+  }
+    eliminarCompra(producto:any){
+
+        
+      
       Swal.fire({
         title: 'Esta seguro de elminar registro?',
         text: 'Eliminara registro',
@@ -56,13 +85,13 @@ export class CompraListComponent implements OnInit {
         cancelButtonText: 'No'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.service.deleteCompra(+id)
+          this.service.deleteCompra(+producto.id)
           .subscribe(
             res=>{
               this.toastr.error(`Compra #${res.documento} eliminada`,`Eliminado con Exito`,{
                 positionClass:'toast-bottom-right'      
               })
-              this.getCompras()
+              this.Compras = this.Compras.filter(val => val.id !== producto.id)
                   },
             error => {
               this.toastr.error(`${error.message}`,`Succedio un error`,{
@@ -74,6 +103,7 @@ export class CompraListComponent implements OnInit {
       })
   }
   verCompra(data:Compra){
+    //console.log(data)
     this.service.resetFormBuilder()
     this.service.configView()
     this.service.llenarFormulario(data)
@@ -86,7 +116,6 @@ export class CompraListComponent implements OnInit {
       this.service.total()
     })
     dialog.afterClosed().subscribe(res =>{
-      this.getCompras()
       this.service.resetFormBuilder()
       this.service.configNuevo()
       this.service.initializeFormBuilder()

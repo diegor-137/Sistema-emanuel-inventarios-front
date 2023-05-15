@@ -121,18 +121,19 @@
                                   <tbody *ngFor="let control of service.Detalle.controls; let i = index" [formGroupName]="i">
                                     <tr FormGroup="control">
                                         <td> 
-                                            <input type="number" (keyup)="onKey($event)" [readonly]="service.view" formControlName="cantidad" 
+                                            <input type="number" (ngModelChange)="onChange($event)" [readonly]="service.view" formControlName="cantidad" 
                                             matInput pattern="^[0-9]+" placeholder="Cantidad" id="{{i}}" [value]="this.service.form.value.detalle[i].cantidad">
                                         </td>
                                         <td>
                                                 <input type="text" [readonly]="true" formControlName="nombre_p" matInput placeholder="Producto" id="task{{i}}">
                                         </td>
                                         <td>
-                                                <input type="number" (keyup)="onKey($event)" [readonly]="service.view" formControlName="precio" matInput placeholder="Precio" id="{{i}}">
+                                                <input type="number" (ngModelChange)="onChange($event)" [readonly]="service.view" formControlName="precio"
+                                                 matInput placeholder="Precio" id="{{i}}" [value]="this.service.form.value.detalle[i].precio">
                                         </td>
                                         <td>
-                                              <input name="subtotal" type="text" [readonly]="true" formControlName="subtotal" matInput placeholder="subtotal" id="task{{i}}" value={{service.form.value.detalle[i]?.subtotal}}>
-                                      </td>
+                                          <h3>Q. {{service.form.value.detalle[i].cantidad * service.form.value.detalle[i].precio}}</h3>    
+                                        </td>
                                         <td *ngIf="!service.view">
                                           <a (click)="borrarPrecio(i)" class="pointer mx-2" style="color: #e15639" matTooltip="Eliminar Precio">
                                             <mat-icon class="mt-3">delete</mat-icon>

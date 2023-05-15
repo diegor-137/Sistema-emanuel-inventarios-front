@@ -70,10 +70,10 @@ export class PuestoService {
   }
   
   getPuestos():Observable<Puesto[]>{
-    return this.http.get<Puesto[]>(`${this.BASE_URL}/puesto/encontrar`)
+    return this.http.get<Puesto[]>(`${this.BASE_URL}/puesto/`)
   }
   getPuesto(id:number):Observable<Puesto[]>{
-    return this.http.get<Puesto[]>(`${this.BASE_URL}/puesto/encontrar/${id}`)
+    return this.http.get<Puesto[]>(`${this.BASE_URL}/puesto/${id}`)
   }
   createPuesto():Observable<Puesto>{
     return this.http.post<Puesto>(`${this.BASE_URL}/puesto`,this.form.value)

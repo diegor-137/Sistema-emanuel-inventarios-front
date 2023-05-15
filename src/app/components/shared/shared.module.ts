@@ -31,6 +31,8 @@ import { RoleDirective } from 'src/app/directives/role.directive';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ConfigGlobalDirective } from 'src/app/directives/config-global.directive';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     MatDialogModule,
     MatAutocompleteModule,
     MatCardModule,
-    MatCheckboxModule    
+    MatCheckboxModule,  
+    MatDatepickerModule,
+    MatNativeDateModule 
   ],
   exports:[
     CommonModule,
@@ -96,7 +100,9 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     MatCardModule,
     MatCheckboxModule,
     ConfigGlobalDirective,
-    RoleDirective
+    RoleDirective,
+    MatDatepickerModule,
+    MatNativeDateModule 
   ]
 })
 export class SharedModule { }
