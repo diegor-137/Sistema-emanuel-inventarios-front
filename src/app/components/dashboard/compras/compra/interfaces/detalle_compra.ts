@@ -1,4 +1,4 @@
-import { Producto } from '../../../almacen/producto/interaces/producto';
+import { Producto } from '../../../almacen/producto/intefaces/producto';
 
 
 export interface Detalle {

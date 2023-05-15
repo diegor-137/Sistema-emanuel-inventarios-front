@@ -10,6 +10,9 @@ import { ProductoListComponent } from './producto/producto-list/producto-list.co
 import { ProductoFormComponent } from './producto/producto-form/producto-form.component';
 import { InventarioListComponent } from './producto/inventario-list/inventario-list.component';
 import { ProductoComponent } from '../ventas/producto/producto.component';
+import { PrecioListComponent } from './precio/precio-list/precio-list.component';
+import { TipoPrecioListComponent } from './precio/tipo-precio-list/tipo-precio-list.component';
+import { TipoPrecioFormComponent } from './precio/tipo-precio-form/tipo-precio-form.component';
 
 const routes: Routes = [
   {path:'',component:AlmacenComponent,children:[
@@ -29,7 +32,9 @@ const routes: Routes = [
 
     {path:'productos',component:ProductoComponent},
 
+    {path:'precio',component:PrecioListComponent},
 
+    {path:'tipo-precio',component:TipoPrecioListComponent}
   ]}
 ];
 

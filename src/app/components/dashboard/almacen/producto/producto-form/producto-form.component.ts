@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroupDirective, NgForm, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { EmpleadoService } from '../../../recursos-humanos/empleado/services/empleado.service';
 import { ToastrService } from 'ngx-toastr';
 import { CategoriaService } from '../../categoria/services/categoria.service';
 import { MarcaService } from '../../marca/services/marca.service';
@@ -12,7 +11,7 @@ import { ProductoService } from '../services/producto.service';
 import { CategoriaFormComponent } from '../../categoria/categoria-form/categoria-form.component';
 import { MarcaFormComponent } from '../../marca/marca-form/marca-form.component';
 import { TipoPrecio } from '../services/tipo-precio.service';
-import { Tipo_Precio } from '../interaces/tipo_precio';
+import { Tipo_Precio } from '../../precio/interfaces/tipo-precio';
 
 
 
@@ -71,7 +70,7 @@ export class ProductoFormComponent implements OnInit {
   getTipoPrecio(){
     this.tipoPrecioService.getTipoPrecios().subscribe(data=>{
       this.tipoPrecio = data
-      console.log('object :>> ', this.tipoPrecio);
+      //console.log('object :>> ', this.tipoPrecio);
     })
   }
 
@@ -95,7 +94,7 @@ export class ProductoFormComponent implements OnInit {
         this.service.createProducto()
         .subscribe(
           res => {
-            //console.log('object :>> ',res);
+            console.log('despues :>> ',res);
             this.toastr.success( `Agregado con Exito`,`${res.nombre} agregado`,{
               positionClass:'toast-bottom-right'      
             })

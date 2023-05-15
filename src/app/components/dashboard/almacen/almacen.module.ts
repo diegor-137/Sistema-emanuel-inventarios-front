@@ -14,6 +14,10 @@ import { SharedModule } from '../../shared/shared.module';
 import { InventarioListComponent } from './producto/inventario-list/inventario-list.component';
 import { PrimeModule } from '../../prime/prime.module';
 import { FormsModule } from '@angular/forms';
+import { PrecioListComponent } from './precio/precio-list/precio-list.component';
+import { TipoPrecioListComponent } from './precio/tipo-precio-list/tipo-precio-list.component';
+import { TipoPrecioFormComponent } from './precio/tipo-precio-form/tipo-precio-form.component';
+import { InventarioPorProductoComponent } from './producto/inventario-por-producto/inventario-por-producto.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +30,10 @@ import { FormsModule } from '@angular/forms';
     ProductoFormComponent,
     ProductoListComponent,
     InventarioListComponent,
+    PrecioListComponent,
+    TipoPrecioListComponent,
+    TipoPrecioFormComponent,
+    InventarioPorProductoComponent,
   ],
   imports: [
     CommonModule,

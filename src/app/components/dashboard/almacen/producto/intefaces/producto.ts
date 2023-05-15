@@ -1,7 +1,8 @@
 import { Categoria } from '../../categoria/interfaces/categoria';
 import { Marca } from '../../marca/interfaces/marca';
+import { Costo } from '../../precio/interfaces/costo';
+import { Precio } from '../../precio/interfaces/precio';
 import { Inventario } from './inventario';
-import { Precio } from './precio';
 export interface Producto {
     id?: number;
     nombre:string,
@@ -13,6 +14,7 @@ export interface Producto {
     ultimo_precio:number,
     categoria:Categoria,
     marca:Marca,
-    precio:Precio[]
+    precio:Precio[],
     inventario:Inventario[]
+    costo:Costo[]
 }

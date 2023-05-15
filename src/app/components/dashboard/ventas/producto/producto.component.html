@@ -39,7 +39,7 @@
                             <th mat-header-cell *matHeaderCellDef></th>
                 
                             <td mat-cell *matCellDef="let element" style="text-align: right">
-                                <a class="pointer mx-2" style="color: #1878b0" matTooltip="Ver">
+                                <a (click)="openExistencia(element.id)" class="pointer mx-2" style="color: #1878b0" matTooltip="Existencia Sucursales">
                                     <mat-icon>search</mat-icon>
                                 </a>
                                 <a (click)="llenarProducto(element)" class="pointer mx-2" style="color: #1f516f" matTooltip="Seleccionar">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Compra } from '../interfaces/compra';
 import { CompraService } from '../services/compra.service';
 import { ToastrService } from 'ngx-toastr';

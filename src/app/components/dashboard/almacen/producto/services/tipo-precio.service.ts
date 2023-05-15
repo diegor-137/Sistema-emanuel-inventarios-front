@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Tipo_Precio } from '../interaces/tipo_precio';
+import { Tipo_Precio } from '../../precio/interfaces/tipo-precio';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +15,6 @@ export class TipoPrecio {
 
 
   getTipoPrecios():Observable<Tipo_Precio[]>{
-    return this.http.get<Tipo_Precio[]>(`${this.BASE_URL}/tipo-precio`)
+    return this.http.get<Tipo_Precio[]>(`${this.BASE_URL}/tipo-precio/findAllTrue`)
   }
 }

@@ -18,7 +18,7 @@ export class CategoriaListComponent implements OnInit {
 
   Categoria:Categoria[] = []
 
-  displayedColumns: string[] = ['id', 'nombre','acciones'];
+  displayedColumns: string[] = ['id', 'nombre','estado','acciones'];
   dataSource!:MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -80,6 +80,38 @@ export class CategoriaListComponent implements OnInit {
     })
   }
 
+  activar(data:Categoria){
+    Swal.fire({
+      title: 'Esta seguro de activar registro?',
+      text: 'Activar registro',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.resetFormBuilder()
+        this.service.configEdit()
+        this.service.llenarFormulario(data)
+        this.service.form.value.estado=true
+        console.log(this.service.form.value)
+        this.service.updateCategoria()
+        .subscribe(
+          res=>{
+            this.toastr.success(`${res.nombre} Activado`,`Activado con Exito`,{
+              positionClass:'toast-bottom-right'      
+            })
+            this.getCategoria()
+                },
+          error => {
+            this.toastr.error(`Succedio un error`,`${error.message}`,{
+              positionClass:'toast-bottom-right'      
+            })
+          }
+        ) 
+      }
+    })
+  }
 
   openForm(){
     this.service.resetFormBuilder()

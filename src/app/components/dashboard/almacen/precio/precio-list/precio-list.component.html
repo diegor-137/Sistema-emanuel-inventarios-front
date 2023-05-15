@@ -1,0 +1,91 @@
+<p-table 
+        [value]="Producto" responsiveLayout="scroll" [scrollable]="true" 
+        scrollHeight="270px" 
+        [paginator]="true" [rows]="25" [showCurrentPageReport]="true" 
+        [rowsPerPageOptions]="[25,50]"
+        styleClass="p-datatable-sm p-datatable-striped">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="id" style="max-width: 5rem">Id <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+            <th>Categoria </th>
+            <th style="max-width: 5rem"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let i="index">
+        <tr >
+            <td style="max-width: 5rem">{{ product.id }}</td>
+            <td>{{ product.nombre }}</td>
+            <td>{{ product.categoria.nombre }}</td>
+            <td style="max-width: 5rem">
+              <button type="button" class="btn btn-primary btn-sm" (click)="verPrecios(product)">+</button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+             {{Producto ? Producto.length : 0 }} Productos listados.
+        </div>
+    </ng-template>
+</p-table>
+
+<div class="container p-1">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <form class="example-form" [formGroup]="productoService.form" autocomplete="off">
+                    <div class="row">
+                        <mat-form-field class="float-start example-full-width" appearance="fill">
+                            <input type="text" matInput [readonly]="true" formControlName="nombre">
+                        </mat-form-field>
+
+                        <div>
+                            <div class="row" formArrayName="precio" class="mt-4" >
+                              <div class="col">
+                                <table class="table table-sm table-striped">
+                                  <thead class="table-dark">
+                                    <tr>
+                                      <th>Precio</th>
+                                      <th>Tipo Precio</th>
+                                      <th>Borrar</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody *ngFor="let control of productoService.Precios.controls; let i = index" [formGroupName]="i">
+                                    <tr FormGroup="control">
+                                        <td> 
+                                          <mat-form-field class="" appearance="fill">
+                                            <input type="number" formControlName="precio" matInput placeholder="Precio" id="task{{i}}">
+                                          </mat-form-field>
+                                        </td>
+                                        <td>
+                                          <div >
+                                            <mat-form-field class="" appearance="fill" formGroupName="tipoPrecio">
+                                              <mat-select formControlName="id" placeholder="Tipo Precio" id="task{{i}}"> 
+                                                <mat-option *ngFor="let tip of tipoPrecio" [value]="tip.id">
+                                                  {{tip.nombre}}
+                                                </mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <a (click)="borrarPrecio(i)" class="pointer mx-2" style="color: #e15639" matTooltip="Eliminar Precio">
+                                            <mat-icon class="mt-3">delete</mat-icon>
+                                        </a>
+                                        </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                                <button type="button" class="btn btn-primary btn-block" (click)="productoService.AgregarPrecio()" [disabled]="productoService.form.invalid">+ Agregar Precio</button>            
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="mt-3">
+                      <button type="button" (click)="actualizarPrecios" class="btn btn-info mx-3" [disabled]="productoService.form.invalid">Modificar</button>
+                  </div>
+                </form>
+            </div>
+          </div>
+    </div>
+</div>

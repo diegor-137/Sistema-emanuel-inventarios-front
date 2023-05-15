@@ -42,6 +42,7 @@ export class DepartamentoService {
     this.form.patchValue({
       id: data.id,
       nombre: data.nombre,
+      estado:data.estado
     })
   }
   
@@ -60,6 +61,9 @@ export class DepartamentoService {
     return this.http.get<Departamento[]>(`${this.BASE_URL}/departamento` )
   }
 
+  getDepartamentosActivos():Observable <Departamento[]>{
+    return this.http.get<Departamento[]>(`${this.BASE_URL}/departamento/active` )
+  }
   getDepartamento(id:number):Observable <Departamento>{
     return this.http.get<Departamento>(`${this.BASE_URL}/departamento/${id}`)
   }

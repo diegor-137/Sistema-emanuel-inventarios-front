@@ -41,7 +41,7 @@ export class CategoriaService {
     this.form.patchValue({
       id:data.id,
       nombre:data.nombre,
-      estado:true,
+      estado:data.estado,
     })
   }
   
@@ -61,6 +61,10 @@ export class CategoriaService {
   
   getCategorias():Observable<Categoria[]>{
     return this.http.get<Categoria[]>(`${this.BASE_URL}/categoria`)
+  }
+
+  getCategoriasActivas():Observable<Categoria[]>{
+    return this.http.get<Categoria[]>(`${this.BASE_URL}/categoria/active`)
   }
   getCateria(id:number):Observable<Categoria[]>{
     return this.http.get<Categoria[]>(`${this.BASE_URL}/categoria${id}`)

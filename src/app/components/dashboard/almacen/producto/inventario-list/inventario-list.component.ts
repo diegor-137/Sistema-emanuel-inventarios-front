@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Producto } from '../interaces/producto';
+import { Producto } from '../intefaces/producto';
 import { ProductoService } from '../services/producto.service';
 import {MessageService} from 'primeng/api';
 

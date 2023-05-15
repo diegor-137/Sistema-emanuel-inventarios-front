@@ -1,0 +1,29 @@
+<div class="card text-center">
+    <div class="card-body">
+        <h3> {{service.titulo}} Tipo Precio
+            <div *ngIf="loading" class="spinner-border" role="status">
+                <span class="visually-hidden float-right">Loading...</span>
+            </div>
+        </h3>
+          <form class="example-form" [formGroup]="service.form" autocomplete="off">
+            <div class="row">
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Nombre</mat-label>
+                  <input required type="text" matInput formControlName="nombre" [errorStateMatcher]="matcher"
+                         placeholder="Nombre Tipo Precio">
+                         <mat-error *ngIf="NombreForm?.hasError('required')">
+                             Campo es Requerido
+                            </mat-error>
+                            <mat-error *ngIf="NombreForm?.hasError('maxlength')">
+                                Maximo 20 letras
+                            </mat-error>
+                        </mat-form-field>
+            </div>
+            <div class="mt-3">
+                <button type="button" class="btn btn-info mx-3" (click)="service.edit ? actualizar() : agregar()" 
+                [disabled]="service.form.invalid">{{service.titulo}}</button>
+            </div>
+          </form>         
+    </div>
+</div>

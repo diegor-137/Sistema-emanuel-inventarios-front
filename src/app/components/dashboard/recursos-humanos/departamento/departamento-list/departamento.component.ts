@@ -19,7 +19,7 @@ export class DepartamentoComponent implements OnInit {
 
   Departamento:Departamento[] = []
 
-  displayedColumns: string[] = ['id', 'nombre','acciones'];
+  displayedColumns: string[] = ['id', 'nombre','estado','acciones'];
   dataSource!:MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -55,8 +55,8 @@ export class DepartamentoComponent implements OnInit {
   elimininarDepartamento(id:any){
 
     Swal.fire({
-      title: 'Esta seguro de elminar registro?',
-      text: 'Eliminara registro',
+      title: 'Esta seguro de desactivar  registro?',
+      text: 'Desactivar registro',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Si',
@@ -67,7 +67,7 @@ export class DepartamentoComponent implements OnInit {
         .subscribe(
           res=>{
             console.log('object :>> ',res);
-            this.toastr.error(`${res.nombre} eliminado`,`Eliminado con Exito`,{
+            this.toastr.error(`${res.nombre} Desactivado`,`Desactivado con Exito`,{
               positionClass:'toast-bottom-right'      
             })
             this.getDepartamento()
@@ -82,6 +82,38 @@ export class DepartamentoComponent implements OnInit {
     })
   }
 
+  activar(data:Departamento){
+    Swal.fire({
+      title: 'Esta seguro de activar registro?',
+      text: 'Activar registro',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.resetFormBuilder()
+        this.service.configEdit()
+        this.service.llenarFormulario(data)
+        this.service.form.value.estado=true
+        console.log(this.service.form.value)
+        this.service.updateDepartamento()
+        .subscribe(
+          res=>{
+            this.toastr.success(`${res.nombre} Activado`,`Activado con Exito`,{
+              positionClass:'toast-bottom-right'      
+            })
+            this.getDepartamento()
+                },
+          error => {
+            this.toastr.error(`Succedio un error`,`${error.message}`,{
+              positionClass:'toast-bottom-right'      
+            })
+          }
+        ) 
+      }
+    })
+  }
 
   openForm(){
     this.service.resetFormBuilder()

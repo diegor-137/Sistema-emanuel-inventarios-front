@@ -38,7 +38,7 @@ export class MarcaService {
     this.form.patchValue({
       id:data.id,
       nombre:data.nombre,
-      estado:true,
+      estado:data.estado,
     })
   }
   

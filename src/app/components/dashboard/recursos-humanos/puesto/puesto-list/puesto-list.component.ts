@@ -19,7 +19,7 @@ export class PuestoListComponent implements OnInit {
 
   Puesto:Puesto[] = []
 
-  displayedColumns: string[] = ['id', 'nombre','departamento','acciones'];
+  displayedColumns: string[] = ['id', 'nombre','departamento','estado','acciones'];
   dataSource!:MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -76,6 +76,39 @@ export class PuestoListComponent implements OnInit {
           ) 
         }
       })
+  }
+
+  activar(data:Puesto){
+    Swal.fire({
+      title: 'Esta seguro de activar registro?',
+      text: 'Activar registro',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.resetFormBuilder()
+        this.service.configEdit()
+        this.service.llenarFormulario(data)
+        this.service.form.value.estado=true
+        console.log(this.service.form.value)
+        this.service.updatePuesto()
+        .subscribe(
+          res=>{
+            this.toastr.success(`${res.nombre} Activado`,`Activado con Exito`,{
+              positionClass:'toast-bottom-right'      
+            })
+            this.getPuesto()
+                },
+          error => {
+            this.toastr.error(`Succedio un error`,`${error.message}`,{
+              positionClass:'toast-bottom-right'      
+            })
+          }
+        ) 
+      }
+    })
   }
 
   openForm(){

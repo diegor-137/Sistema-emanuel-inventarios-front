@@ -45,7 +45,7 @@ export class PuestoFormComponent implements OnInit {
   }
 
   getDepartamento(){
-    return this.departamentoService.getDepartamentos().subscribe(data=>{
+    return this.departamentoService.getDepartamentosActivos().subscribe(data=>{
       this.Departamento = data
     })
   }

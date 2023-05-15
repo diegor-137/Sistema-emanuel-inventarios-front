@@ -26,7 +26,6 @@ export function tokenGetter() {
     DashboardComponent,
     InicioComponent,
     ComprasComponent,
-
   ],
   imports: [
     CommonModule,

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Producto } from '../../../almacen/producto/interaces/producto';
+import { Producto } from '../../../almacen/producto/intefaces/producto';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,10 @@ export class ValidadoresService {
 
   verificarInventario(id:number){
     return this.getInventario(id)
+  }
+
+  getInventarioTotalporProducto(id:number):Observable<Producto>{
+    return this.http.get<Producto>(`${this.BASE_URL}/producto/inventarioTotalProd/${id}`)
   }
 
 }

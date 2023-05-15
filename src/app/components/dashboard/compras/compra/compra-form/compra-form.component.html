@@ -75,7 +75,7 @@
                                      [readonly]="service.view">
                               <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="displayFn">
                                 <mat-option *ngFor="let pro of Proveedor" [value]="pro">
-                                  {{pro.nombre}}
+                                  {{pro.nombre}} | Nit: {{pro.nit}}
                                 </mat-option>
                               </mat-autocomplete>
                               <mat-error *ngIf="ProveedorForm?.hasError('incorrect')">

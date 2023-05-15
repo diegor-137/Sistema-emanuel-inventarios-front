@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Producto } from '../../../almacen/producto/interaces/producto';
+import { Producto } from '../../../almacen/producto/intefaces/producto';
 import { Cliente } from '../interfaces/cliente';
 import { Observable } from 'rxjs';
 

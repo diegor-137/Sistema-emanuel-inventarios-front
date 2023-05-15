@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Producto } from '../../../almacen/producto/interaces/producto';
+import { Producto } from '../../../almacen/producto/intefaces/producto';
 import { RequireMatch } from '../../../almacen/producto/services/requireMatch';
 import { Observable } from 'rxjs';
 import { Venta } from '../interfaces/venta';
@@ -152,7 +152,7 @@ export class VentaService {
     this.formCantidadProd.setValue({
       id_producto:data.id,
       nombre:data.nombre,
-      costo:data.costo_prom,
+      costo:data.costo[0].costo_prom,
       precio:data.precio[0],
       cantidad:1,
       precios:data.precio,

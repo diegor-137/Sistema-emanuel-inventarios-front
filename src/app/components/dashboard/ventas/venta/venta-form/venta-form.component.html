@@ -31,7 +31,7 @@
                                      (keydown.enter)="onKeyPress($event.target)">
                               <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="displayFn">
                                 <mat-option *ngFor="let cli of Cliente" [value]="cli">
-                                  {{cli.nombre}}
+                                  {{cli.nombre}} | Nit: {{cli.nit}}
                                 </mat-option>
                               </mat-autocomplete>
                               <mat-error *ngIf="ClienteForm?.hasError('incorrect')">

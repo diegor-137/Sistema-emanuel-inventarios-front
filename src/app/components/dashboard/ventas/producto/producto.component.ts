@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MatDialogRef, MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { Precio } from '../../almacen/producto/interaces/precio';
-import { Producto } from '../../almacen/producto/interaces/producto';
+import { Precio } from '../../almacen/precio/interfaces/precio';
+import { Producto } from '../../almacen/producto/intefaces/producto';
 import { VentaService } from '../venta/services/venta.service';
+import { ProductoService } from '../../almacen/producto/services/producto.service';
+import { InventarioPorProductoComponent } from '../../almacen/producto/inventario-por-producto/inventario-por-producto.component';
 
 @Component({
   selector: 'app-producto',
@@ -26,6 +28,7 @@ export class ProductoComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(public service:VentaService,
+    public serviceProducto:ProductoService,
     public dialogRef:MatDialogRef<ProductoComponent>,
     private dialog:MatDialog,
     private toastr:ToastrService) { }
@@ -79,6 +82,18 @@ export class ProductoComponent implements OnInit {
 
   close(){
     this.dialogRef.close()
+  }
+
+  openExistencia(id:number){
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.disableClose = false
+    dialogConfig.autoFocus = true
+    this.serviceProducto.productoId = id
+    console.log(this.serviceProducto.productoId)
+    const dialogo = this.dialog.open(InventarioPorProductoComponent,dialogConfig)
+    dialogo.afterClosed().subscribe(res=>{
+      dialogConfig.disableClose = false
+    })
   }
 
 }

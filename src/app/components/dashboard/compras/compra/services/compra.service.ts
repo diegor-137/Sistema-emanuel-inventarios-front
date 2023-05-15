@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { RequireMatch } from '../../../almacen/producto/services/requireMatch';
 import { Compra } from '../interfaces/compra';
 import { Observable } from 'rxjs';
-import { Producto } from '../../../almacen/producto/interaces/producto';
+import { Producto } from '../../../almacen/producto/intefaces/producto';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,7 @@ export class CompraService {
   orden:boolean = false
   BASE_URL:string = 'http://[::1]:3000'
   total_factura:number = 0
-
-  //datos:Producto[] = []
+  //producto:Array<Producto> = []
 
   constructor(private http:HttpClient,
     private formBuilder:FormBuilder) {}
@@ -136,7 +135,7 @@ export class CompraService {
     this.formCantidadProd.setValue({
       id_compra:data.id,
       nombre_c:data.nombre,
-      costo_c:data.costo_prom,
+      costo_c:data.costo[0].costo_prom,
       cantidad_c:1
     })
   }

@@ -11,6 +11,7 @@ import { InicioComprasComponent } from './inicio-compras/inicio-compras.componen
 import { ProductoComponent } from './compra/producto/producto.component';
 import { OrdenCompraComponent } from './compra/orden-compra/orden-compra.component';
 import { PrimeModule } from '../../prime/prime.module';
+import { InventarioPorProductoComponent } from './compra/inventario-por-producto/inventario-por-producto.component';
 
 
 
@@ -23,6 +24,7 @@ import { PrimeModule } from '../../prime/prime.module';
     InicioComprasComponent,
     ProductoComponent,
     OrdenCompraComponent,
+    InventarioPorProductoComponent,
   ],
   imports: [
     CommonModule,

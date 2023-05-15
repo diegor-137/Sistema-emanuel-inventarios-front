@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Producto } from '../interaces/producto';
+import { Producto } from '../intefaces/producto';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -18,7 +18,7 @@ export class ProductoListComponent implements OnInit {
 
   Producto:Producto[] = []
 
-  displayedColumns: string[] = ['id', 'nombre','descripcion','costo','categoria','marca','acciones'];
+  displayedColumns: string[] = ['id', 'nombre','estado','costo','categoria','marca','acciones'];
   dataSource!:MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,7 +40,7 @@ export class ProductoListComponent implements OnInit {
   getProductos(){
     this.service.getProductos().subscribe(data=>{
       this.Producto = data
-      //console.log('object :>> ',this.Producto[0].precio[0].tipoPrecio.id);
+      console.log(data)
       this.dataSource = new MatTableDataSource (this.Producto) 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -79,6 +79,7 @@ export class ProductoListComponent implements OnInit {
     this.service.resetFormBuilder()
     this.service.configNuevo()
     this.service.initializeFormBuilder()
+    this.service.AgregarCosto()
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true

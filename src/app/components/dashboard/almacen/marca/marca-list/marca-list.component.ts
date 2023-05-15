@@ -18,7 +18,7 @@ export class MarcaListComponent implements OnInit {
 
   Marca:Marca[] = []
 
-  displayedColumns: string[] = ['id', 'nombre','acciones'];
+  displayedColumns: string[] = ['id', 'nombre','estado','acciones'];
   dataSource!:MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -65,6 +65,39 @@ export class MarcaListComponent implements OnInit {
         .subscribe(
           res=>{
             this.toastr.error(`${res.nombre} eliminado`,`Eliminado con Exito`,{
+              positionClass:'toast-bottom-right'      
+            })
+            this.getMarca()
+                },
+          error => {
+            this.toastr.error(`Succedio un error`,`${error.message}`,{
+              positionClass:'toast-bottom-right'      
+            })
+          }
+        ) 
+      }
+    })
+  }
+
+  activar(data:Marca){
+    Swal.fire({
+      title: 'Esta seguro de activar registro?',
+      text: 'Activar registro',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.resetFormBuilder()
+        this.service.configEdit()
+        this.service.llenarFormulario(data)
+        this.service.form.value.estado=true
+        console.log(this.service.form.value)
+        this.service.updateMarca()
+        .subscribe(
+          res=>{
+            this.toastr.success(`${res.nombre} Activado`,`Activado con Exito`,{
               positionClass:'toast-bottom-right'      
             })
             this.getMarca()

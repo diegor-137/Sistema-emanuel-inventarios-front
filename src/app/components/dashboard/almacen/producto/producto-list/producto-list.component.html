@@ -22,9 +22,12 @@
             <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="descripcion">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
-            <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+            <td mat-cell *matCellDef="let element">
+                <label *ngIf="element.estado === true" style="color: #1878b0; font-weight: bold">Activo</label>
+                <label *ngIf="element.estado === false" style="color: #c40e0e; font-weight: bold">Innactivo</label>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="costo">
@@ -47,9 +50,6 @@
             <th mat-header-cell *matHeaderCellDef></th>
 
             <td mat-cell *matCellDef="let element" style="text-align: right">
-                <a class="pointer mx-2" style="color: #1878b0" matTooltip="Ver">
-                    <mat-icon>search</mat-icon>
-                </a>
                 <a (click)="verEdit(element)" class="pointer mx-2" style="color: #1f516f" matTooltip="Editar">
                     <mat-icon>edit</mat-icon>
                 </a>
@@ -64,6 +64,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20,40]" showFirstLastButtons aria-label="Select page of periodic elements">
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 40]" showFirstLastButtons aria-label="Select page of periodic elements">
     </mat-paginator>
 </div>
