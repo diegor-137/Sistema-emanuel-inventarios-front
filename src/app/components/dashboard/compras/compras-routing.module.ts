@@ -7,6 +7,7 @@ import { ProveedorListComponent } from './proveedor/proveedor-list/proveedor-lis
 import { ProveedorFormComponent } from './proveedor/proveedor-form/proveedor-form.component';
 import { InicioComprasComponent } from './inicio-compras/inicio-compras.component';
 import { OrdenCompraComponent } from './compra/orden-compra/orden-compra.component';
+import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-pagar.component';
 
 const routes: Routes = [
   {path:'',component:ComprasComponent,children:[
@@ -17,7 +18,7 @@ const routes: Routes = [
 
     {path:'proveedor', component:ProveedorListComponent},
     {path:'proveedor-form', component:ProveedorFormComponent},
-    
+    {path: 'cuenta-por-pagar', component: CuentaPorPagarComponent},
     {path:'', component:InicioComprasComponent},
     {path:'**', redirectTo:'', pathMatch:'full'},
 

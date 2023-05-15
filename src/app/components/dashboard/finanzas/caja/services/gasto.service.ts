@@ -12,7 +12,8 @@ export class GastoService {
   formGasto = this.formBuilder.group({
       documento: ['', [Validators.required]],
       descripcion:['', [Validators.required]],
-      monto: [0, [Validators.required]],
+      monto: [null, [Validators.required]],
+      fotoSend: [null, [Validators.required]],
       token: [''],
   })
 
@@ -23,13 +24,14 @@ export class GastoService {
 
   constructor(private http:HttpClient, private formBuilder:FormBuilder) { }
 
-  crearGasto(resp:any){  
-    this.formGasto.controls['token'].setValue(resp.accessToken);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    })
-    return this.http.post<any>(`${this.BASE_URL}/gastos`, this.formGasto.value, { headers })
+  crearGasto(gasto:Gasto){  
+    const fd = new FormData();
+    fd.append("documento", gasto.documento)
+    fd.append("descripcion", gasto.descripcion)
+    fd.append("monto", String(gasto.monto))
+    fd.append("fotoSend", gasto.fotoSend)
+    fd.append("token", gasto.token!)
+    return this.http.post<any>(`${this.BASE_URL}/gastos`, fd);
   }
 
   allGastos(){

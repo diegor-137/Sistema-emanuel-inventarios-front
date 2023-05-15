@@ -11,6 +11,9 @@ import { VentaListComponent } from './venta/venta-list/venta-list.component';
 import { CotizacionComponent } from './venta/cotizacion/cotizacion.component';
 import { ProductoComponent } from './producto/producto.component';
 import { VistaComponent } from './venta/vista/vista.component';
+import { CuentasPorCobrarComponent } from './creditos/cuentas-por-cobrar/cuentas-por-cobrar.component';
+import { PrimeModule } from '../../prime/prime.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -25,11 +28,14 @@ import { VistaComponent } from './venta/vista/vista.component';
     CotizacionComponent,
     ProductoComponent,
     VistaComponent,
+    CuentasPorCobrarComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
-    VentasRoutingModule
+    VentasRoutingModule, 
+    PrimeModule, 
+    FormsModule
   ]
 })
 export class VentasModule { }

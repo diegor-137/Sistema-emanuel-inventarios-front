@@ -18,6 +18,7 @@ export class CajaCorteComponent implements OnInit {
   totalGasto!:number
   totalIngreso!:number
   totalEgreso!:number
+  totalCuentasPorCobrar!:number
 
   disabled: boolean = true;
   balance!:number
@@ -45,6 +46,7 @@ export class CajaCorteComponent implements OnInit {
     this.cajaCorteService.totalGasto().subscribe(resp=> this.totalGasto = resp);
     this.cajaCorteService.totalIngreso().subscribe(resp=> this.totalIngreso = resp);
     this.cajaCorteService.totalEgreso().subscribe(resp=> this.totalEgreso = resp);
+    this.cajaCorteService.totalCuentasPorCobrar().subscribe(resp=> this.totalCuentasPorCobrar = resp);
   }
 
   campoValido(campo:string){

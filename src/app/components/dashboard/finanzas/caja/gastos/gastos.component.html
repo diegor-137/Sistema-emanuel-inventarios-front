@@ -39,6 +39,7 @@
                 <th>Caja - Empleado</th>
                 <th>Responsable</th>
                 <th></th>
+                <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-gasto>
@@ -51,12 +52,17 @@
                 <td>{{gasto.monto}}</td>
                 <td>{{gasto.caja.lugar + ' - '+ gasto.caja.empleado.nombre + ' ' + gasto.caja.empleado.apellido}}</td>
                 <td>{{gasto.empleado.nombre + ' ' + gasto.empleado.apellido }}</td> 
+                <!-- <td><p-avatar [image]="gasto.foto | nophoto" pBadge value="4" severity="danger" styleClass="mr-2" size="xlarge"></p-avatar></td> -->
+                <td>
+                    <p-image *ngIf="gasto.foto != null" [src]="gasto.foto | nophoto" alt="Image" width="64" height="64" [preview]="true"></p-image>
+                </td>
+                <!-- <td><button pButton pRipple icon="pi pi-camera" class="p-button-rounded p-button-success" (click)="foto(gasto.foto)"></button></td> -->               
                 <td><button *appRole="['CAJERO']" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteGasto(gasto)"></button></td>               
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="9">Seleccione una fecha.</td>
+                <td colspan="10">Seleccione una fecha.</td>
             </tr>
         </ng-template>
         <ng-template pTemplate="footer">
@@ -64,6 +70,7 @@
                 <td></td>
                 <td colspan="4" class="text-right">Total</td>
                 <td>{{total}}</td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -94,6 +101,11 @@
                 <small *ngIf="campoValido('monto')" class="p-error block">Debe ingresar un monto.</small>
             </div>
         </div>
+        <p-fileUpload #form name="foto[]" (onSelect)="onSelect($event, form)" accept="image/*" chooseLabel="Cargar" uploadLabel="Subir" cancelLabel="Cancelar"
+        [fileLimit]="1" [showUploadButton]="false">
+            <ng-template pTemplate="content">
+            </ng-template>
+        </p-fileUpload>
     </ng-template>
     
 

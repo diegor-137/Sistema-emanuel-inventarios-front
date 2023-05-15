@@ -7,4 +7,12 @@ export interface Cliente {
     nit:string;
     estado: boolean;
     createdAt?: Date;
+    credito: Credito[]
+}
+
+export interface Credito {
+        limite:number,
+        diasCredito:number,
+        estado:true,
+        id:number,
 }

@@ -19,6 +19,7 @@ import { GastosComponent } from './caja/gastos/gastos.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { IngresosComponent } from './caja/ingresos/ingresos.component';
 import { EgresosComponent } from './caja/egresos/egresos.component';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { EgresosComponent } from './caja/egresos/egresos.component';
     SharedModule,
     FinanzasRoutingModule,
     PrimeModule,
-    FormsModule
+    FormsModule,
+    PipesModule
   ],
   providers: [DialogService]
 })

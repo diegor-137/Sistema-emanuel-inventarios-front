@@ -1,0 +1,105 @@
+
+<p-toast position="bottom-center"></p-toast><div>
+    <h2>Usuarios administradores</h2>
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Registrar admin" icon="pi pi-plus" class="p-button-success mr-2" (click)="open()"></button>
+        </ng-template>
+    </p-toolbar>
+    <p-table #dt2 [value]="usuarios" dataKey="id"
+        [rows]="5" 
+        [paginator]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>usuario</th>
+                <th>roles</th>
+                <th>Fecha de creacion</th>                
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Telefono</th>
+                <th>Email</th>
+                <th>Sucursal</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td>{{data.id}}</td>
+                <td>{{data.user}}</td>
+                <td>{{data.roles}}</td>
+                <td>{{data.createdAt | date}}</td>
+                <td>
+                    <!-- <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text" (click)="editFoto(data, form)"></button> -->
+                    <p-image  [src]="data.empleado.foto | nophoto" width="35" [preview]="true" class="mr-2" ></p-image>
+                    <span class="image-text">{{data.empleado.nombre}} {{data.empleado.apellido}}</span>
+                </td>
+                <td>{{data.empleado.direccion}}</td>
+                <td>{{data.empleado.telefono}}</td>
+                <td>{{data.empleado.email}}</td>
+                <td>
+                    <!-- <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text" (click)="editFoto(data, form)"></button> -->
+                    <p-image  [src]="data.empleado.sucursal.foto | nophoto" width="35" [preview]="true" class="mr-2" ></p-image>
+                    <span class="image-text">{{data.empleado.sucursal.nombre}}</span>
+                </td>
+                <td>
+                    <i class="pi" [ngClass]="{'true-icon pi-check-circle': data.empleado.estado, 'false-icon pi-times-circle': !data.empleado.estado}"></i>
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openEdit(data)"></button>
+                </td>    
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="10">No se encontraron usuarios.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+
+<!-- <p-dialog header="Foto" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false" [formGroup]="usuarioService.form" [closable]="false">
+    <div class="grid">
+        <div class="col-6" formGroupName="empleado">
+            <div class="grid">
+                <div class="col-12">
+                    <label>Nombre</label>
+                    <div class="p-inputgroup ">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" pInputText formControlName="nombre" readonly>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label>Apellido</label>
+                    <div class="p-inputgroup ">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" pInputText formControlName="apellido" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6" style="text-align:center;">
+            <p-image [src]="usuarioService.form.controls.empleado.get('foto')?.value | nophoto" alt="Image" width="115"></p-image>
+        </div>
+    </div>
+
+    <div>
+        <p-fileUpload #form name="foto[]" [customUpload]="true" (uploadHandler)="onUpload($event, form)" accept="image/*" chooseLabel="Cargar" uploadLabel="Subir" cancelLabel="Cancelar"
+        [fileLimit]="1">
+            <ng-template pTemplate="content">
+                <p-messages *ngIf="uploaded" severity="success">
+                    <ng-template pTemplate>
+                        <div class="ml-2">Foto subida con exito.</div>
+                    </ng-template>
+                </p-messages>
+            </ng-template>
+        </p-fileUpload>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="closeDialog(form)" label="Cerrar" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog> -->

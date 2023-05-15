@@ -90,6 +90,28 @@
                              </mat-form-field>
                         </div>
 
+                        <div class="form-group col-md-1" ng>
+                            <mat-checkbox class="example-margin" formControlName="credit">Credito</mat-checkbox>
+                        </div>
+                        <div formArrayName="credito"  *ngIf="service.form.controls.credit.value">
+                            <div *ngFor="let element of service.form.controls.credito.value; let i = index;trackBy:trackFn" formGroupName="{{i}}">                           
+                                    <div class="form-group col-md-5" >
+                                        <mat-form-field class="example-full-width" appearance="fill">
+                                        <mat-label>Monto limite</mat-label>
+                                        <input formControlName="limite" type="text" matInput 
+                                                placeholder="Monto limite">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <mat-form-field class="example-full-width" appearance="fill">
+                                        <mat-label>Dias de credito</mat-label>
+                                        <input formControlName="diasCredito" type="text" matInput formControlName="diasCredito"
+                                                placeholder="Dias de credito">
+                                        </mat-form-field>
+                                    </div>   
+                            </div>
+                        </div>
+
                     </div>
                     <div class="mt-3">
                         <button type="button" (click)="service.edit ? actualizar() : agregar()" class="btn btn-info mx-3" [disabled]="service.form.invalid">{{service.titulo}}</button>

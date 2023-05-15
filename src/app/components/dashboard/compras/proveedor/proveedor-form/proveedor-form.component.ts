@@ -91,4 +91,8 @@ export class ProveedorFormComponent implements OnInit {
       )   
   }
 
+  trackFn(index:any) {
+    return index;
+  }  
+
 }

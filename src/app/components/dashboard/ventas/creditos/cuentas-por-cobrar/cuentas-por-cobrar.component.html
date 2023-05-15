@@ -1,0 +1,171 @@
+
+<p-toast position="bottom-center"></p-toast>
+<div class="card">
+    <p-toolbar>
+        <div class="p-toolbar-group-left">     
+            <p-autoComplete  [(ngModel)]="selectCliente" [suggestions]="clientes" (completeMethod)="filterClientes($event)" 
+            field="nombre" [dropdown]="true" [forceSelection]="true" (onSelect)="filterd()" class="mr-2">
+                <ng-template let-cliente pTemplate="item">
+                <div class="country-item">
+                    <div>{{cliente.nombre}}</div>
+                </div>
+                </ng-template>
+            </p-autoComplete>
+            <div class="mr-2" *appRole="['ADMIN']">
+                <p-checkbox class="mr-2" [(ngModel)]="checked" [binary]="true" inputId="binary"></p-checkbox>
+                <label for="binary" class="mr-2">Cuentas canceladas</label>
+            </div>
+            <p-calendar [(ngModel)]="fechas" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2" *ngIf="checked"></p-calendar>         
+        </div>
+        
+        <div class="p-toolbar-group-right">
+            <button pButton pRipple label="Todos" class="p-button-success mr-2" (click)="getTodostCuentasPorCobrar()"></button>
+            <button pButton pRipple label="Pago total" icon="pi pi-plus" class="p-button-success mr-2" (click)="pagoDialog()" 
+            [disabled]="!cuentasPorCobrarSeleccionadas || !cuentasPorCobrarSeleccionadas.length || checked" *appRole="['CAJERO']"></button>  
+        </div>
+    </p-toolbar>
+    <p-table #dt2 [value]="cuentasPorCobrar" dataKey="id"
+        [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [paginator]="true" currentPageReportTemplate=""
+        [globalFilterFields]="['name','country.name','representative.name','status']" [autoLayout]="true" styleClass="p-datatable-gridlines p-datatable-striped"
+        [(selection)]="cuentasPorCobrarSeleccionadas" [rowHover]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Fecha Credito</th>
+                <th>Cliente</th>
+                <th>No. Factura</th>
+                <th>Monto</th>
+                <th>Pagos</th>
+                <th>Saldos</th>
+                <th>Fecha Limite</th>
+                <th>Estado</th>
+                <th *appRole="['CAJERO']">Pagos Parciales</th>
+                <th style="width: 3rem" *appRole="['CAJERO']">
+                    <p-tableHeaderCheckbox [disabled]="headerCheckbox"></p-tableHeaderCheckbox>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cuentaPorCobrar>
+            <tr>
+                <td>{{cuentaPorCobrar.id}}</td>
+                <td>{{cuentaPorCobrar.fechainicio | date:'short'}}</td>
+                <td>{{cuentaPorCobrar.cliente}}</td>
+                <td>{{cuentaPorCobrar.ventaid}}</td>
+                <td>{{'Q '+cuentaPorCobrar.total}}</td>
+                <td>
+                    <button pButton pRipple type="button" class="p-button-secondary p-button-text" (click)="pagosDetail(cuentaPorCobrar)">{{'Q '+cuentaPorCobrar.pagos}}</button>
+                </td>
+                <td>{{'Q '+cuentaPorCobrar.saldo}}</td>
+                <td>{{cuentaPorCobrar.fechafinal | date: 'shortDate'}}</td>
+                <td>
+                    <i class="pi" [ngClass]="{'true-icon pi-check-circle': cuentaPorCobrar.estado, 'false-icon pi-times-circle': !cuentaPorCobrar.estado}"></i>
+                </td>            
+                <td *appRole="['CAJERO']"><button pButton pRipple icon="pi pi-money-bill" class="p-button-rounded p-button-success mr-2" (click)="pagoDialog(cuentaPorCobrar)" [disabled]="cuentaPorCobrar.estado"></button></td>
+                <td *appRole="['CAJERO']">
+                    <p-tableCheckbox [value]="cuentaPorCobrar" [disabled]="cuentaPorCobrar.estado"></p-tableCheckbox>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="11">Sin resultados.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <tr>
+                <td colspan="4" class="text-right">Total</td>
+                <td>Q {{total}}</td>
+                <td colspan="6" class="text-right"></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+<p-dialog [(visible)]="pagoDialogo"  header="Pago" [style]="{width: '650px'}" [modal]="true" styleClass="p-fluid" (onHide)="cerrar()">
+    <ng-template pTemplate="content">
+        
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="price">No. Factura</label>
+                <p-listbox [options]="cuentasPorCobrarSeleccionadas" optionLabel="ventaid" [style]="{'width':'15rem'}" [metaKeySelection]="false"></p-listbox>
+            </div>
+            <div class="field col">
+                <label for="price">Saldos</label>
+                <p-listbox [options]="cuentasPorCobrarSeleccionadas" optionLabel="saldo" [style]="{'width':'15rem'}" [metaKeySelection]="false">
+                    <ng-template let-credito pTemplate="item">
+                        <div class="country-item"> 
+                            <div>{{'Q ' + credito.saldo}}</div>
+                        </div>
+                    </ng-template>
+                </p-listbox>
+            </div>
+        </div>
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="price">Total Saldo</label>
+                <p-inputNumber id="price"  mode="currency" currency="GTQ" locale="es-GT" [readonly]="true" [(ngModel)]="monto" ></p-inputNumber>
+            </div>
+            <div class="field col">
+                <label for="quantity">Monto</label>
+                <p-inputNumber id="quantity" mode="currency" currency="GTQ" locale="es-GT" [(ngModel)]="parcial" [readonly]="pagoType"  ></p-inputNumber>
+            </div>
+        </div>
+        <div class="field">
+            <label for="description">Comentario</label>
+            <textarea id="description" pInputTextarea required rows="3" cols="20"></textarea>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cerrar()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" [disabled]="parcial<=0" (click)="realizarPagos()" class="p-button-text"></button>
+    </ng-template>
+</p-dialog>
+
+
+
+
+
+<p-dialog header="Pagos" [(visible)]="pagosDetailOpen" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+
+    <p-table [value]="cuentaPorCobrarDetalle" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <span class="p-input-icon-left ml-auto mr-2">
+                    <i class="pi pi-user"></i><input pInputText type="text" [(ngModel)]="cuentaPorCobrar.cliente" readonly/>
+                </span>
+                <span class="p-input-icon-left ml-auto mr-2">
+                    <i class="pi pi-book"></i><input pInputText type="text" [(ngModel)]="cuentaPorCobrar.ventaid" readonly/>
+                </span>
+                <span class="p-input-icon-left ml-auto mr-2">
+                    <i class="pi pi-money-bill"></i><input pInputText type="text" [(ngModel)]="cuentaPorCobrar.total" readonly/>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Descripcion</th>
+                <th>Monto</th>
+                <th>Saldo</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pago>
+            <tr>
+                <td>{{pago.id}}</td>
+                <td>{{pago.fecha | date:'short'}}</td>
+                <td>{{pago.descripcion}}</td>
+                <td>{{pago.monto}}</td>
+                <td>{{pago.balance}}</td>
+
+            </tr>
+        </ng-template>
+    </p-table>
+
+        <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="pagosDetailOpen=false" label="Ok" styleClass="p-button-text"></p-button>
+        </ng-template>
+</p-dialog>

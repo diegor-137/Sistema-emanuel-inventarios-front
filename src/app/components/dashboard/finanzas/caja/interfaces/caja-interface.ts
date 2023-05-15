@@ -123,6 +123,13 @@ export interface Gasto {
     nombre:string
     apellido:string
   }
+  fotoSend?:any
+  token?:string
+  foto:{
+    id:number,
+    url:string,
+    key:string
+  }
 }
 
 

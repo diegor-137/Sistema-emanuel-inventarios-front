@@ -3,6 +3,7 @@ import { Injectable} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CobroDetallado, Corte, Gasto, Ingreso, Egreso } from '../interfaces/caja-interface';
 import { map } from 'rxjs/operators';
+import { CuentaPorCobrarDetalle } from '../../../ventas/creditos/interfaces/cuentas-por-cobrar';
 
 
 @Injectable({
@@ -108,6 +109,18 @@ export class CajaCorteService {
                 })
               );
   }
+
+  totalCuentasPorCobrar(){
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/cuentaPorCobrar/caja`)
+              .pipe(map((resp)=>{
+                  if (resp==null) {
+                     resp = 0;                     
+                     return resp 
+                  }
+                  return resp
+                })
+              );
+  }
   
 
   /* DETALLES DE CORTE */
@@ -126,6 +139,10 @@ export class CajaCorteService {
 
   egresosCorte(idCorte:number, idCaja:number){
     return this.http.get<Egreso[]>(`${this.BASE_URL}/corte-caja/detalle/egresos/${idCorte}/${idCaja}`)
+  }
+
+  cuentasPorCobrarCorte(idCorte:number, idCaja:number){
+    return this.http.get<CuentaPorCobrarDetalle[]>(`${this.BASE_URL}/corte-caja/detalle/cuentasPorCobrar/${idCorte}/${idCaja}`)
   }
 
 

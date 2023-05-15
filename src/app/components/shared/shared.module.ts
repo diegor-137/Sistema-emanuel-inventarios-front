@@ -30,6 +30,7 @@ import {MatCardModule} from '@angular/material/card';
 import { RoleDirective } from 'src/app/directives/role.directive';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ConfigGlobalDirective } from 'src/app/directives/config-global.directive';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ConfigGlobalDirective } from 'src/app/directives/config-global.directiv
   ],
   imports: [
     CommonModule,
+    PipesModule,
     MatSliderModule,
     MatFormFieldModule,
     MatInputModule,

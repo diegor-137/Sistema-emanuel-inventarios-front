@@ -34,6 +34,8 @@ export class VentaFormComponent implements OnInit {
   Empleado!:Empleado[]
   Sucursal:Sucursal[] = []
   matcher = new MyErrorStateMatcher();
+  pago!: any[];
+  pagoSeleccionado!: Pago
 
   constructor(public service:VentaService,
     private clienteService:ClienteService,
@@ -53,6 +55,10 @@ export class VentaFormComponent implements OnInit {
       this.service.configNuevo()
       this.service.initializeFormBuilder()
     }
+    this.pago = [
+      {name: 'Contado', code: false},                  
+      {name: 'Credito', code: true},                  
+    ];
   }
 
   precios(){
@@ -125,10 +131,10 @@ export class VentaFormComponent implements OnInit {
             this.socket.emit('getFacturas', {token: this.usuario.accessToken})
           },
           err => {
-            this.toastr.error(`${err.message}`,`Succedio un error`,{
+            this.toastr.error(`${err.error.message}`,`Succedio un error`,{
               positionClass:'toast-bottom-right'      
             })
-            console.log(err);
+            console.log(err.error.message);
           }
         )      
   }
@@ -232,4 +238,9 @@ export class VentaFormComponent implements OnInit {
     console.log('object :>> ', this.service.id);
     this.service.llenarFormularioCotizacion(this.service.id)
   }
+}
+
+interface Pago {
+  name: string,
+  code: boolean
 }

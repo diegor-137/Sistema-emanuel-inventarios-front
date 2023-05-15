@@ -10,6 +10,10 @@ import { CompraListComponent } from './compra/compra-list/compra-list.component'
 import { InicioComprasComponent } from './inicio-compras/inicio-compras.component';
 import { ProductoComponent } from './compra/producto/producto.component';
 import { OrdenCompraComponent } from './compra/orden-compra/orden-compra.component';
+import { PrimeModule } from '../../prime/prime.module';
+import { FormsModule } from '@angular/forms';
+import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-pagar.component';
+
 
 
 
@@ -22,12 +26,14 @@ import { OrdenCompraComponent } from './compra/orden-compra/orden-compra.compone
     InicioComprasComponent,
     ProductoComponent,
     OrdenCompraComponent,
+    CuentaPorPagarComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     ComprasRoutingModule,
-    
+    PrimeModule,
+    FormsModule
   ],
   exports:[
 

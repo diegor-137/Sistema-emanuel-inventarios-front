@@ -1,0 +1,78 @@
+<p-toast position="bottom-center"></p-toast><div>
+    <h2>Sucursales</h2>
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Registrar sucursal" icon="pi pi-plus" class="p-button-success mr-2" (click)="open()"></button>
+        </ng-template>
+    </p-toolbar>
+    <p-table #dt2 [value]="sucursales" dataKey="id"
+        [rows]="5" 
+        [paginator]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>nombre</th>
+                <th>Fecha de creacion</th>                
+                <th>Estado</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td>{{data.id}}</td>                
+                <td>
+                    <p-image  [src]="data.foto | nophoto" width="35" [preview]="true" class="mr-2" ></p-image>
+                    <span class="image-text">{{data.nombre}}</span>
+                </td>
+                <td>{{data.createdAt | date}}</td>
+                <td>
+                    <i class="pi" [ngClass]="{'true-icon pi-check-circle': data.estado, 'false-icon pi-times-circle': !data.estado}"></i>
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openEdit(data)"></button>
+                </td>    
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No se encontraron usuarios.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+
+
+<p-dialog [(visible)]="dialog"  header="Registrar Sucursal" [modal]="true" styleClass="p-fluid" [closable]="false" [style]="{width: '50vw'}">
+
+    <ng-template pTemplate="content" [formGroup]="sucursalesService.form">
+        <div class="field">
+            <label>Nombre sucursal</label>
+            <input type="text" pInputText formControlName="nombre"/>
+            <small *ngIf="campoValido('nombre', 'required')" class="p-error block">Debe ingresar un nombre.</small>
+            <small  *ngIf="sucursalesService.form.controls.nombre.hasError('duplicated')" class="p-error block">El nombre de sucursal ya existe!</small>
+        </div>        
+        <div class="field">
+            <label >Direccion</label>
+            <input type="text" pInputText formControlName="direccion"/>
+            <small *ngIf="campoValido('direccion', 'required')" class="p-error block">Debe ingresar una direccion.</small>
+        </div>
+        <div class="field" style="text-align:center;">
+            <p-image [src]="sucursalesService.form.get('foto')?.value | nophoto" alt="Image" width="115" *ngIf="sucursalesService.form.controls['id'].value"></p-image>
+        </div>
+        <p-fileUpload #form name="foto[]" (onSelect)="onSelect($event, form)" accept="image/*" chooseLabel="Cargar" uploadLabel="Subir" cancelLabel="Cancelar"
+        [fileLimit]="1" [showUploadButton]="false">
+            <ng-template pTemplate="content">
+            </ng-template>
+        </p-fileUpload>         
+    </ng-template>
+    
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text" (click)="close()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="create()" [disabled]="sucursalesService.form.invalid"></button>
+    </ng-template>
+
+</p-dialog>
+
