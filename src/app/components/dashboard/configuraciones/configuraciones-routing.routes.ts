@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: '', component: ConfiguracionesComponent, children: [
       { path: '', component: ConfiguracionGlobalComponent },
-      { path:'region', component: RegionListComponent}
+      { path:'region', component: RegionListComponent},
       { path: 'config', component: ConfiguracionGlobalComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'listado-usuarios', component: UsuarioListComponent }
