@@ -67,7 +67,7 @@ export class GastosComponent implements OnInit {
         if(resp){
           this.gastoService.formGasto.controls['token'].setValue(resp.accessToken);
           this.gastoService.crearGasto(this.gastoService.formGasto.value).subscribe((resp)=>{
-            this.messageService.add({severity:'success', summary:'Corte Realizado', detail: 'El corte ya se ha realizado.'});
+            this.messageService.add({severity:'success', summary:'Corte Realizado', detail: 'El el cobro se ha realizado.'});
             this.gastoService.formGasto.reset()
             this.dialog = false;                        
           }, e =>{

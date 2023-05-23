@@ -31,7 +31,7 @@ export class TipoPrecioService {
 
   initializeFormBuilder(){
     this.form.setValue({
-      id:'',
+      id:null,
       nombre:'',
       estado:true
     })
