@@ -124,7 +124,7 @@ export class CompraFormComponent implements OnInit {
             this.onClose()
           },
           err => {
-            this.toastr.error(`${err.message}`,`Succedio un error`,{
+            this.toastr.error(`${err.error.message}`,`Succedio un error`,{
               positionClass:'toast-bottom-right'      
             })
             console.log(err);

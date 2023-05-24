@@ -83,7 +83,7 @@ export class CuentasPorCobrarComponent implements OnInit {
       console.log('Credito uno pagado');     
       this.pagoSuccess()
          }, (e)=>{
-          this.messageService.add({severity:'success', summary: 'Confirmacion', detail: `Pago realizado con exito.`}) 
+          this.messageService.add({severity:'error', summary: 'Error', detail: `${e.error.message}`}) 
          })   
   }
 

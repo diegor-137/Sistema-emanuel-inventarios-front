@@ -118,7 +118,9 @@ export class CuentaPorPagarComponent implements OnInit {
     }) : this.cuentaPorPagarService.pagarCredito(this.cuentasPorPagarSeleccionados, this.parcial).subscribe(()=>{
       console.log('Credito uno pagado');     
       this.pagoSuccess()
-    })   
+      }, (e)=>{
+        this.messageService.add({severity:'error', summary: 'Error', detail: `${e.error.message}`}) 
+       })   
   }
 
   cerrar(){
