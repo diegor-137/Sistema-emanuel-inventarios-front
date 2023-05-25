@@ -4,6 +4,7 @@ import { ProductoService } from '../../producto/services/producto.service';
 import { TipoPrecio } from '../../producto/services/tipo-precio.service';
 import { Tipo_Precio } from '../interfaces/tipo-precio';
 import { MessageService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-precio-list',
@@ -19,7 +20,8 @@ export class PrecioListComponent implements OnInit {
 
   constructor(public productoService:ProductoService,
               private tipoPrecioService:TipoPrecio,
-              private messageService:MessageService) { }
+              private messageService:MessageService,
+              private toastr:ToastrService,) { }
 
   ngOnInit(): void {
     this.getProductos()
@@ -58,16 +60,18 @@ export class PrecioListComponent implements OnInit {
   actualizarPrecios(){
     this.productoService.updateProducto()
     .subscribe(
-      res =>{ 
-          this.messageService.add({key: 'tc', severity:'success', summary: 'Modificado',
-                                   detail: 'Precios', life:1500,closable:true});
+      res=>{
+        this.toastr.success( `Modificado con Exito`,`${res.nombre} modificado`,{
+          positionClass:'toast-bottom-right'      
+        })    
       },
-      err=>{
-        console.log(err)
-        this.messageService.add({key: 'tc', severity:'error', summary: 'Error',
-        detail: `${err.name}`, life:3500,closable:true});
+      err => {
+        this.toastr.error(`${err.message}`, `Succedio un error`,{
+          positionClass:'toast-bottom-right'      
+        })
+        console.log(err);
       }
-    )
+    )   
   }
 
 }

@@ -45,7 +45,7 @@ export class ProductoComponent implements OnInit {
   getProductos(){
     this.service.getProductos().subscribe(data=>{
       this.Producto = data
-      //console.log('object :>> ',this.Producto[0]);
+      console.log('object  :>> ',this.Producto);
       //console.log('object :>> ',this.Producto[0].inventario[0].cantidad);
       this.dataSource = new MatTableDataSource (this.Producto) 
       this.dataSource.paginator = this.paginator;

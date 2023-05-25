@@ -25,6 +25,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.usuarioService.form.reset();
       this.messageService.add({severity:'success', summary:'Registrado', detail: `se ha creado el empleado ${resp.data.empleado.nombre} con usuario ${resp.data.user}`});      
     }, e =>{
+      console.log("error:",e.error)
       this.messageService.add({severity:'error', summary:'No', detail: e.error.message});    
     });        
   }
