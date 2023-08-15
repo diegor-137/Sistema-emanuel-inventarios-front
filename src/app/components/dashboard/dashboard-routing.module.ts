@@ -42,10 +42,16 @@ const routes: Routes = [
         data: { userRoles: [Role.ADMIN, Role.CAJERO] }
       },
       {
+        path: 'reportes', loadChildren: () => import('./reports/reports.module').then(x => x.ReportModule),
+        canActivate: [ValidarTokenGuard], canLoad: [ValidarTokenGuard],
+        data: { userRoles: [Role.ADMIN] }
+      },
+      {
         path: 'configuracion-system', loadChildren: () => import('./config-system/config-system.module').then(x => x.ConfigSystemModule),
         canActivate: [ValidarTokenGuard], canLoad: [ValidarTokenGuard],
         data: { userRoles: [Role.SUPERADMIN] }
       },
+      
       { path: '**', redirectTo: '', pathMatch: 'full' },
     ]
   },

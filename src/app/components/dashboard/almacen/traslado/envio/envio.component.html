@@ -1,0 +1,150 @@
+<h2>
+    ENVIAR TRASLADOS
+</h2>   
+<p-table
+        #dt1 [value]="traslados" dataKey="id" dataKey="id"
+        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" 
+        [rowsPerPageOptions]="[10,25,50]"
+        [loading]="loading" responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                TRASLADOS SIN ENVIAR 
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+        <tr>
+            <th field="id">Id </th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Solicitante</th>
+            <th>Sucursal Destino</th>
+            <th>Opciones</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-traslado>
+        <tr >
+            <td>{{traslado.id}}</td>
+            <td>{{traslado.createdAt | date: 'MMM d, y, h:mm a'}}</td>
+            <td>{{traslado.status}}</td>
+            <td>{{traslado.solicitador.nombre}} {{traslado.solicitador.apellido}}</td>
+            <td>{{traslado.sucursalSol.nombre}}</td>
+            <td>
+                <button (click)="verTraslado(traslado, false)" pButton pRipple type="button" icon="pi pi-check-square" class="p-button-rounded p-button-info"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="7">No hay traslados por enviar</td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-toolbar>
+    <div class="p-toolbar-group-left" [formGroup]="envioService.formGet">
+        <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="findAllEnvios()" [disabled]="envioService.formGet.invalid"></p-button>
+        
+        <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2" formControlName="dates"></p-calendar>     
+    </div>
+    
+    <div class="p-toolbar-group-right">
+        
+        <p-button label="Ultimos" badge="5"  class="mr-2" (onClick)="ultimos5Sucursal()"></p-button>
+        <p-button label="Hoy" class="mr-2" (onClick)="hoySucursal()"></p-button>
+        <div class="p-inputgroup mr-2">
+            <p-inputNumber [(ngModel)]="envioId"  placeholder="Codigo"></p-inputNumber>   
+            <button type="button" pButton pRipple icon="pi pi-search" (click)="buscarEnvio()" styleClass="p-button-warn" [disabled]="envioId == null"></button>      
+        </div>       
+    </div>
+</p-toolbar>
+
+<p-table
+        #dt1 [value]="envios" dataKey="id" dataKey="id"
+        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" 
+        [rowsPerPageOptions]="[10,25,50]"
+        [loading]="loadingEnvios" responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                ENVIOS ESTATUS
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+        <tr>
+            <th field="id">Id </th>
+            <th>Fecha Inicio</th>
+            <th>No. Traslado</th>
+            <th>Despachador</th>
+            <th>Sucursal Destino</th>
+            <th>Estado</th>
+            <th>Detalle</th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-envio>
+        <tr >
+            <td>{{envio.id}}</td>
+            <td>{{envio.fechaInicio | date: 'MMM d, y, h:mm a'}}</td>
+            <td>{{envio.traslado.id}}</td>
+            <td>{{envio.despachador.nombre}} {{envio.despachador.apellido}}</td>
+            <td>{{envio.sucursalRecepcionador.nombre}}</td>
+            <td>{{envio.status}}</td>
+            <td>
+                <button (click)="showModalDetail(envio)" pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-info"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="7">No hay registros</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog header="Detalle" [(visible)]="displayModal" [modal]="true" [style]="{width: '65vw'}"
+    [draggable]="false" [resizable]="false" [formGroup]="envioService.form">
+    <h4>RECEPCION</h4>
+    <p-card>
+        <div class="grid p-fluid">
+            <div class="field col-12 md:col-6">
+                <span class="p-float-label">
+                    <input type="text" id="inputtext" pInputText value="{{envioService.form.value.recepcionador.nombre}}{{envioService.form.value.recepcionador.apellido}}" readonly> 
+                    <label for="inputtext">Nombre</label>
+                </span>
+            </div>
+            
+            <div class="field col-12 md:col-6">
+                <span class="p-float-label">
+                    <input type="text" id="inputtext" pInputText value="{{envioService.form.value.fechaFin | date: 'MMM d, y, h:mm a'}}" readonly> 
+                    <label for="inputtext">Fecha</label>
+                </span>
+            </div>
+        </div>
+    
+        <div class="grid p-fluid">
+            <div class="field col-12 md:col-12">
+                <span class="p-float-label">
+                    <input type="text" id="inputtext" pInputText formControlName="observacionRecepcion" readonly> 
+                    <label for="inputtext">Comentario</label>
+                </span>
+            </div>
+        </div>
+    </p-card>
+    <br>
+    <h4>ENVIO</h4>
+        <p-card >
+            <div [formGroup]="envioService.form">
+                Comentarios sobre el envio
+                <div class="grid p-fluid">
+                    <div class="col-12 md:col-12">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-comment"></i></span>
+                            <input type="text" pInputText formControlName="observacionEnvio" readonly>         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+
+        <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+        </ng-template>
+</p-dialog>

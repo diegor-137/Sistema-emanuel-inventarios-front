@@ -1,0 +1,104 @@
+<h2>
+    SUCURSALES
+</h2>
+    
+<p-table
+        #dt1 [value]="traslados" dataKey="id" dataKey="id"
+        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" 
+        [rowsPerPageOptions]="[10,25,50]"
+        [loading]="loading" responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                AUTORIZAR TRASLADOS DE SUCURSALES
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+        <tr>
+            <th field="id">Id </th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Solicitante</th>
+            <th>Sucursal Solicitante</th>
+            <th>Opciones</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-traslado>
+        <tr >
+            <td>{{traslado.id}}</td>
+            <td>{{traslado.createdAt | date: 'MMM d, y, h:mm a'}}</td>
+            <td>{{traslado.status}}</td>
+            <td>{{traslado.solicitador.nombre}} {{traslado.solicitador.apellido}}</td>
+            <td>{{traslado.sucursalSol.nombre}}</td>
+            <td>
+                <button (click)="verTraslado(traslado, true, false)" pButton pRipple type="button" icon="pi pi-check-square" class="p-button-rounded p-button-info"></button>
+                <button (click)="eliminarTraslado(traslado)" pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="7">No hay traslados por autorizar</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-toolbar>
+    <div class="p-toolbar-group-left" [formGroup]="trasladoService.formGet">
+        <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="getTrasladosPorfechaSucusal()" [disabled]="trasladoService.formGet.invalid"></p-button>
+        
+        <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2" formControlName="dates"></p-calendar>     
+    </div>
+    
+    <div class="p-toolbar-group-right">
+        
+        <p-button label="Ultimos" badge="5"  class="mr-2" (onClick)="ultimos5Sucursal()"></p-button>
+        <p-button label="Hoy" class="mr-2" (onClick)="hoySucursal()"></p-button>
+        <div class="p-inputgroup mr-2">
+            <p-inputNumber [(ngModel)]="trasladoId"  placeholder="Codigo"></p-inputNumber>   
+            <button type="button" pButton pRipple icon="pi pi-search" (click)="buscarTraslado()" styleClass="p-button-warn" [disabled]="trasladoId == null"></button>      
+        </div>       
+    </div>
+</p-toolbar>
+<p-table
+        #dt1 [value]="trasladosLocalPorFecha" dataKey="id" dataKey="id"
+        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" 
+        [rowsPerPageOptions]="[10,25,50]"
+        [loading]="loadingLocal" responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                LISTADO DE TRASLADOS DE SUCURSALES
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+        <tr>
+            <th field="id">Id </th>
+            <th>Fecha</th>
+            <th>Fecha Autorizacion</th>
+            <th>Estado</th>
+            <th>Solicitante </th>
+            <th>Sucursal Solicitante</th>
+            <th>Opciones</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-traslado>
+        <tr >
+            <td>{{traslado.id}}</td>
+            <td>{{traslado.createdAt | date: 'MMM d, y, h:mm a'}}</td>
+            <td>{{traslado.autorizarDate | date: 'MMM d, y, h:mm a'}}</td>
+            <td>{{traslado.status}}</td>
+            <td>{{traslado.solicitador.nombre}} {{traslado.solicitador.apellido}}</td>
+            <td>{{traslado.sucursalSol.nombre}}</td>
+            <td>
+                <button (click)="verTraslado(traslado, false, true)" pButton pRipple type="button" icon="pi pi-search" class="p-button-rounded p-button-info"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="7">Sin registros</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+
