@@ -27,19 +27,11 @@ export class ProductoService {
     costo_prom:[''],
     costo_prom_old:[0],
     ultimo_precio:[0],
-    costoss:this.formBuilder.group({
-      id:[''],
-      costo_prom:[''],
-      costo_prom_old:[''],
-      ultimo_precio:[''],
-    }),
-    costo:this.formBuilder.array([
-
-    ]),
     categoria:['',(Validators.required,RequireMatch)],
     marca:['',(Validators.required,RequireMatch)],
+    costo:this.formBuilder.array([
+    ]),
     precio : this.formBuilder.array([
-      
     ]),
   })
 
@@ -71,12 +63,7 @@ export class ProductoService {
       costo_prom:'',
       costo_prom_old:0,
       ultimo_precio:0,
-      costoss:{
-        id:'',
-        costo_prom:'',
-        costo_prom_old:'',
-        ultimo_precio:'',
-      },
+
       costo:[],
       categoria:'',
       marca:'',
@@ -85,7 +72,7 @@ export class ProductoService {
   }
 
   llenarFormulario(data:Producto){
-    console.log('object :>',data);
+    //console.log('object :>',data);
     this.form.patchValue({
       id:data.id,
       nombre:data.nombre,
@@ -95,12 +82,6 @@ export class ProductoService {
       costo_prom:data.costo_prom,
       costo_prom_old:data.costo_prom_old,
       ultimo_precio:data.ultimo_precio,
-      costoss:{
-        id:data.costo[0].id,
-        costo_prom:data.costo[0].costo_prom,
-        costo_prom_old:data.costo[0].costo_prom_old,
-        ultimo_precio:data.costo[0].ultimo_precio,
-      },
       categoria:data.categoria,
       marca:data.marca,
       invetario:{

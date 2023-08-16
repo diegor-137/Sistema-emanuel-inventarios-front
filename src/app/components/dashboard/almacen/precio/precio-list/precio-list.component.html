@@ -1,3 +1,6 @@
+<mat-toolbar>
+  <span class="text-center">Listado Precios</span>
+</mat-toolbar>
 <p-table 
         [value]="Producto" responsiveLayout="scroll" [scrollable]="true" 
         scrollHeight="270px" 
@@ -8,7 +11,8 @@
         <tr>
             <th pSortableColumn="id" style="max-width: 5rem">Id <p-sortIcon field="id"></p-sortIcon></th>
             <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
-            <th>Categoria </th>
+            <th >costo</th>
+            <th pSortableColumn="precio.length">Cant. de Precios<p-sortIcon field="precio.length"></p-sortIcon></th>
             <th style="max-width: 5rem"></th>
         </tr>
     </ng-template>
@@ -16,7 +20,17 @@
         <tr >
             <td style="max-width: 5rem">{{ product.id }}</td>
             <td>{{ product.nombre }}</td>
-            <td>{{ product.categoria.nombre }}</td>
+            <td >
+              <label *ngIf="product.costo.length > 0">{{product.costo[0].costo_prom}}</label>
+              <label *ngIf="product.costo.length === 0" style="color: #c40e0e">Sin Costo</label>
+          
+            </td>
+
+            <td>
+              <div [ngClass]="{'sinprecios': product.precio.length === 0, 'conprecios': (product.precio.length > 0 && product.precio.length < 5),'muchosprecios': product.precio.length > 10}">
+                {{ product.precio.length }}
+              </div>
+          </td>
             <td style="max-width: 5rem">
               <button type="button" class="btn btn-primary btn-sm" (click)="verPrecios(product)">+</button>
             </td>
@@ -33,11 +47,38 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
+              <h3>Edicion de Precios:</h3>
                 <form class="example-form" [formGroup]="productoService.form" autocomplete="off">
                     <div class="row">
                         <mat-form-field class="float-start example-full-width" appearance="fill">
-                            <input type="text" matInput [readonly]="true" formControlName="nombre">
+                          <mat-label>Producto</mat-label>  
+                          <input type="text" matInput [readonly]="true" formControlName="nombre">
                         </mat-form-field>
+
+                        <ng-container formArrayName="costo">
+                          <div class="row" *ngFor="let control of productoService.costo.controls; let i = index" [formGroupName]="i">
+                            <div FormGroup="control" class="col-md-12"> 
+
+                              <mat-form-field class="three-quarters-width" appearance="fill">
+                                <mat-label>Costo</mat-label>
+                                <input required type="number" name="someid" [readonly]="true" matInput formControlName="costo_prom"
+                                placeholder="Costo" id="task{{i}}">
+                              </mat-form-field>
+                            
+                              <mat-form-field class="three-quarters-width" appearance="fill">
+                                <mat-label>Anitguo Costo</mat-label>
+                                <input readonly type="text" name="someid" [readonly]="true" matInput formControlName="costo_prom_old"
+                                id="task{{i}}">
+                            </mat-form-field>
+
+                              <mat-form-field class="three-quarters-width" appearance="fill">
+                                <mat-label>Ultimo Precio C.</mat-label>
+                                <input readonly type="text" name="someid" [readonly]="true" matInput formControlName="ultimo_precio"
+                                id="task{{i}}">
+                            </mat-form-field>
+                            </div>
+                          </div>       
+                    </ng-container>
 
                         <div>
                             <div class="row" formArrayName="precio" class="mt-4" >
@@ -47,6 +88,7 @@
                                     <tr>
                                       <th>Precio</th>
                                       <th>Tipo Precio</th>
+                                      <th>Ganancia</th>
                                       <th>Borrar</th>
                                     </tr>
                                   </thead>
@@ -67,6 +109,8 @@
                                               </mat-select>
                                             </mat-form-field>
                                           </div>
+                                        </td>
+                                        <td><label for="">Q.  {{productoService.form.value.precio[i].precio - productoService.form.value.costo[0].costo_prom}}</label>
                                         </td>
                                         <td>
                                           <a (click)="borrarPrecio(i)" class="pointer mx-2" style="color: #e15639" matTooltip="Eliminar Precio">

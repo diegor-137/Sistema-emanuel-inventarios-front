@@ -16,7 +16,7 @@
                   <mat-icon>summarize</mat-icon>
                   <span>Orden de Compra</span>
                 </button>
-                <h1> {{service.nuevo}} {{service.Titulo}} : {{service.fecha | date:'short'}}
+                <h1> {{service.nuevo}} {{service.Titulo}} 
                   <div *ngIf="loading" class="spinner-border" role="status">
                       <span class="visually-hidden float-right">Loading...</span>
                   </div>
@@ -26,31 +26,27 @@
 
                   <form class="example-form" [formGroup]="service.form" autocomplete="off">
                     <div class="row">
-
-                      
                       <div class="form-group col-md-6" *ngIf="service.view">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                            <mat-label>Empleado</mat-label>
-                            <input type="text"
-                                   placeholder="Selecciona Empleado"
-                                   aria-label="Empleado"
-                                   matInput
-                                   formControlName="empleado"
-                                   [matAutocomplete]="auto"
-                                   (keydown.enter)="onKeyPress($event.target)"
-                                   [readonly]="service.view">
-                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFnn">
-                              <mat-option *ngFor="let emp of Empleado" [value]="emp">
-                                {{emp.nombre }} {{emp.apellido}}
-                              </mat-option>
-                            </mat-autocomplete>
-                            <mat-error *ngIf="EmpleadoForm?.hasError('incorrect')">
-                              Por favor selecciona un empleado valido
-                          </mat-error>
-                          </mat-form-field>
-                    </div>
+                        <mat-form-field class="ninety-width" appearance="fill">
+                          <mat-label>Fecha</mat-label>
+                          <input type="text"
+                          aria-label="Fecha"
+                          matInput
+                          [readonly]="true"     
+                          value="{{service.form.value?.fecha | date:'fullDate'}}">
+                        </mat-form-field>
+                     </div>
 
-
+                     <div class="form-group col-md-6" *ngIf="service.view">
+                      <mat-form-field class="ninety-width" appearance="fill">
+                        <mat-label>Empleado</mat-label>
+                        <input type="text"
+                        aria-label="Empleado"
+                        matInput
+                        [readonly]="true"     
+                        value="{{service.form.value.empleado.nombre}} {{service.form.value.empleado.apellido}}">
+                      </mat-form-field>
+                   </div>
                         <div class="form-group col-md-6" formGroupName="sucursal"  *ngIf="service.view">
                           <mat-form-field class="example-full-width" appearance="fill">
                               <mat-label>Sucursal</mat-label>
@@ -177,6 +173,15 @@
                       </button>
                     </div>
                   </form>  
+                  <pre>
+                    Esado del forulario: {{service.form.valid}}
+                    <br>
+                    Status {{service.form.status}}
+                </pre>
+                
+                <pre>
+                    {{service.form.value | json }}
+                </pre> 
             </div>
         </div>
     </div>

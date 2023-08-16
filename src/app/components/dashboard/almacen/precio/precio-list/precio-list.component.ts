@@ -48,9 +48,18 @@ export class PrecioListComponent implements OnInit {
   }
 
   verPrecios(data:Producto){
-    this.productoService.resetFormBuilder()
-    this.productoService.configEdit()
-    this.productoService.llenarFormulario(data)
+    console.log(data.costo.length)
+    if (data.costo.length === 0 || data.costo[0].costo_prom == 0) {
+      this.toastr.error("producto aun no tiene costo","No procede",{
+        positionClass:'toast-bottom-right'      
+      })
+    }else{
+      console.log(data.costo)
+      this.productoService.resetFormBuilder()
+      this.productoService.configEdit()
+      this.productoService.llenarFormulario(data)
+    }
+
   }
 
   borrarPrecio(i:number){

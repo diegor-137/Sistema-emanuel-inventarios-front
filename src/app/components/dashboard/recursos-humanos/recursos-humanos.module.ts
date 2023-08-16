@@ -12,6 +12,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { EmpleadoFormComponent } from './empleado/empleado-form/empleado-form.component';
 import { EmpleadoListComponent } from './empleado/empleado-list/empleado-list.component';
 import { RecursosHumanosComponent } from './recursos-humanos.component';
+import { HistorialEmpComponent } from './empleado/historial-emp/historial-emp.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { RecursosHumanosComponent } from './recursos-humanos.component';
     PuestoListComponent,
     EmpleadoFormComponent,
     EmpleadoListComponent,
+    HistorialEmpComponent,
   ],
   imports: [
     CommonModule,

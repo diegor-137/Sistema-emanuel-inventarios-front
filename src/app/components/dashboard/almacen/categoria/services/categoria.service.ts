@@ -59,6 +59,10 @@ export class CategoriaService {
     return this.http.get<Categoria[]>(`${this.BASE_URL}/categoria/${nombre}`)
   }
   
+  getAutoComplete (nombre:string):Observable<Categoria[]>{
+    return this.http.get<Categoria[]>(`${this.BASE_URL}/categoria/autocomplete/${nombre}`)
+  }
+
   getCategorias():Observable<Categoria[]>{
     return this.http.get<Categoria[]>(`${this.BASE_URL}/categoria`)
   }

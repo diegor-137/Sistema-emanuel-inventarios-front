@@ -20,7 +20,7 @@ export class CompraService {
   orden:boolean = false
   BASE_URL:string = 'http://[::1]:3000'
   total_factura:number = 0
-  //producto:Array<Producto> = []
+  //producto:Array<Producto> = [] 
 
   constructor(private http:HttpClient,
     private formBuilder:FormBuilder) {}
@@ -76,6 +76,7 @@ export class CompraService {
     }
   
     llenarFormulario(data:any){
+      
       //console.log('object :>> ', data.id);
       this.getCompra(data.id).subscribe(data=>{
          this.form.patchValue({
@@ -136,12 +137,24 @@ export class CompraService {
   })
   //funcion para poblar formulario de arriba
   llenarProducto(data:Producto){
-    this.formCantidadProd.setValue({
-      id_compra:data.id,
-      nombre_c:data.nombre,
-      costo_c:data.costo[0].costo_prom,
-      cantidad_c:1
-    })
+    
+    if (data.costo.length===0) {
+      this.formCantidadProd.setValue({
+        id_compra:data.id,
+        nombre_c:data.nombre,
+        costo_c:0,
+        cantidad_c:1
+      })
+    }
+    if (data.costo.length>0) {
+      console.log(data.costo[0].costo_prom)
+      this.formCantidadProd.setValue({
+        id_compra:data.id,
+        nombre_c:data.nombre,
+        costo_c:data.costo[0].costo_prom,
+        cantidad_c:1
+      })
+    }
   }
     //simplificar el llamado del formulario de listado de  producto
     get Detalle(){
@@ -186,12 +199,14 @@ export class CompraService {
       this.Titulo = 'Compra'
       this.view = false
       this.orden = false
+      this.fecha = new Date
     }
 
     configNuevaOrdenCompra(){
       this.Titulo = 'Orden Compra'
       this.orden = true
       this.view = false
+      this.fecha = new Date
     }
 
     configViewOrdenCompra(){
@@ -228,7 +243,7 @@ export class CompraService {
   
    
   getProductos():Observable<Producto[]>{
-    return this.http.get<Producto[]>(`${this.BASE_URL}/producto/transacciones`)
+    return this.http.get<Producto[]>(`${this.BASE_URL}/producto/transaccionesCompras`)
   }
   
   getOrdencompras():Observable<Compra[]>{

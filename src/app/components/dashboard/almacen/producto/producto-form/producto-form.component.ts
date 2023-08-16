@@ -55,13 +55,13 @@ export class ProductoFormComponent implements OnInit {
 
 
   getMarcaBuscar(nombre:string){
-    this.marcaService.getBuscar(nombre).subscribe(data=>{
+    this.marcaService.getAutoComplete(nombre).subscribe(data=>{
       this.Marca = data
       //console.log('object :>> ',this.Marca);
     })
   }
   getCategoriaBuscar(nombre:string){
-    return this.categoriaService.getBuscar(nombre).subscribe(data=>{
+    return this.categoriaService.getAutoComplete(nombre).subscribe(data=>{
       this.Categoria = data
       //console.log('object :>> ',this.Categoria);
     })

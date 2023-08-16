@@ -1,13 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { Venta } from '../interfaces/venta';
 import { VentaService } from '../services/venta.service';
 import Swal from 'sweetalert2';
-import { VentaFormComponent } from '../venta-form/venta-form.component';
+
 import { VistaComponent } from '../vista/vista.component';
 
 @Component({
@@ -44,7 +41,9 @@ export class VentaListComponent implements OnInit {
     this.service.getVentas().subscribe(data=>{
       this.Venta = data
       this.loading = false
+      //console.log(this.Venta)
     })
+
   }
 
   getPorFechas(){

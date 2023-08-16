@@ -63,7 +63,7 @@ export class PuestoListComponent implements OnInit {
           this.service.deletePuesto(+id)
           .subscribe(
             res=>{
-              this.toastr.error(`${res.nombre} eliminado`,`Eliminado con Exito`,{
+              this.toastr.info(`${res.nombre} eliminado`,`Eliminado con Exito`,{
                 positionClass:'toast-bottom-right'      
               })
               this.getPuesto()

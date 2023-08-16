@@ -4,11 +4,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
-import Swal from 'sweetalert2';
 import { Empleado } from '../interfaces/empleado';
 import { EmpleadoService } from '../services/empleado.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { EmpleadoFormComponent } from '../empleado-form/empleado-form.component';
+import { HistorialEmpComponent } from '../historial-emp/historial-emp.component';
 
 @Component({
   selector: 'app-empleado-list',
@@ -19,13 +19,13 @@ export class EmpleadoListComponent implements OnInit {
 
   Empleado:Empleado[] = []
 
-  displayedColumns: string[] = ['id', 'nombre','apellido','telefono','direccion','puesto','sucursal','acciones'];
+  displayedColumns: string[] = ['id', 'nombre','apellido','telefono','estado','puesto','sucursal','acciones'];
   dataSource!:MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private service:EmpleadoService,
+  constructor(public service:EmpleadoService,
               private toastr:ToastrService,
               private dialog:MatDialog) { }
 
@@ -50,33 +50,35 @@ export class EmpleadoListComponent implements OnInit {
       
     })
   }
-    elimininarPuesto(id:any){
-      Swal.fire({
-        title: 'Esta seguro de elminar registro?',
-        text: 'Eliminara registro',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Si',
-        cancelButtonText: 'No'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.service.deleteEmpleado(+id)
-          .subscribe(
-            res=>{
-              this.toastr.error(`${res.nombre} eliminado`,`Eliminado con Exito`,{
-                positionClass:'toast-bottom-right'      
-              })
-              this.getEmpleado()
-                  },
-            error => {
-              this.toastr.error(`${error.message}`,`Succedio un error`,{
-                positionClass:'toast-bottom-right'      
-              })
-            }
-          ) 
-        }
+
+    elimininarEmpleado(data:Empleado){
+      this.service.resetFormHistorial()
+      this.service.initializeFormHistorial()
+      this.service.desactivacionEmpleado(data)
+      const dialogConfig = new MatDialogConfig()
+      dialogConfig.disableClose = false
+      dialogConfig.autoFocus = true
+      //dialogConfig.width = "60%"
+      const dialogo = this.dialog.open(HistorialEmpComponent,dialogConfig)
+      dialogo.afterClosed().subscribe(res=>{
+        this.getEmpleado()
       })
   }
+
+  activarEmpleado(data:Empleado){
+    this.service.resetFormHistorial()
+    this.service.initializeFormHistorial()
+    this.service.activacionEmpleado(data)
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.disableClose = false
+    dialogConfig.autoFocus = true
+    //dialogConfig.width = "60%"
+    const dialogo = this.dialog.open(HistorialEmpComponent,dialogConfig)
+    dialogo.afterClosed().subscribe(res=>{
+      this.getEmpleado()
+    })
+  }
+
   openForm(){
     this.service.resetFormBuilder()
     this.service.configNuevo()
