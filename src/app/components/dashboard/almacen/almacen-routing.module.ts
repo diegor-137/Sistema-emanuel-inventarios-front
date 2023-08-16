@@ -13,6 +13,11 @@ import { ProductoComponent } from '../ventas/producto/producto.component';
 import { PrecioListComponent } from './precio/precio-list/precio-list.component';
 import { TipoPrecioListComponent } from './precio/tipo-precio-list/tipo-precio-list.component';
 import { TipoPrecioFormComponent } from './precio/tipo-precio-form/tipo-precio-form.component';
+import { TrasladoComponent } from './traslado/traslado.component';
+import { EnvioComponent } from './traslado/envio/envio.component';
+import { TrasladosComponent } from './traslado/traslados/traslados.component';
+import { TrasladosListsComponent } from './traslado/traslados-lists/traslados-lists.component';
+import { RecepcionComponent } from './traslado/recepcion/recepcion.component';
 
 const routes: Routes = [
   {path:'',component:AlmacenComponent,children:[
@@ -34,7 +39,15 @@ const routes: Routes = [
 
     {path:'precio',component:PrecioListComponent},
 
-    {path:'tipo-precio',component:TipoPrecioListComponent}
+    {path:'tipo-precio',component:TipoPrecioListComponent},
+
+    {path:'traslado',component:TrasladoComponent, children:[
+      {path:'traslados',component:TrasladosComponent},
+      {path:'traslados-fecha',component:TrasladosListsComponent},
+      {path:'envios',component:EnvioComponent},
+      {path:'recepcion',component:RecepcionComponent}
+
+    ]}
   ]}
 ];
 

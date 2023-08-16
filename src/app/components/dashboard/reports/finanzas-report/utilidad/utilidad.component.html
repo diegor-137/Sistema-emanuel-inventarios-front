@@ -1,0 +1,37 @@
+<h2>Utilidad</h2>
+<p-toolbar [formGroup]="finanzasReportService.form">
+    <div class="p-toolbar-group-left" >
+        <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="utilidadDetallada()" [disabled]="finanzasReportService.form.invalid"></p-button>
+        <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2" formControlName="dates"></p-calendar>
+
+        <div>
+            <p-autoComplete  formControlName="cliente" [suggestions]="clientes" (completeMethod)="getClientes($event)"
+            field="nombre"  [forceSelection]="true" class="mr-2" >
+            <ng-template let-cliente pTemplate="item">
+                <div class="country-item">
+                    <div>{{cliente.nombre}}</div>
+                </div>
+                </ng-template>
+            </p-autoComplete>   
+        </div>
+        
+            
+    </div>
+    
+    <div class="p-toolbar-group-right">
+        <div formGroupName="empleado">
+            <p-dropdown [autoDisplayFirst]="false" [options]="empleados" formControlName="id" 
+            optionValue="id" placeholder="Empleado" [showClear]="true" >
+              <ng-template let-item pTemplate="item">
+                  <span>{{item.nombre}} {{item.apellido}}</span>
+              </ng-template>
+              <ng-template let-item pTemplate="selectedItem">
+                  <span>{{item.nombre}} {{item.apellido}}</span>
+              </ng-template>
+            </p-dropdown>
+        </div> 
+    </div>
+</p-toolbar>
+<div *ngIf="load">
+    <p-progressSpinner></p-progressSpinner>
+</div>

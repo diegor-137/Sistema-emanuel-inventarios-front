@@ -58,6 +58,11 @@
         <mat-icon>double_arrow</mat-icon>
         <span>Inventario</span>
     </button>
+
+    <button mat-button class="menu-button" routerLink="/dashboard/almacen/traslado/traslados">
+        <mat-icon>commute</mat-icon>
+        <span>Traslados</span>
+    </button>
 </div>
 
 <!-- COMPRAS -->
@@ -126,6 +131,14 @@
     </button>
 </div>
 
+<!-- REPORTES -->
+<div>
+    <mat-divider></mat-divider>
+    <button *appRole="['ADMIN']" mat-button class="menu-button" routerLink="/dashboard/reportes">
+        <mat-icon>assignment</mat-icon>
+        <span>Reportes</span>
+    </button>   
+</div>
 
 <div *appRole="['SUPERADMIN']">
     <button mat-button class="menu-button" routerLink="/dashboard/configuracion-system/sucursales">

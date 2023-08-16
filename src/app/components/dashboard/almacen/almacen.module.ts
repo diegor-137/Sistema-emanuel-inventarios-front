@@ -18,6 +18,13 @@ import { PrecioListComponent } from './precio/precio-list/precio-list.component'
 import { TipoPrecioListComponent } from './precio/tipo-precio-list/tipo-precio-list.component';
 import { TipoPrecioFormComponent } from './precio/tipo-precio-form/tipo-precio-form.component';
 import { InventarioPorProductoComponent } from './producto/inventario-por-producto/inventario-por-producto.component';
+import { TrasladoComponent } from './traslado/traslado.component';
+import { EnvioComponent } from './traslado/envio/envio.component';
+import { TrasladosComponent } from './traslado/traslados/traslados.component';
+import { TrasladosFormComponent } from './traslado/traslados-form/traslados-form.component';
+import { TrasladosListsComponent } from './traslado/traslados-lists/traslados-lists.component';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { RecepcionComponent } from './traslado/recepcion/recepcion.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +41,12 @@ import { InventarioPorProductoComponent } from './producto/inventario-por-produc
     TipoPrecioListComponent,
     TipoPrecioFormComponent,
     InventarioPorProductoComponent,
+    TrasladoComponent,
+    EnvioComponent,
+    TrasladosComponent,
+    TrasladosFormComponent,
+    TrasladosListsComponent,
+    RecepcionComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +54,7 @@ import { InventarioPorProductoComponent } from './producto/inventario-por-produc
     AlmacenRoutingModule,
     PrimeModule,
     FormsModule,
+    PipesModule
   ]
 })
 export class AlmacenModule { }

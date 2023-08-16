@@ -37,6 +37,7 @@ import {ImageModule} from 'primeng/image';
 import {AvatarModule} from 'primeng/avatar';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ListboxModule} from 'primeng/listbox';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import {ListboxModule} from 'primeng/listbox';
     ImageModule,
     AvatarModule,
     AutoCompleteModule,
-    ListboxModule
+    ListboxModule,
+    ProgressSpinnerModule
   ]
 })
 export class PrimeModule { }
