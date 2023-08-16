@@ -179,7 +179,7 @@ export class VentaService {
       const detalleForm = this.formBuilder.group({
         producto:[dato.id_producto],
         nombre_p: [dato.nombre,Validators.required],
-        cantidad:[dato.cantidad,{asyncValidators:[Inventario(this.validadores)]}],
+        cantidad:[dato.cantidad,{asyncValidators:[Inventario(this.validadores)]},Validators.required],
         precio_compra:[dato.costo, Validators.required],
         precio_venta:[dato.precio.precio,Validators.required],
         precio_seleccionado:[dato.precio, Validators.required],

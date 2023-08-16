@@ -18,7 +18,7 @@ export class ProductoListComponent implements OnInit {
 
   Producto:Producto[] = []
 
-  displayedColumns: string[] = ['id', 'nombre','estado','costo','categoria','marca','acciones'];
+  displayedColumns: string[] = ['id', 'nombre','estado','categoria','marca','acciones'];
   dataSource!:MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -79,7 +79,6 @@ export class ProductoListComponent implements OnInit {
     this.service.resetFormBuilder()
     this.service.configNuevo()
     this.service.initializeFormBuilder()
-    this.service.AgregarCosto()
     const dialogConfig = new MatDialogConfig()
     dialogConfig.disableClose = false
     dialogConfig.autoFocus = true

@@ -27,7 +27,11 @@
                 
                         <ng-container matColumnDef="costo">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo </th>
-                            <td mat-cell *matCellDef="let element"> {{element.costo[0].costo_prom}} </td>
+                            <td mat-cell *matCellDef="let element">
+                                <label *ngIf="element.costo.length===0">0</label>
+                                <label *ngIf="element.costo.length>0">{{element.costo[0].costo_prom}}</label>
+                                 
+                            </td>
                         </ng-container>
                 
                         <ng-container matColumnDef="inventario">

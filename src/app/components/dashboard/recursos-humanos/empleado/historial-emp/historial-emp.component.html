@@ -1,0 +1,27 @@
+<mat-toolbar>
+    <h1 mat-dialog-title>{{empleadoService.activacion}} de Empleado</h1>
+</mat-toolbar>
+
+<form [formGroup]="empleadoService.formHistorial">
+    <div mat-dialog-content>
+        <h3>Desea proceder a la {{empleadoService.activacion}}?</h3>
+        <mat-form-field>
+        <mat-label>Escriba la razon</mat-label>
+        <input matInput formControlName="motivo">
+            <mat-error *ngIf="motivoForm?.hasError('required')">
+                Campo es Requerido
+            </mat-error>
+            <mat-error *ngIf="motivoForm?.hasError('minlength')">
+                Minimo 5 letras
+            </mat-error>
+            <mat-error *ngIf="motivoForm?.hasError('maxlength')">
+                Maximo 150 letras
+            </mat-error>
+    </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="empleadoService.desactivacion ? activar() : desactivar()"
+        [disabled]="empleadoService.formHistorial.invalid" class="btn btn-danger mx-3">
+        {{empleadoService.activacion}}</button>
+    </div>
+  </form>

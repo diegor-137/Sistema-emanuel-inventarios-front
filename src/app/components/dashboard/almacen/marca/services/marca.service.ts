@@ -55,6 +55,9 @@ export class MarcaService {
   getBuscar(nombre:string):Observable<Marca[]>{
     return this.http.get<Marca[]>(`${this.BASE_URL}/marca/${nombre}`)
   }
+  getAutoComplete(nombre:string):Observable<Marca[]>{
+    return this.http.get<Marca[]>(`${this.BASE_URL}/marca/autocomplete/${nombre}`)
+  }
   getMarcas():Observable<Marca[]>{
     return this.http.get<Marca[]>(`${this.BASE_URL}/marca`)
   }
