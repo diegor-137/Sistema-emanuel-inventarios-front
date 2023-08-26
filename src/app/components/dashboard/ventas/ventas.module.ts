@@ -13,7 +13,8 @@ import { ProductoComponent } from './producto/producto.component';
 import { VistaComponent } from './venta/vista/vista.component';
 import { CuentasPorCobrarComponent } from './creditos/cuentas-por-cobrar/cuentas-por-cobrar.component';
 import { PrimeModule } from '../../prime/prime.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CuentasPorCobrarFormComponent } from './creditos/cuentas-por-cobrar-form/cuentas-por-cobrar-form.component';
 
 
 
@@ -29,6 +30,7 @@ import { FormsModule } from '@angular/forms';
     ProductoComponent,
     VistaComponent,
     CuentasPorCobrarComponent,
+    CuentasPorCobrarFormComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +40,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     VentasRoutingModule,
     PrimeModule,
+    ReactiveFormsModule,
   ]
 })
 export class VentasModule { }

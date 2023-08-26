@@ -1,0 +1,57 @@
+<p-button label="Regresar" (click)="regresar()"></p-button>
+<h2>CUENTA EN EFECTIVO</h2>
+<p-card>
+    <div *ngIf="load">
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-5">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" pInputText placeholder="nombre" [value]="efectivo.nombre" readonly>         
+                </div>
+            </div>
+
+        </div>
+        <p-table
+                #dt1 [value]="efectivo.detalleEfectivo" dataKey="id" dataKey="id"
+                [paginator]="true" [rows]="10" [showCurrentPageReport]="true" 
+                [rowsPerPageOptions]="[10,25,50]"
+                styleClass="p-datatable-striped" [rowHover]="true"
+                [loading]="loading" responsiveLayout="scroll">
+                <ng-template pTemplate="caption">
+                    <div class="flex align-items-center justify-content-between">
+                        DETALLE CUENTA
+                        <p-button (click)="transaccion()" icon="pi pi-plus-circle"></p-button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                <tr>
+                    <th field="id">Id </th>
+                    <th>Fecha</th>
+                    <th>Doc</th>
+                    <th>Descripcion</th>
+                    <th>Ingreso</th>
+                    <th>Egreso</th>
+                    <th>Balance</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detalle>
+                <tr >
+                    <td>{{detalle.id}}</td>
+                    <td>{{detalle.fecha | date: 'MMM d, y, h:mm a'}}</td>
+                    <td>{{detalle.documento}}</td>
+                    <td>{{detalle.descripcion}}</td>
+                    <td>{{detalle.type? detalle.monto : 0}}</td>
+                    <td>{{detalle.type? 0 : detalle.monto}}</td>
+                    <td>{{detalle.balance}}</td>
+        
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">Sin registros</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</p-card>
+

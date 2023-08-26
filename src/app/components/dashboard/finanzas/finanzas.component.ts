@@ -62,7 +62,12 @@ export class FinanzasComponent implements OnInit {
             {
               label: 'Cuenta Bancaria',
               icon: 'pi pi-fw pi-building',
-              routerLink: ''
+              routerLink: 'fondos-banco'
+            },
+            {
+              label: 'Efectivo',
+              icon: 'pi pi-fw pi-money-bill',
+              routerLink: 'efectivo'
             }
           ]
       }

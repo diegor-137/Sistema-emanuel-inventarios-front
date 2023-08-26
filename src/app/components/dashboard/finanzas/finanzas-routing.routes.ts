@@ -10,6 +10,10 @@ import { GastosComponent } from './caja/gastos/gastos.component';
 import { IngresosComponent } from './caja/ingresos/ingresos.component';
 import { EgresosComponent } from './caja/egresos/egresos.component';
 import { ValidarCajaGuard } from 'src/app/guards/validar-caja.guard';
+import { CuentaBancariaComponent } from './fondos/cuenta-bancaria/cuenta-bancaria.component';
+import { CuentaBancariaListComponent } from './fondos/cuenta-bancaria-list/cuenta-bancaria-list.component';
+import { EfectivoComponent } from './efectivo/efectivo/efectivo.component';
+import { EfectivoListComponent } from './efectivo/efectivo-list/efectivo-list.component';
 
 const routes: Routes = [
   {
@@ -22,6 +26,10 @@ const routes: Routes = [
       { path: 'caja-gastos', component: GastosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
       { path: 'caja-ingresos', component: IngresosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
       { path: 'caja-egresos', component: EgresosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
+      { path: 'fondos-banco', component: CuentaBancariaComponent },
+      { path: 'fondos-banco-list/:id', component: CuentaBancariaListComponent },
+      { path: 'efectivo', component: EfectivoComponent },
+      { path: 'efectivo-list/:id', component: EfectivoListComponent },
     ]
   },];
 

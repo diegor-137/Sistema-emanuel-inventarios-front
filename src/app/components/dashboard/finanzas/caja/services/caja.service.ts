@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cobro, Cobros, Corte, Venta, CobroDetallado } from '../interfaces/caja-interface';
+import { CuentaBancaria } from '../../fondos/interfaces/cuenta-bancaria';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,8 @@ export class CajaService {
         descripcion: e.descripcion,
         cantidad: e.cantidad,
         tipoCobro:e.tipoCobro,
+        documento:e.documento,
+        cuentaBancaria:e.cuentaBancaria,
       }))
     }) 
     return formArray;
@@ -60,6 +63,8 @@ export class CajaService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     })
+    console.log(this.formCobro.value);
+    
     return this.http.post<any>(`${this.BASE_URL}/cobro`, this.formCobro.value, { headers })
   }
 
@@ -99,5 +104,10 @@ export class CajaService {
     const id = this.form.value.caja    
     return this.http.get<Cobros[]>(`${this.BASE_URL}/cobro/deleted?start=${dates[0]}&end=${dates[1]}&id=${id}`)
   }
+
+  getCuentasEncabezado(){   
+    return this.http.get<CuentaBancaria[]>(`${this.BASE_URL}/cuenta-bancaria/cuentas-encabezado`)
+  }
+
 }
 

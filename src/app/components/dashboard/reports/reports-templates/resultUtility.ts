@@ -6,12 +6,18 @@ import { NumberFormatter, numeroALetras } from 'src/app/utility/numerosAletras';
 PdfMakeWrapper.setFonts(pdfFonts);
 const pdf = new PdfMakeWrapper();
 
+const array:any[] = [
+    {id:1, nombre:'diego', data:[{id:2, name:'data2'}]},
+    {id:2, nombre:'diego2', data:[{id:3, name:'data3'}, {id:4, name:'data4'}]},
+    {id:3, nombre:'diego3', data:[{id:5, name:'data5'}, {id:6, name:'data6'}, {id:6, name:'data6'}]}
+]
+
 export async function resultUtility(resultUtility:ResultUtility) {
     /* ###################################################### HEADER ###################################################### */
 
     pdf.add(await createHeader(resultUtility.header, pdf));
 
-    pdf.add([
+    /* pdf.add([
         new Table([
             ['Id', 'Fecha', 'Cliente', 'Empleado','Total Venta', 'Total Compra', 'Utilidad' ],
             ...extracData(resultUtility.result),
@@ -36,7 +42,12 @@ export async function resultUtility(resultUtility:ResultUtility) {
                 .widths([300, 100, 100])
                 .margin([0, 20])
                 .end    
-    ])
+    ]) */
+
+    pdf.add(new Table([
+        ['Id', 'nombre' ],
+        ...extracDataTwo(array),
+    ]).end)
 
     /* ###################################################### FOOTER ###################################################### */
     pdf.add(createFooter(pdf))
@@ -52,3 +63,23 @@ function extracData(data: any[]) {
     return data.map(row => [row.id, new Date (row.created_at).toLocaleDateString("es-gt", {year: 'numeric', month: '2-digit', day: 'numeric', hour: "numeric", minute: "numeric", formatMatcher: "best fit"})   ,
          row.cliente, `${row.nombre} ${row.apellido}`, `Q. ${NumberFormatter(row.total, 2)}`, `Q. ${NumberFormatter(row.totalcompra, 2)}`, `Q. ${NumberFormatter(row.utilidad, 2)}`]);
 }
+
+
+function extracDataTwo(data: any[]) {
+    const array :any[]=[]
+/*     data.map(row => 
+        array.push([row.id, row.nombre]),
+        array.push([extracArray(row.data)]),
+    ); */
+    data.forEach(a=>{
+        array.push([a.id, a.nombre])
+        array.push(...extracArray(a.data))
+    })
+
+    return array;
+}
+
+function extracArray(data: any[]){
+    return data.map(row => ['', row.name])
+}
+

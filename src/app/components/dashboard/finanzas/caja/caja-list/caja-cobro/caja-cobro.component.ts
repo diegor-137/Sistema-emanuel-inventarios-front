@@ -6,6 +6,9 @@ import { DetalleCobro, Venta } from '../../interfaces/caja-interface';
 import { CajaService } from '../../services/caja.service';
 import { PasswordDialogComponent } from '../../../../global-components/password-dialog/password-dialog.component';
 import { Role } from '../../../../../../app.roles';
+import { Banco, CuentaBancaria } from '../../../fondos/interfaces/cuenta-bancaria';
+import { ConfiguracionGlobalService } from 'src/app/components/dashboard/configuraciones/configuracion/services/configuracion-global.service';
+import { ConfiguracionGlobal } from 'src/app/components/dashboard/configuraciones/configuracion/interface/configuracion-global';
 
 @Component({
   selector: 'app-caja-cobro',
@@ -17,15 +20,18 @@ export class CajaCobroComponent implements OnInit{
 
   detalleCobro: DetalleCobro [] = [
     {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Efectivo.", id:1}, icon: 'pi-money-bill', estado: false},
-    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Tarjeta.", id:2}, icon: 'pi-credit-card', estado: true},
-    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Cheque.", id:3}, icon: 'pi-id-card', estado: true},
-    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Transferencia.", id:4}, icon: 'pi-wallet', estado: true},
+    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Tarjeta.", id:2}, icon: 'pi-credit-card', estado: false, documento:''},
+    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Cheque.", id:3}, icon: 'pi-id-card', estado: false, documento:''},
+    {descripcion: '', cantidad: 0, tipoCobro:{nombre: "Transferencia.", id:4}, icon: 'pi-wallet', estado: false, documento:''},
   ]
 
+  configuracionGlobal!: ConfiguracionGlobal;
+  bancoView!:boolean
   tipoCobro!: any[]
   objeto:number = 1;
   disabled = true;
   venta!:Venta
+  banco!:CuentaBancaria[]
   @ViewChild('inputEfectivo') inputEfectivo!: ElementRef;
 
  /*  ngAfterViewInit() {
@@ -39,7 +45,8 @@ export class CajaCobroComponent implements OnInit{
               private messageService: MessageService, 
               private ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
-              public dialogService: DialogService)
+              public dialogService: DialogService, 
+              private configuracionGlobalService: ConfiguracionGlobalService)
    {    
     this.cajaService.tipoCobro().subscribe(data=>{this.tipoCobro = data})      
    }
@@ -48,11 +55,21 @@ export class CajaCobroComponent implements OnInit{
     this.venta = this.config.data.data
     this.detalleCobro[0].cantidad = this.venta.total;
     this.cajaService.formCobro.patchValue({venta: this.venta.id})
-    
+    this.cajaService.getCuentasEncabezado().subscribe(data=>{
+      this.banco = data
+    })
+    this.getConfiguraciones()
   }
 
   setDescripcion(data:number){
     this.objeto = data    
+  }
+
+  getConfiguraciones(){
+    this.configuracionGlobalService.getConfiguraciones().subscribe(data =>{
+      this.configuracionGlobal = data
+      data.cuentaBancaria?this.bancoView = false:this.bancoView = true
+    });
   }
 
   close(){
@@ -68,6 +85,8 @@ export class CajaCobroComponent implements OnInit{
   }
 
   cobrar(){
+    console.log(this.detalleCobro);
+    
     /* const detalle = this.detalleCobro.filter((detalle)=> detalle.cantidad !== 0 && detalle.cantidad !== null) //eliminar los metodos de pago sin cantidad    
     let sum = 0;
     detalle.forEach(a=> sum += Number(a.cantidad));
@@ -78,22 +97,35 @@ export class CajaCobroComponent implements OnInit{
     }else{
       this.messageService.add({severity:'error', summary:'TOTAL', detail: 'El Cobro no coincide con el total!'});      
     }  */
-
+    let confirmation:boolean=true
     const detalle = this.detalleCobro.filter((detalle)=> detalle.cantidad !== 0 && detalle.cantidad !== null) //eliminar los metodos de pago sin cantidad    
     let sum = 0;
     detalle.forEach(a=> sum += Number(a.cantidad));
-    this.cajaService.llenarCobro(detalle) 
-
-    let ref;
-    if(sum == Number(this.venta.total)){
-      ref = this.dialogService.open(PasswordDialogComponent, {
-      header: 'Realizar Corte',
-      width: '30%',
-      data: [Role.CAJERO, Role.ADMIN]
+    detalle.forEach(a=>{
+      if(a.tipoCobro.id !=1 && a.documento==''){
+        confirmation = false
+        this.messageService.add({severity:'error', summary:'DOCUMENTO', detail: `El documento ${a.tipoCobro.nombre} debe tener respaldo!`});      
+      }
+      if(a.tipoCobro.id !=1 && a.cuentaBancaria?.nombre ==null && !this.configuracionGlobal.cuentaBancaria){
+        confirmation = false
+        this.messageService.add({severity:'error', summary:'DOCUMENTO', detail: `Debe seleccionar una cuenta bancaria en ${a.tipoCobro.nombre}!`});      
+      }
+      if(this.configuracionGlobal.cuentaBancaria){
+        a.cuentaBancaria = this.configuracionGlobal.cuentaBancaria
+      }
     })
-    }else{
-    this.messageService.add({severity:'error', summary:'TOTAL', detail: 'El Cobro no coincide con el total!'});      
-    }
+    this.cajaService.llenarCobro(detalle) 
+      let ref;
+      if(sum == Number(this.venta.total) && confirmation){
+        ref = this.dialogService.open(PasswordDialogComponent, {
+        header: 'Realizar Corte',
+        width: '30%',
+        data: [Role.CAJERO, Role.ADMIN]
+      })}
+      if(sum !== Number(this.venta.total)){
+        this.messageService.add({severity:'error', summary:'TOTAL', detail: 'El Cobro no coincide con el total!'});      
+      }
+    
 
     ref?.onClose.subscribe((resp:any)=>{
         if(resp){
@@ -112,6 +144,6 @@ export class CajaCobroComponent implements OnInit{
       
       
      
+  
   }
-
 }

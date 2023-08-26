@@ -169,11 +169,31 @@
             <div class="example-container" *ngFor="let detalle of detalleCobro; index as i">
                 <ng-container *ngIf="objeto == i+1">
                     <div class="p-fluid grid">
-                        <div class="field col-12 md:col-9">
+                        <div class="field col-12 md:col-8">
                             <label>Descripcion {{detalle.tipoCobro.nombre}}</label>
                             <div class="p-inputgroup">
                                 <span class="p-inputgroup-addon"><i class="pi {{detalle.icon}}"></i></span>
                                 <input type="text" [(ngModel)]="detalle.descripcion" [disabled]="detalle.estado" pInputText/>                    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-fluid grid" *ngIf="objeto == 2 || objeto == 3 || objeto == 4">
+                        <div class="field col-12 md:col-8" *ngIf="bancoView">
+                            <label>Banco</label>
+                            <p-dropdown  [options]="banco" [(ngModel)]="detalle.cuentaBancaria" placeholder="Seleccione un banco" optionLabel="nombre" [showClear]="true">
+                                <ng-template let-item pTemplate="item">
+                                    <span>{{item.nombre}} {{item.numero}}</span>
+                                </ng-template>
+                                <ng-template let-item pTemplate="selectedItem">
+                                    <span>{{item.nombre}} {{item.numero}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label>Documento {{detalle.tipoCobro.nombre}}</label>
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"><i class="pi {{detalle.icon}}"></i></span>
+                                <input type="text" [(ngModel)]="detalle.documento" [disabled]="detalle.estado" pInputText/>                    
                             </div>
                         </div>
                     </div>

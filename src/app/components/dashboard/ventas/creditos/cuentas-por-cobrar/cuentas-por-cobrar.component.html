@@ -60,7 +60,7 @@
                 <td>
                     <i class="pi" [ngClass]="{'true-icon pi-check-circle': cuentaPorCobrar.estado, 'false-icon pi-times-circle': !cuentaPorCobrar.estado}"></i>
                 </td>            
-                <td *appRole="['CAJERO']"><button pButton pRipple icon="pi pi-money-bill" class="p-button-rounded p-button-success mr-2" (click)="pagoDialog(cuentaPorCobrar)" [disabled]="cuentaPorCobrar.estado"></button></td>
+                <td *appRole="['CAJERO']"><button pButton pRipple icon="pi pi-money-bill" class="p-button-rounded p-button-success mr-2" (click)="openPagoForm()" [disabled]="cuentaPorCobrar.estado"></button></td>
                 <td *appRole="['CAJERO']">
                     <p-tableCheckbox [value]="cuentaPorCobrar" [disabled]="cuentaPorCobrar.estado"></p-tableCheckbox>
                 </td>
@@ -82,7 +82,7 @@
 </div>
 
 
-<p-dialog [(visible)]="pagoDialogo"  header="Pago" [style]="{width: '650px'}" [modal]="true" styleClass="p-fluid" (onHide)="cerrar()">
+<p-dialog [(visible)]="pagoDialogo"  header="Pago" [style]="{width: '700px'}" [modal]="true" styleClass="p-fluid" (onHide)="cerrar()">
     <ng-template pTemplate="content">
         
         <div class="formgrid grid">
@@ -106,20 +106,58 @@
                 <label for="price">Total Saldo</label>
                 <p-inputNumber id="price"  mode="currency" currency="GTQ" locale="es-GT" [readonly]="true" [(ngModel)]="monto" ></p-inputNumber>
             </div>
-            <div class="field col">
-                <label for="quantity">Monto</label>
-                <p-inputNumber id="quantity" mode="currency" currency="GTQ" locale="es-GT" [(ngModel)]="parcial" [readonly]="pagoType"  ></p-inputNumber>
-            </div>
-        </div>
-        <div class="field">
-            <label for="description">Comentario</label>
-            <textarea id="description" pInputTextarea required rows="3" cols="20"></textarea>
+
+            <p-panel header="COBRO">
+                <div class="p-fluid grid">            
+                    <div class="field col-12 md:col-3" *ngFor="let item of cuentaPorCobrarDetallePay" (click)="setDescripcion(item.tipoCobro.id)">
+                        <label>{{item.tipoCobro.nombre}}</label>
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi {{item.icon}}"></i></span>
+                            <p-inputNumber [minFractionDigits]="2" [(ngModel)]="item.monto"></p-inputNumber>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="example-container" *ngFor="let detalle of cuentaPorCobrarDetallePay; index as i">
+                    <ng-container *ngIf="objeto == i+1">
+                        <div class="p-fluid grid">
+                            <div class="field col-12 md:col-8">
+                                <label>Descripcion {{detalle.tipoCobro.nombre}}</label>
+                                <div class="p-inputgroup">
+                                    <span class="p-inputgroup-addon"><i class="pi {{detalle.icon}}"></i></span>
+                                    <input type="text" [(ngModel)]="detalle.descripcion" pInputText/>                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-fluid grid" *ngIf="objeto == 2 || objeto == 3 || objeto == 4">
+                            <div class="field col-12 md:col-8">
+                                <label>Banco</label>
+                                <p-dropdown  [options]="cuenta" [(ngModel)]="detalle.cuentaBancaria" placeholder="Seleccione un banco" optionLabel="nombre" [showClear]="true">
+                                    <ng-template let-item pTemplate="item">
+                                        <span>{{item.nombre}} {{item.numero}}</span>
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="selectedItem">
+                                        <span>{{item.nombre}} {{item.numero}}</span>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label>Documento {{detalle.tipoCobro.nombre}}</label>
+                                <div class="p-inputgroup">
+                                    <span class="p-inputgroup-addon"><i class="pi {{detalle.icon}}"></i></span>
+                                    <input type="text" [(ngModel)]="detalle.documento" pInputText/>                    
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                </p-panel>
+
         </div>
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cerrar()"></button>
-        <button pButton pRipple label="Guardar" icon="pi pi-check" [disabled]="parcial<=0" (click)="realizarPagos()" class="p-button-text"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" (click)="realizarPagos()" class="p-button-text"></button>
     </ng-template>
 </p-dialog>
 
@@ -169,3 +207,51 @@
         <p-button icon="pi pi-check" (click)="pagosDetailOpen=false" label="Ok" styleClass="p-button-text"></p-button>
         </ng-template>
 </p-dialog>
+
+
+
+
+
+
+
+
+<!-- <p-dialog [(visible)]="pagoDialogo"  header="Pago" [style]="{width: '700px'}" [modal]="true" styleClass="p-fluid" (onHide)="cerrar()">
+    <ng-template pTemplate="content">
+        
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="price">No. Factura</label>
+                <p-listbox [options]="cuentasPorCobrarSeleccionadas" optionLabel="ventaid" [style]="{'width':'15rem'}" [metaKeySelection]="false"></p-listbox>
+            </div>
+            <div class="field col">
+                <label for="price">Saldos</label>
+                <p-listbox [options]="cuentasPorCobrarSeleccionadas" optionLabel="saldo" [style]="{'width':'15rem'}" [metaKeySelection]="false">
+                    <ng-template let-credito pTemplate="item">
+                        <div class="country-item"> 
+                            <div>{{'Q ' + credito.saldo}}</div>
+                        </div>
+                    </ng-template>
+                </p-listbox>
+            </div>
+        </div>
+        <div class="formgrid grid">
+            <div class="field col">
+                <label for="price">Total Saldo</label>
+                <p-inputNumber id="price"  mode="currency" currency="GTQ" locale="es-GT" [readonly]="true" [(ngModel)]="monto" ></p-inputNumber>
+            </div>
+            <div class="field col">
+                <label for="quantity">Monto</label>
+                <p-inputNumber id="quantity" mode="currency" currency="GTQ" locale="es-GT" [(ngModel)]="parcial" [readonly]="pagoType"  ></p-inputNumber>
+            </div>
+        </div>
+        <div class="field">
+            <label for="description">Comentario</label>
+            <textarea id="description" pInputTextarea required rows="3" cols="20"></textarea>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cerrar()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" [disabled]="parcial<=0" (click)="realizarPagos()" class="p-button-text"></button>
+    </ng-template>
+</p-dialog> -->

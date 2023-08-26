@@ -15,10 +15,14 @@ import { CajaCorteService } from '../../services/caja-corte.service';
 export class CajaCorteComponent implements OnInit {
   saldo!:number
   totalCobro!:number
+  totalCobroEfectivo!:number
+  totalCobroBanco!:number
   totalGasto!:number
   totalIngreso!:number
   totalEgreso!:number
   totalCuentasPorCobrar!:number
+  totalCuentasPorCobrarEfectivo!:number
+  totalCuentasPorCobrarBanco!:number
 
   disabled: boolean = true;
   balance!:number
@@ -43,10 +47,14 @@ export class CajaCorteComponent implements OnInit {
   detalle(){
     this.cajaCorteService.saldo().subscribe(resp=> this.saldo = resp);
     this.cajaCorteService.totalCobro().subscribe(resp=>this.totalCobro = resp);
+    this.cajaCorteService.totalCobroEfectivo().subscribe(resp=>this.totalCobroEfectivo = resp);
+    this.cajaCorteService.totalCobroBanco().subscribe(resp=>this.totalCobroBanco = resp);
     this.cajaCorteService.totalGasto().subscribe(resp=> this.totalGasto = resp);
     this.cajaCorteService.totalIngreso().subscribe(resp=> this.totalIngreso = resp);
     this.cajaCorteService.totalEgreso().subscribe(resp=> this.totalEgreso = resp);
     this.cajaCorteService.totalCuentasPorCobrar().subscribe(resp=> this.totalCuentasPorCobrar = resp);
+    this.cajaCorteService.totalCuentasPorCobrarEfectivo().subscribe(resp=> this.totalCuentasPorCobrarEfectivo = resp);
+    this.cajaCorteService.totalCuentasPorCobrarBanco().subscribe(resp=> this.totalCuentasPorCobrarBanco = resp);
   }
 
   campoValido(campo:string){

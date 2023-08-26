@@ -1,0 +1,65 @@
+<div [formGroup]="cuentaCobrarService.form" *ngIf="load">
+    <p-panel header="COBRO">
+        <div class="p-fluid grid">
+            <div class="field col-12 md:col-3">
+                <div>
+                    <label>Nombre</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                        <p-inputNumber formControlName="nombre" inputId="locale-us" mode="decimal" locale="en-US" [minFractionDigits]="2">
+                        </p-inputNumber>
+                        <!-- <input type="text" formControlName="nombre" pInputText/> -->                    
+                    </div>
+                </div>  
+            </div>      
+        </div>
+
+        <ng-container formArrayName="detalleCuentaPorCobrar">  
+            <div class="p-fluid grid">
+                <div class="field col-12 md:col-3" *ngFor="let item of cuentaCobrarService.getArrayDetalle.controls;index as i"
+                (click)="selector(i)">
+                    <div [formGroupName]="i" >
+                        <label>Monto</label>
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                            <input type="text" formControlName="monto" pInputText/> 
+                        </div>
+                    </div>  
+                </div>      
+            </div>
+            <div class="example-container"  *ngFor="let item of cuentaCobrarService.getArrayDetalle.controls;index as i">
+                <div *ngIf="select==i">
+                    <div class="p-fluid grid" [formGroupName]="i">
+                        <div  class="field col-12 md:col-6">
+                            <label>Docuemnto {{item.get('descripcion')?.value}}</label>
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                                <input type="text" formControlName="documento" pInputText/>                    
+                            </div>
+                            <span>Value</span>
+                            <pre>{{ item.get('descripcion')?.invalid | json }}</pre>
+                            <br>
+                        </div>
+                        <div class="field col-12 md:col-6" *ngIf="select!=0">
+                                <label>Banco</label>
+                                <p-dropdown  [options]="cuenta" formControlName="cuentaBancaria" placeholder="Seleccione un banco" optionLabel="nombre" [showClear]="true">
+                                    <ng-template let-item pTemplate="item">
+                                        <span>{{item.nombre}} {{item.numero}}</span>
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="selectedItem">
+                                        <span>{{item.nombre}} {{item.numero}}</span>
+                                    </ng-template>
+                                </p-dropdown>
+                        </div>                      
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        
+    </p-panel>
+</div>
+<button pButton pRipple label="Enviar" icon="pi pi-times" class="p-button-text" [disabled]="cuentaCobrarService.form.invalid"></button>
+<br>
+<span>Value</span>
+<pre>{{ cuentaCobrarService.form.invalid | json }}</pre>
+<br>

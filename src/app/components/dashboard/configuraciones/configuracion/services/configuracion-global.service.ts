@@ -1,25 +1,45 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Efectivo } from '../../../finanzas/efectivo/interface/efectivo';
+import { ConfiguracionGlobal } from '../interface/configuracion-global';
+import { CuentaBancaria } from '../../../finanzas/fondos/interfaces/cuenta-bancaria';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfiguracionGlobalService {
   BASE_URL:string = 'http://[::1]:3000'
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private formBuilder:FormBuilder) { }
+
+  form=this.formBuilder.group({
+    id:[], 
+    efectivo: this.formBuilder.group({
+      id:[null,[Validators.required] ], 
+      nombre:[null]
+    }),
+    cuentaBancaria: this.formBuilder.group({
+      id:[null,[Validators.required]], 
+      nombre:[null]
+    }),    
+  })
 
 
-  getConfig():Observable<any[]>{
-    return this.http.get<any[]>(`${this.BASE_URL}/configuraciones-global`)
+  getConfiguraciones():Observable<ConfiguracionGlobal>{
+    return this.http.get<ConfiguracionGlobal>(`${this.BASE_URL}/configuraciones-global`)
   }
 
-  getPermisos():Observable<any[]>{
-    return this.http.get<any[]>(`${this.BASE_URL}/configuraciones-global/permisions`)
+  guardar():Observable<ConfiguracionGlobal>{
+    return this.http.post<ConfiguracionGlobal>(`${this.BASE_URL}/configuraciones-global`, this.form.value)
   }
 
-  savePermisos(object: any):Observable<any[]>{
-    return this.http.post<any[]>(`${this.BASE_URL}/configuraciones-global`, object);
+  getEfectivoEncabezado(){
+    return this.http.get<Efectivo[]>(`${this.BASE_URL}/efectivo/efectivo-encabezado`);
+
+  }
+  
+  getCuentasEncabezado(){   
+    return this.http.get<CuentaBancaria[]>(`${this.BASE_URL}/cuenta-bancaria/cuentas-encabezado`)
   }
 }
