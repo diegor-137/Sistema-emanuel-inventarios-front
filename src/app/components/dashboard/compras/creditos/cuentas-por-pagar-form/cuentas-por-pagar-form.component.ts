@@ -1,32 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { ServiceCuentaCobrarService } from '../services/service-cuenta-cobrar.service';
-import { Validators } from '@angular/forms';
-import { CuentaBancaria } from '../../../finanzas/fondos/interfaces/cuenta-bancaria';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { CuentaPorCobrar } from '../interfaces/cuentas-por-cobrar';
+import { ValidatorsFormsCustom } from 'src/app/helpers/validators-form-pay';
+import { CuentaPagarService } from '../services/cuenta-pagar.service';
 import { MessageService } from 'primeng/api';
-import { ValidatorsFormsCustom } from '../../../../../helpers/validators-form-pay';
+import { CuentaBancaria } from '../../../finanzas/fondos/interfaces/cuenta-bancaria';
+import { CuentaPorPagar } from '../interfaces/cuenta-por-pagar';
+import { Validators } from '@angular/forms';
+import { Efectivo } from '../../../finanzas/efectivo/interface/efectivo';
 
 @Component({
-  selector: 'app-cuentas-por-cobrar-form',
-  templateUrl: './cuentas-por-cobrar-form.component.html',
-  styleUrls: ['./cuentas-por-cobrar-form.component.css'],
+  selector: 'app-cuentas-por-pagar-form',
+  templateUrl: './cuentas-por-pagar-form.component.html',
+  styleUrls: ['./cuentas-por-pagar-form.component.css'],
   providers:[MessageService]
 })
-export class  CuentasPorCobrarFormComponent implements OnInit {
+export class CuentasPorPagarFormComponent implements OnInit {
   public select:number=0;
   load=false;
   cuenta!:CuentaBancaria[]
-  credito!:CuentaPorCobrar
+  efectivo!:Efectivo[]
+  cuentaEfectivo!:Efectivo
+  credito!:CuentaPorPagar
 
-  constructor(public cuentaCobrarService:ServiceCuentaCobrarService, 
+  constructor(public cuentaPagarService:CuentaPagarService, 
     public config:DynamicDialogConfig,  private ref: DynamicDialogRef, public validatorsFormsCustom: ValidatorsFormsCustom) {
    }
    
    ngOnInit(): void {
-    this.credito = this.config.data.cuentaPorCobrar;
+    this.credito = this.config.data.cuentaPorPagar;
     this.getTipoTransaccion();
     this.getCuentasEncabezado();
+    this.getCuentas();
    }
 
   selector(index:number){     
@@ -34,17 +38,17 @@ export class  CuentasPorCobrarFormComponent implements OnInit {
   }
 
   getTipoTransaccion(){
-    this.cuentaCobrarService.getTipoTransaccion().subscribe(data=>{
-      this.cuentaCobrarService.initForm(data, this.credito);
-      this.cuentaCobrarService.getArrayDetalle.setValidators([this.validatorsFormsCustom.totalvalidation(this.credito.saldo!)]);
-      this.cuentaCobrarService.getArrayDetalle.updateValueAndValidity();
+    this.cuentaPagarService.getTipoTransaccion().subscribe(data=>{
+      this.cuentaPagarService.initForm(data, this.credito);
+      this.cuentaPagarService.getArrayDetalle.setValidators([this.validatorsFormsCustom.totalvalidation(this.credito.saldo!)]);
+      this.cuentaPagarService.getArrayDetalle.updateValueAndValidity();
       this.start()
       this.load = true
     })
   }
 
   start(){
-    const formControl = this.cuentaCobrarService.getArrayDetalle.controls;
+    const formControl = this.cuentaPagarService.getArrayDetalle.controls;
     for (let index = 1; index < 4; index++) {
       formControl[index]!.get('monto')?.valueChanges.subscribe(value=>{
       if(value>0 && this.select!=0 && !formControl[index]!.get('cuentaBancaria')?.hasValidator(Validators.required)){
@@ -59,23 +63,29 @@ export class  CuentasPorCobrarFormComponent implements OnInit {
   }
 
   save() {
-    this.cuentaCobrarService.pagarCredito().subscribe(()=>{
+    this.cuentaPagarService.pagarCredito().subscribe(()=>{
         this.close(true);
     }, e=>{
       console.log(e);
+      
     })
   }
 
   close(resp:boolean){
-    this.cuentaCobrarService.resetFormBuilder();
+    this.cuentaPagarService.resetFormBuilder();
     this.ref.close(resp);
   }
 
   getCuentasEncabezado(){
-    this.cuentaCobrarService.getCuentasEncabezado().subscribe(data=>{
+    this.cuentaPagarService.getCuentasEncabezado().subscribe(data=>{
       this.cuenta = data
     }) 
   }
+
+  getCuentas(){
+    this.cuentaPagarService.getCuentas().subscribe(data=>{
+      this.efectivo = data;
+    })
+  }
+
 }
-
-

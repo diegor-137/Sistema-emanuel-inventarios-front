@@ -1,162 +1,81 @@
-<!-- 
-
-    <div class="card">
-        <div class="card-header">
-            <h5>Cobros</h5>
+ <p-toast position="bottom-center"></p-toast>
+<div [formGroup]="cajaCobroService.form" *ngIf="load">
+    <p-toolbar>
+        <div class="grid p-fluid">    
+            <div class="col-12 md:col-4">
+                <h4>Cliente<input type="text" pInputText [readonly]="true"  [value]="venta.cliente"/></h4 >                                            
+            </div>   
+            <div class="col-12 md:col-4">
+                <h4>Fecha<input type="text" pInputText [readonly]="true" [value]="venta.fecha | date: 'short'"/></h4 >                    
+            </div>   
+            <div class="col-12 md:col-4">
+                <h4>Total<input type="text" pInputText [readonly]="true" [value]="venta.total"/></h4 >                    
+            </div>   
         </div>
-        <div class="card-body">
-            <form #input>
-                <div class="example-container">
-                    <mat-list>
-                        <mat-list-item>{{venta.cliente}}</mat-list-item>
-                        <mat-divider class="reference"></mat-divider>
-                        <mat-list-item>Q. {{venta.total}}</mat-list-item>                        
-                    </mat-list>
-                </div>
-                <div class="example-container">
-                    <mat-icon class="icon-reduce">{{detalleCobro[0].icon}}</mat-icon>
-                    <mat-icon class="icon-reduce">{{detalleCobro[1].icon}}</mat-icon>
-                    <mat-icon class="icon-reduce">{{detalleCobro[2].icon}}</mat-icon>
-                    <mat-icon class="icon-reduce">{{detalleCobro[3].icon}}</mat-icon>
+    </p-toolbar>
+    <p-panel header="PAGO" >  
+        <div formArrayName="detalleCobro">
+            <div class="p-fluid grid">
+                <div class="field col-12 md:col-3" *ngFor="let item of cajaCobroService.getArrayDetalle.controls;index as i">
+                    <div [formGroupName]="i" >
+                        <label>{{item.get('tipoTransaccion.nombre')?.value}}</label>
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                            <p-inputNumber inputId="locale-us-{{i}}" mode="decimal" locale="en-US" [minFractionDigits]="2"
+                             formControlName="monto" (onFocus)="selector(i)" (onInput)="validatorsFormsCustom.patchPrimeNgInputValue($event, 'monto', item)"></p-inputNumber>
+                        </div>
+                    </div> 
+                </div> 
+            </div>
+            <div class="example-container"  *ngFor="let item of cajaCobroService.getArrayDetalle.controls;index as i">
+                <ng-container [formGroupName]="i">
+                    <div class="p-fluid grid" *ngIf="select==i && select!=0">
+                        <div  class="field col-12 md:col-6">
+                            <label>Documento {{item.get('tipoTransaccion.nombre')?.value}}</label>
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                                <input id="documento-{{i}}" type="text" formControlName="documento" pInputText/>                    
+                            </div>
+                            <small *ngIf="validatorsFormsCustom.isValidFieldInArray(cajaCobroService.getArrayDetalle, i, 'documento')" class="p-error block">El documento es necesario</small>
+                        </div>
+                        <div class="field col-12 md:col-6" *ngIf="bancoView">
+                                <label>Banco</label>
+                                <p-dropdown  [options]="cuenta" formControlName="cuentaBancaria" placeholder="Seleccione un banco" optionLabel="nombre" [showClear]="true">
+                                    <ng-template let-item pTemplate="item">
+                                        <span>{{item.nombre}} {{item.numero}}</span>
+                                    </ng-template>
+                                    <ng-template let-item pTemplate="selectedItem">
+                                        <span>{{item.nombre}} {{item.numero}}</span>
+                                    </ng-template>
+                                </p-dropdown>
+                                <small *ngIf="validatorsFormsCustom.isValidFieldInArray(cajaCobroService.getArrayDetalle, i, 'cuentaBancaria')" class="p-error block">Debe seleccionar una cuenta</small>
+                        </div>                      
+                    </div>
+                </ng-container>
                     
-                </div>
-                <div class="example-container">
-                    <mat-form-field appearance="fill" floatLabel="always" class="reduce-width"
-                        (click)="setDescripcion(0)">
-                        <mat-label>Efectivo</mat-label>
-                        <input #inputEfectivo onfocus="this.select()" matInput type="number" class="example-right-align" placeholder="0"
-                            [(ngModel)]="detalleCobro[0].cantidad" [ngModelOptions]="{standalone: true}" (keyup.enter)="cobrar()">
-                        <span matPrefix>Q&nbsp;</span>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" floatLabel="always" class="reduce-width"
-                        (click)="setDescripcion(1)">
-                        <mat-label>Tarjeta</mat-label>
-                        <input matInput onfocus="this.select()" type="number" class="example-right-align" placeholder="0"
-                            [(ngModel)]="detalleCobro[1].cantidad" [ngModelOptions]="{standalone: true}" (keyup.enter)="cobrar()">
-                        <span matPrefix>Q&nbsp;</span>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" floatLabel="always" class="reduce-width"
-                        (click)="setDescripcion(2)">
-                        <mat-label>Cheque</mat-label>
-                        <input matInput onfocus="this.select()" type="number" class="example-right-align" placeholder="0"
-                            [(ngModel)]="detalleCobro[2].cantidad" [ngModelOptions]="{standalone: true}" (keyup.enter)="cobrar()">
-                        <span matPrefix>Q&nbsp;</span>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" floatLabel="always" class="reduce-width"
-                        (click)="setDescripcion(3)">
-                        <mat-label>Transferencia</mat-label>
-                        <input matInput onfocus="this.select()" type="number" class="example-right-align" placeholder="0"
-                            [(ngModel)]="detalleCobro[3].cantidad" [ngModelOptions]="{standalone: true}" (keyup.enter)="cobrar()">
-                        <span matPrefix>Q&nbsp;</span>
-                    </mat-form-field>
-                </div>
-                <div class="example-container" *ngFor="let detalle of detalleCobro; index as i">
-                    <ng-container *ngIf="objeto == i">
-                        <mat-icon class="icon-reduce">{{detalle.icon}}</mat-icon>
-                        <mat-form-field class="reference" appearance="fill">
-                            <mat-label>Descripcion {{detalle.tipoCobro.nombre}}</mat-label>
-                            <input matInput #descripcion [(ngModel)]="detalle.descripcion"
-                                [ngModelOptions]="{standalone: true}">
-                        </mat-form-field>
-                    </ng-container>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-        <p-button icon="pi pi-times" (click)="close()" label="Cancelar"></p-button>
-        <p-button icon="pi pi-times" (click)="cobrar()" label="Cobrar"></p-button> -->
-   
-
-
-
-<!--         <div class="card">
-            <div class="card-header">
-                <h5>Cobros</h5>
-            </div>
-            <div class="card-body">
-                <form #input>
-                    <div class="example-container">
-                        <mat-list>
-                            <mat-list-item>{{venta.cliente}}</mat-list-item>
-                            <mat-divider class="reference"></mat-divider>
-                            <mat-list-item>Q. {{venta.total}}</mat-list-item>                        
-                        </mat-list>
-                    </div>
-                    <div class="example-container">
-                        <mat-icon class="icon-reduce">{{detalleCobro[0].icon}}</mat-icon>
-                        <mat-icon class="icon-reduce">{{detalleCobro[1].icon}}</mat-icon>
-                        <mat-icon class="icon-reduce">{{detalleCobro[2].icon}}</mat-icon>
-                        <mat-icon class="icon-reduce">{{detalleCobro[3].icon}}</mat-icon>
-                        
-                    </div>
-                    <div class="example-container">
-                        <mat-form-field appearance="fill" floatLabel="always" class="reduce-width"
-                            (click)="setDescripcion(0)">
-                            <mat-label>Efectivo</mat-label>
-                            <input #inputEfectivo onfocus="this.select()" matInput type="number" class="example-right-align" placeholder="0"
-                                [(ngModel)]="detalleCobro[0].cantidad" [ngModelOptions]="{standalone: true}" (keyup.enter)="cobrar()">
-                            <span matPrefix>Q&nbsp;</span>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" floatLabel="always" class="reduce-width"
-                            (click)="setDescripcion(1)">
-                            <mat-label>Tarjeta</mat-label>
-                            <input matInput onfocus="this.select()" type="number" class="example-right-align" placeholder="0"
-                                [(ngModel)]="detalleCobro[1].cantidad" [ngModelOptions]="{standalone: true}" (keyup.enter)="cobrar()">
-                            <span matPrefix>Q&nbsp;</span>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" floatLabel="always" class="reduce-width"
-                            (click)="setDescripcion(2)">
-                            <mat-label>Cheque</mat-label>
-                            <input matInput onfocus="this.select()" type="number" class="example-right-align" placeholder="0"
-                                [(ngModel)]="detalleCobro[2].cantidad" [ngModelOptions]="{standalone: true}" (keyup.enter)="cobrar()">
-                            <span matPrefix>Q&nbsp;</span>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" floatLabel="always" class="reduce-width"
-                            (click)="setDescripcion(3)">
-                            <mat-label>Transferencia</mat-label>
-                            <input matInput onfocus="this.select()" type="number" class="example-right-align" placeholder="0"
-                                [(ngModel)]="detalleCobro[3].cantidad" [ngModelOptions]="{standalone: true}" (keyup.enter)="cobrar()">
-                            <span matPrefix>Q&nbsp;</span>
-                        </mat-form-field>
-                    </div>
-                    <div class="example-container" *ngFor="let detalle of detalleCobro; index as i">
-                        <ng-container *ngIf="objeto == i">
-                            <mat-icon class="icon-reduce">{{detalle.icon}}</mat-icon>
-                            <mat-form-field class="reference" appearance="fill">
-                                <mat-label>Descripcion {{detalle.tipoCobro.nombre}}</mat-label>
-                                <input matInput #descripcion [(ngModel)]="detalle.descripcion"
-                                    [ngModelOptions]="{standalone: true}">
-                            </mat-form-field>
-                        </ng-container>
-                    </div>
-    
-                </form>
+                
             </div>
         </div>
-    
-            <p-button icon="pi pi-times" (click)="close()" label="Cancelar"></p-button>
-            <p-button icon="pi pi-times" (click)="cobrar()" label="Cobrar"></p-button> -->
-
-
-            <p-toast position="bottom-center"></p-toast>
-
-            <p-toolbar>
-                <div class="grid p-fluid">    
-                    <div class="col-12 md:col-4">
-                        <h4>Cliente<input type="text" pInputText [readonly]="true"  [ngModel]="venta.cliente"/></h4 >                                            
-                    </div>   
-                    <div class="col-12 md:col-4">
-                        <h4>Fecha<input type="text" pInputText [readonly]="true" [ngModel]="venta.fecha | date: 'short'"/></h4 >                    
-                    </div>   
-                    <div class="col-12 md:col-4">
-                        <h4>Total<input type="text" pInputText [readonly]="true" [ngModel]="venta.total"/></h4 >                    
-                    </div>   
+            <div class="p-fluid grid">
+                <div  class="field col-12 md:col-8">
+                    <label>Comentario</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-comment"></i></span>
+                        <input id="comentario" type="text" formControlName="comentario" pInputText/>                    
+                    </div>
+                    <br>
                 </div>
-            </p-toolbar>
+            </div>
+        
+    </p-panel>
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="close(false)"></button>
+    <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-text" [disabled]="cajaCobroService.form.invalid || cajaCobroService.getArrayDetalle.errors" (click)="save()"></button>
+    <small *ngIf="cajaCobroService.getArrayDetalle.errors" class="p-error block">El monto deber ser igual al Saldo</small>
+
+</div>
+
             
-            <p-panel header="COBRO">
+<!--             <p-panel header="COBRO">
             <div class="p-fluid grid">            
                 <div class="field col-12 md:col-3" *ngFor="let item of detalleCobro" (click)="setDescripcion(item.tipoCobro.id)">
                     <label>{{item.tipoCobro.nombre}}</label>
@@ -202,4 +121,4 @@
             </p-panel>
 
                 <button pButton pRipple (click)="close()" label="Cancelar" icon="pi pi-times" class="p-button-text"></button>
-                <button pButton pRipple (click)="cobrar()" label="Cobrar" icon="pi pi-check" class="p-button-text"></button>
+                <button pButton pRipple (click)="cobrar()" label="Cobrar" icon="pi pi-check" class="p-button-text"></button> -->

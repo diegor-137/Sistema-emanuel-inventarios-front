@@ -9,6 +9,123 @@ import { Role } from '../../../../../../app.roles';
 import { Banco, CuentaBancaria } from '../../../fondos/interfaces/cuenta-bancaria';
 import { ConfiguracionGlobalService } from 'src/app/components/dashboard/configuraciones/configuracion/services/configuracion-global.service';
 import { ConfiguracionGlobal } from 'src/app/components/dashboard/configuraciones/configuracion/interface/configuracion-global';
+import { CajaCobroService } from '../service/caja-cobro.service';
+import { ValidatorsFormsCustom } from 'src/app/helpers/validators-form-pay';
+import { Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-caja-cobro',
+  templateUrl: './caja-cobro.component.html',
+  styleUrls: ['./caja-cobro.component.css'],
+  providers: [MessageService, DialogService]
+})
+export class CajaCobroComponent implements OnInit{
+  
+  public select:number=0;
+  load=false;
+  cuenta!:CuentaBancaria[]
+  bancoView!:boolean
+  venta!:Venta
+  configuracionGlobal!: ConfiguracionGlobal;
+  @ViewChild('inputEfectivo') inputEfectivo!: ElementRef;
+    
+  constructor(public readonly cajaCobroService:CajaCobroService,  
+              private ref: DynamicDialogRef, 
+              public config: DynamicDialogConfig,
+              public dialogService: DialogService, 
+              private configuracionGlobalService: ConfiguracionGlobalService,
+              public validatorsFormsCustom: ValidatorsFormsCustom)
+   {      
+   }
+
+  ngOnInit(): void {
+    this.venta = this.config.data.data
+    this.getTipoTransaccion();
+    this.getCuentasEncabezado();
+    this.getConfiguraciones()
+  }
+
+  selector(index:number){     
+    this.select = index
+  }
+
+  getTipoTransaccion(){
+    this.cajaCobroService.getTipoTransaccion().subscribe(data=>{
+      this.cajaCobroService.initForm(data, this.venta);
+      this.cajaCobroService.getArrayDetalle.setValidators([this.validatorsFormsCustom.totalvalidation(this.venta.total!)]);
+      this.cajaCobroService.getArrayDetalle.updateValueAndValidity();
+      this.start()
+      this.load = true
+    })
+  }
+
+  start(){
+    const formControl = this.cajaCobroService.getArrayDetalle.controls;
+    for (let index = 1; index < 4; index++) {
+      formControl[index]!.get('monto')?.valueChanges.subscribe(value=>{
+      if(value>0 && this.select!=0 && !formControl[index]!.get('cuentaBancaria')?.hasValidator(Validators.required)){
+        this.validatorsFormsCustom.enableValidatorsForm(['cuentaBancaria', 'documento'], formControl,this.select);
+        this.configuracionGlobal.cuentaBancaria?this.setCuentaBancaria():null
+      }
+      if (value==0 || value==null && this.select!=0 && formControl[index]!.get('cuentaBancaria')?.hasValidator(Validators.required)){
+        this.validatorsFormsCustom.disableValidatorsForm(['cuentaBancaria', 'documento'], formControl,this.select);
+      }
+        this.validatorsFormsCustom.setValueEfectivo(formControl, 'tipoTransaccion.id', 'monto', this.venta.total!);
+      })
+    }
+  }
+
+  save() {
+    /* this.cajaCobroService.cobrarVenta().subscribe(()=>{
+        this.close(true);
+    }, e=>{
+      console.log(e);
+      
+    }) */
+    console.log(this.cajaCobroService.form.value);
+    
+  }
+
+  close(resp:boolean){
+    this.cajaCobroService.resetFormBuilder();
+    this.ref.close(resp)
+  }
+
+  getCuentasEncabezado(){
+    this.cajaCobroService.getCuentasEncabezado().subscribe(data=>{
+      this.cuenta = data
+    }) 
+  }
+
+  getConfiguraciones(){
+    this.configuracionGlobalService.getConfiguraciones().subscribe(data =>{
+      this.configuracionGlobal = data;
+      data.cuentaBancaria?this.bancoView = false:this.bancoView = true
+    });
+  }
+
+  setCuentaBancaria(){
+    const formControl = this.cajaCobroService.getArrayDetalle.controls;
+    for(const a of formControl){
+      a.patchValue({cuentaBancaria:this.configuracionGlobal.cuentaBancaria});
+    }
+  }
+
+}
+
+
+
+/* import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { MatInput } from '@angular/material/input';
+import { MessageService } from 'primeng/api';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DetalleCobro, Venta } from '../../interfaces/caja-interface';
+import { CajaService } from '../../services/caja.service';
+import { PasswordDialogComponent } from '../../../../global-components/password-dialog/password-dialog.component';
+import { Role } from '../../../../../../app.roles';
+import { Banco, CuentaBancaria } from '../../../fondos/interfaces/cuenta-bancaria';
+import { ConfiguracionGlobalService } from 'src/app/components/dashboard/configuraciones/configuracion/services/configuracion-global.service';
+import { ConfiguracionGlobal } from 'src/app/components/dashboard/configuraciones/configuracion/interface/configuracion-global';
 
 @Component({
   selector: 'app-caja-cobro',
@@ -33,13 +150,6 @@ export class CajaCobroComponent implements OnInit{
   venta!:Venta
   banco!:CuentaBancaria[]
   @ViewChild('inputEfectivo') inputEfectivo!: ElementRef;
-
- /*  ngAfterViewInit() {
-    setTimeout(() => {
-      this.inputEfectivo.nativeElement.focus();
-      });
-  } */
-  
     
   constructor(public readonly cajaService:CajaService,  
               private messageService: MessageService, 
@@ -86,17 +196,6 @@ export class CajaCobroComponent implements OnInit{
 
   cobrar(){
     console.log(this.detalleCobro);
-    
-    /* const detalle = this.detalleCobro.filter((detalle)=> detalle.cantidad !== 0 && detalle.cantidad !== null) //eliminar los metodos de pago sin cantidad    
-    let sum = 0;
-    detalle.forEach(a=> sum += Number(a.cantidad));
-    if(sum == Number(this.venta.total)){ //Funcion para verificar si el total coincide con el cobro.
-      this.cajaService.llenarCobro(detalle)       
-      this.cleanDetalle() //Limpiar array de detalle cobro.
-      this.ref.close(true)
-    }else{
-      this.messageService.add({severity:'error', summary:'TOTAL', detail: 'El Cobro no coincide con el total!'});      
-    }  */
     let confirmation:boolean=true
     const detalle = this.detalleCobro.filter((detalle)=> detalle.cantidad !== 0 && detalle.cantidad !== null) //eliminar los metodos de pago sin cantidad    
     let sum = 0;
@@ -136,14 +235,6 @@ export class CajaCobroComponent implements OnInit{
           }) 
         }
     })
-
-    
-    
-    
-     //Funcion para verificar si el total coincide con el cobro.
-      
-      
-     
-  
   }
 }
+ */

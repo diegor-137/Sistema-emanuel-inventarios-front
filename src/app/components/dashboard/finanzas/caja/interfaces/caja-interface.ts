@@ -50,14 +50,14 @@ export interface DetalleCobro {
   id?:number
   descripcion:string
   cantidad:number
-  tipoCobro: TipoCobro
+  tipoTransaccion: TipoTransaccion
   icon:string
   estado: boolean
   documento?:string
   cuentaBancaria?:CuentaBancaria
 }
 
-interface TipoCobro {
+interface TipoTransaccion {
   
   id:number
   nombre:string

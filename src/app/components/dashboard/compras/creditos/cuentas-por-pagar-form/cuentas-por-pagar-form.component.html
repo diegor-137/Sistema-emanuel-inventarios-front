@@ -1,11 +1,11 @@
-<div [formGroup]="cuentaCobrarService.form" *ngIf="load">
+<div [formGroup]="cuentaPagarService.form" *ngIf="load">
     <p-toolbar>
         <div class="grid p-fluid">    
             <div class="col-12 md:col-3">
-                <label>Cliente<input type="text" pInputText [readonly]="true" [value]="credito.cliente" /></label>                                            
+                <label>Proveedor<input type="text" pInputText [readonly]="true" [value]="credito.proveedor" /></label>                                            
             </div>   
             <div class="col-12 md:col-3">
-                <label>No. Venta<input type="text" pInputText [readonly]="true" [value]="credito.ventaid"/></label>                    
+                <label>Documento<input type="text" pInputText [readonly]="true" [value]="credito.documento"/></label>                    
             </div>   
             <div class="col-12 md:col-3">
                 <label>Saldo<input type="text" pInputText [readonly]="true" [value]="credito.saldo"/></label>                    
@@ -15,10 +15,10 @@
             </div>     
         </div>
     </p-toolbar>
-    <p-panel header="COBRO" >  
-        <div formArrayName="detalleCuentaPorCobrar">
+    <p-panel header="PAGO" >  
+        <div formArrayName="detalleCuentaPorPagar">
             <div class="p-fluid grid">
-                <div class="field col-12 md:col-3" *ngFor="let item of cuentaCobrarService.getArrayDetalle.controls;index as i">
+                <div class="field col-12 md:col-3" *ngFor="let item of cuentaPagarService.getArrayDetalle.controls;index as i">
                     <div [formGroupName]="i" >
                         <label>{{item.get('tipoTransaccion.nombre')?.value}}</label>
                         <div class="p-inputgroup">
@@ -29,9 +29,8 @@
                     </div> 
                 </div> 
             </div>
-            <div class="example-container"  *ngFor="let item of cuentaCobrarService.getArrayDetalle.controls;index as i">
+            <div class="example-container"  *ngFor="let item of cuentaPagarService.getArrayDetalle.controls;index as i">
                 <ng-container [formGroupName]="i">
-                    
                     <div class="p-fluid grid" *ngIf="select==i && select!=0">
                         <div  class="field col-12 md:col-6">
                             <label>Documento {{item.get('tipoTransaccion.nombre')?.value}}</label>
@@ -39,7 +38,7 @@
                                 <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
                                 <input id="documento-{{i}}" type="text" formControlName="documento" pInputText/>                    
                             </div>
-                            <small *ngIf="validatorsFormsCustom.isValidFieldInArray(cuentaCobrarService.getArrayDetalle, i, 'documento')" class="p-error block">El documento es necesario</small>
+                            <small *ngIf="validatorsFormsCustom.isValidFieldInArray(cuentaPagarService.getArrayDetalle, i, 'documento')" class="p-error block">El documento es necesario</small>
                         </div>
                         <div class="field col-12 md:col-6">
                                 <label>Banco</label>
@@ -51,14 +50,28 @@
                                         <span>{{item.nombre}} {{item.numero}}</span>
                                     </ng-template>
                                 </p-dropdown>
-                                <small *ngIf="validatorsFormsCustom.isValidFieldInArray(cuentaCobrarService.getArrayDetalle, i, 'cuentaBancaria')" class="p-error block">Debe seleccionar una cuenta</small>
+                                <small *ngIf="validatorsFormsCustom.isValidFieldInArray(cuentaPagarService.getArrayDetalle, i, 'cuentaBancaria')" class="p-error block">Debe seleccionar una cuenta</small>
                         </div>                      
-                        </div>
+                    </div>
                 </ng-container>
                     
                 
             </div>
         </div>
+            <div class="p-fluid grid"  *ngIf="select==0">
+                <div class="field col-12 md:col-6">
+                    <label>Cuenta Efectivo</label>
+                    <p-dropdown  [options]="efectivo" placeholder="Seleccione una cuenta" formControlName="efectivo" optionLabel="nombre" optionValue="id" [showClear]="true">
+                        <ng-template let-item pTemplate="item">
+                            <span>{{item.nombre}}  Q. {{item.detalleEfectivo[0].balance}}</span>
+                        </ng-template>
+                        <ng-template let-item pTemplate="selectedItem">
+                            <span>{{item.nombre}}  Q. {{item.detalleEfectivo[0].balance}}</span>
+                        </ng-template>
+                    </p-dropdown>
+                    <small *ngIf="cuentaPagarService.form.get('efectivo')?.invalid" class="p-error block">Debe seleccionar una cuenta en efectivo</small>
+                </div>
+            </div>
             <div class="p-fluid grid">
                 <div  class="field col-12 md:col-8">
                     <label>Comentario</label>
@@ -72,6 +85,6 @@
         
     </p-panel>
     <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="close(false)"></button>
-    <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-text" [disabled]="cuentaCobrarService.form.invalid || cuentaCobrarService.getArrayDetalle.errors" (click)="save()"></button>
-    <small *ngIf="cuentaCobrarService.getArrayDetalle.errors" class="p-error block">El monto deber ser igual al Saldo</small>
+    <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-text" [disabled]="cuentaPagarService.form.invalid || cuentaPagarService.getArrayDetalle.errors" (click)="save()"></button>
+    <small *ngIf="cuentaPagarService.getArrayDetalle.errors" class="p-error block">El monto deber ser igual al Saldo</small>
 </div>

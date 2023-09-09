@@ -21,15 +21,19 @@ export interface CuentaPorCobrarDetalle {
     monto: number
     balance?: number
     cuentaPorCobrar?:number
-    tipoCobro:TipoCobro 
+    tipoTransaccion:TipoTransaccion
+    /* Only for interface */ 
     documento?:string
     cuentaBancaria?:CuentaBancaria
     /*  */   
-    icon?:string
-
 }
 
-export interface TipoCobro {
+export interface TipoTransaccion {
     id:number
     nombre:string
+}
+
+export interface form {
+    id:number,
+    detalleCuentaPorCobrar:CuentaPorCobrarDetalle[]
 }

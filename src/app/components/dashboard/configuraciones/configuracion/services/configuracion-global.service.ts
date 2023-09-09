@@ -36,7 +36,6 @@ export class ConfiguracionGlobalService {
 
   getEfectivoEncabezado(){
     return this.http.get<Efectivo[]>(`${this.BASE_URL}/efectivo/efectivo-encabezado`);
-
   }
   
   getCuentasEncabezado(){   

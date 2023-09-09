@@ -14,6 +14,7 @@ import { PrimeModule } from '../../prime/prime.module';
 import { InventarioPorProductoComponent } from './compra/inventario-por-producto/inventario-por-producto.component';
 import { FormsModule } from '@angular/forms';
 import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-pagar.component';
+import { CuentasPorPagarFormComponent } from './creditos/cuentas-por-pagar-form/cuentas-por-pagar-form.component';
 
 
 
@@ -28,6 +29,7 @@ import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-
     OrdenCompraComponent,
     InventarioPorProductoComponent,
     CuentaPorPagarComponent,
+    CuentasPorPagarFormComponent,
   ],
   imports: [
     CommonModule,
