@@ -20,6 +20,14 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { IngresosComponent } from './caja/ingresos/ingresos.component';
 import { EgresosComponent } from './caja/egresos/egresos.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { CuentaBancariaComponent } from './fondos/cuenta-bancaria/cuenta-bancaria.component';
+import { CuentaBancariaFormComponent } from './fondos/cuenta-bancaria-form/cuenta-bancaria-form.component';
+import { CuentaBancariaListComponent } from './fondos/cuenta-bancaria-list/cuenta-bancaria-list.component';
+import { TransaccionCuentaFormComponent } from './fondos/transaccion-cuenta-form/transaccion-cuenta-form.component';
+import { EfectivoComponent } from './efectivo/efectivo/efectivo.component';
+import { EfectivoFormComponent } from './efectivo/efectivo-form/efectivo-form.component';
+import { EfectivoListComponent } from './efectivo/efectivo-list/efectivo-list.component';
+import { TransaccionEfectivoFormComponent } from './efectivo/transaccion-efectivo-form/transaccion-efectivo-form.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +44,15 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     DetalleCobroComponent,
     GastosComponent,
     IngresosComponent,
-    EgresosComponent
+    EgresosComponent,
+    CuentaBancariaComponent,
+    CuentaBancariaFormComponent,
+    CuentaBancariaListComponent,
+    TransaccionCuentaFormComponent,
+    EfectivoComponent,
+    EfectivoFormComponent,
+    EfectivoListComponent,
+    TransaccionEfectivoFormComponent
   ],
   imports: [
     CommonModule,

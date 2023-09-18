@@ -1,0 +1,62 @@
+<p-card>
+    <div [formGroup]="cuentaBancariaService.form">
+        <div formArrayName="detalleCuentaBancaria">
+            <div *ngFor="let _ of cuentaBancariaService.Detalle.controls; index as i">
+                <ng-container [formGroupName]="i">
+                    <div class="grid p-fluid">
+                        <div class="col-12 md:col-6">
+                            <span class="p-float-label">
+                              <p-dropdown [autoDisplayFirst]="false" [options]="tipo" formControlName="type" optionValue="type" optionLabel="nombre" [showClear]="true"></p-dropdown>
+                              <label for="dropdown">Tipo transaccion</label>
+                          </span>           
+                        </div>     
+                    </div>
+                    <br/>
+                    <div class="grid p-fluid">
+                        <div class="col-12 md:col-6">
+                            <span class="p-float-label">
+                                <p-inputNumber  formControlName="documento" mode="decimal" inputId="withoutgrouping" [useGrouping]="false">
+                                </p-inputNumber>                  
+                                <label for="dropdown">Documento</label>
+                          </span>           
+                        </div>     
+                    </div>
+                    <br/>
+                    <div class="grid p-fluid">
+                        <div class="col-12 md:col-6">
+                            <span class="p-float-label">
+                                <input id="float-input" type="text" pInputText formControlName="descripcion" >                   
+                                <label for="dropdown">Descripcion</label>
+                          </span>           
+                        </div>     
+                    </div>
+                    <br/>
+                    <div class="grid p-fluid">
+                        <div class="col-12 md:col-6">
+                            <span class="p-float-label">
+                                <p-inputNumber inputId="currency-us" mode="currency" currency="GTQ" locale="en-US" formControlName="monto">
+                                </p-inputNumber>
+                                <label for="dropdown">Monto</label>
+                          </span>           
+                        </div>     
+                    </div>
+
+                </ng-container>
+            </div>
+        </div>    
+        
+    </div>
+    <button pButton label="Guardar" (click)="transaccion()" icon="pi pi-check" [disabled]="cuentaBancariaService.form.invalid"></button>
+
+</p-card>
+
+
+<pre>
+    Esado del forulario: {{cuentaBancariaService.form.valid}}
+    <br>
+    Status {{cuentaBancariaService.form.status}}
+</pre>
+
+<pre>
+    {{cuentaBancariaService.form.value | json }}
+</pre>

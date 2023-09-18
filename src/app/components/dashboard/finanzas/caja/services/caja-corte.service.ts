@@ -74,6 +74,30 @@ export class CajaCorteService {
               );
   }
 
+  totalCobroEfectivo(){
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/totalCobroEfectivo/caja`)
+              .pipe(map((resp)=>{                              
+                  if (resp==null) {
+                     resp = 0;
+                     return resp 
+                  }
+                  return resp
+                })
+              );
+  }
+
+  totalCobroBanco(){
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/totalCobroBanco/caja`)
+              .pipe(map((resp)=>{                              
+                  if (resp==null) {
+                     resp = 0;
+                     return resp 
+                  }
+                  return resp
+                })
+              );
+  }
+
   totalGasto(){
     return this.http.get<number>(`${this.BASE_URL}/corte-caja/totalGasto/caja`)
               .pipe(map((resp)=>{
@@ -100,6 +124,30 @@ export class CajaCorteService {
 
   totalEgreso(){
     return this.http.get<number>(`${this.BASE_URL}/corte-caja/egreso/caja`)
+              .pipe(map((resp)=>{
+                  if (resp==null) {
+                     resp = 0;                     
+                     return resp 
+                  }
+                  return resp
+                })
+              );
+  }
+
+  totalCuentasPorCobrarEfectivo(){
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/cuentaPorCobrarEfectivo/caja`)
+              .pipe(map((resp)=>{
+                  if (resp==null) {
+                     resp = 0;                     
+                     return resp 
+                  }
+                  return resp
+                })
+              );
+  }
+
+  totalCuentasPorCobrarBanco(){
+    return this.http.get<number>(`${this.BASE_URL}/corte-caja/cuentaPorCobrarBanco/caja`)
               .pipe(map((resp)=>{
                   if (resp==null) {
                      resp = 0;                     
@@ -144,7 +192,6 @@ export class CajaCorteService {
   cuentasPorCobrarCorte(idCorte:number, idCaja:number){
     return this.http.get<CuentaPorCobrarDetalle[]>(`${this.BASE_URL}/corte-caja/detalle/cuentasPorCobrar/${idCorte}/${idCaja}`)
   }
-
 
 
 }

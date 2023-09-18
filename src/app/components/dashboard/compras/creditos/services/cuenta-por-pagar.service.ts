@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { CuentaPorPagar, CuentaPorPagarDetalle } from '../interfaces/cuenta-por-pagar';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { dateRange } from 'src/app/helpers/customs-validators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,18 @@ export class CuentaPorPagarService {
 
   constructor(private http:HttpClient, private formBuilder:FormBuilder) { }
 
-  form = this.formBuilder.group({
-    cuentaPorPagarDetalle: this.formBuilder.array([])    
+  form: FormGroup = this.formBuilder.group({
+    id:[],
+    checked:[],
+    dates:[null, [dateRange()]],
   })
+
+  resetFormBuilder(){
+    this.form.reset()
+    const date = new Date();
+    date.setHours(0,0,0,0)
+    this.form.patchValue({dates:[date, date], checked:false})
+  }
 
   /* form = this.formBuilder.group({
     total: [0.00], 
@@ -32,41 +42,18 @@ export class CuentaPorPagarService {
     return this.http.get<any[]>(`${this.BASE_URL}/proveedor/${nombre}`)
   }
 
-  getCuentasPorPagarByProveedor(id:number, checked:boolean, fechas:Date[]){  
-    return this.http.get<CuentaPorPagar[]>(`${this.BASE_URL}/cuentas-por-pagar/getCuentasPorPagarByProveedor/${id}/${checked}?start=${fechas[0]}&end=${fechas[1]}`);    
-  }
-  
-  getTodosCuentasPorPagar(){
-    return this.http.get<CuentaPorPagar[]>(`${this.BASE_URL}/cuentas-por-pagar/getTodosCuentasPorPagar`);
+  getCuentasPorPagarByProveedor(id?:number){
+    this.form.patchValue({id});
+    return this.http.post<CuentaPorPagar[]>(`${this.BASE_URL}/cuentas-por-pagar/getCuentasPorPagarParams`, this.form.value);  
   }
 
   pagosDetail(id:number){
     return this.http.get<CuentaPorPagarDetalle[]>(`${this.BASE_URL}/cuentas-por-pagar/pagosDetail/${id}`)
   }
 
-  pagarCreditos(cuentasPorPagar:CuentaPorPagar[]){
-    this.form.setControl('cuentaPorPagarDetalle', this.setPagoCreditos(cuentasPorPagar));
-    return this.http.post<any>(`${this.BASE_URL}/cuentas-por-pagar/pagarCreditos`, this.form.controls.cuentaPorPagarDetalle.value);           
-  }
-
   pagarCredito(cuentasPorPagar:CuentaPorPagar[], monto:number){
     const cuentaPorPagar = {cuentaPorPagar: {id: cuentasPorPagar[0].id}, monto, descripcion: 'PAGO PARCIAL'}
     return this.http.post<any>(`${this.BASE_URL}/cuentas-por-pagar/pagarCredito`, cuentaPorPagar);    
   }
-
-  setPagoCreditos(cuentasPorPagar:CuentaPorPagar[]): FormArray {
-    const formArray = new FormArray([])
-    cuentasPorPagar.forEach(e =>{      
-      formArray.push(this.formBuilder.group({
-        cuentaPorPagar: {id:e.id},
-        monto:Number(e.saldo),
-        descripcion:'PAGO FACTURA',
-        balance:Number(0),
-        estado:true
-      }))
-    }) 
-    return formArray;
-  }
-
   
 }

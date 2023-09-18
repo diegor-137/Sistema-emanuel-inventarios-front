@@ -1,6 +1,6 @@
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ConfiguracionGlobalService } from '../components/dashboard/configuraciones/configuracion/services/configuracion-global.service';
-import { PuestoService } from '../components/dashboard/recursos-humanos/puesto/services/puesto.service';
+import { ConfiguracionGlobal } from '../components/dashboard/configuraciones/configuracion/interface/configuracion-global';
 
 @Directive({
   selector: '[appConfigGlobal]'
@@ -9,18 +9,33 @@ export class ConfigGlobalDirective implements OnInit {
 
   @Input() public appConfigGlobal!: Array<string>;
   isVisible = false;
-  permisos: any[]=[];
+  configuracionGlobal!: ConfiguracionGlobal;
   constructor(private service: ConfiguracionGlobalService, private viewContainerRef: ViewContainerRef,
     private templateRef: TemplateRef<any>) { }
 
   async ngOnInit() {
-    this.service.getPermisos().subscribe(data =>{
-      this.permisos =data;      
-      this.showTemplate()
+    this.service.getConfiguraciones().subscribe(data =>{
+      this.configuracionGlobal =data;      
+      this.bancoTemplate()
     });
+  }
+  
+  bancoTemplate(){
+    console.log('Desde el banco template');
+    
+    if (!this.configuracionGlobal.cuentaBancaria) {
+      if (!this.isVisible) {
+        this.isVisible = true;
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    } else {
+      this.isVisible = false;
+      this.viewContainerRef.clear();
+    }
+      
+  }
 
-
-    /* if (!this.permisos) {
+      /* if (!this.permisos) {
       this.viewContainerRef.clear();
     }
     if (this.permisos?.some(r =>this.appConfigGlobal.includes(r.name))) {
@@ -34,10 +49,8 @@ export class ConfigGlobalDirective implements OnInit {
       this.isVisible = false;
       this.viewContainerRef.clear();
     } */
-  }
 
-
-  showTemplate() {      
+/*   showTemplate() {      
     if (!this.permisos) {
       this.viewContainerRef.clear();
     }
@@ -53,7 +66,7 @@ export class ConfigGlobalDirective implements OnInit {
       this.viewContainerRef.clear();
     }
   }
-
+ */
 
 
 }

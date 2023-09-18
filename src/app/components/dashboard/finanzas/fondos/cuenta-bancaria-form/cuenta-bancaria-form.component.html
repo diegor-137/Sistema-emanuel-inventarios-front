@@ -1,0 +1,64 @@
+
+<p-card>
+    <div [formGroup]="cuentaBancariaService.form">
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-6" formGroupName="banco">
+                <span class="p-float-label">
+                  <p-dropdown [autoDisplayFirst]="false" [options]="bancos" formControlName="id" optionValue="id" optionLabel="nombre" [showClear]="true"></p-dropdown>
+                  <label for="dropdown">Bancos</label>
+              </span>           
+            </div>     
+        </div>
+        <br/>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <p-inputNumber  formControlName="numero" mode="decimal" inputId="withoutgrouping" [useGrouping]="false">
+                    </p-inputNumber>                  
+                    <label for="dropdown">No. cuenta</label>
+              </span>           
+            </div>     
+        </div>
+        <br/>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <input id="float-input" type="text" pInputText formControlName="nombre" >                   
+                    <label for="dropdown">Nombre cuenta</label>
+              </span>           
+            </div>     
+        </div>
+        <br/>
+        <!-- <div class="grid p-fluid">
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <p-inputNumber [(ngModel)]="monto" inputId="currency-us" mode="currency" currency="GTQ" locale="en-US"
+                    [ngModelOptions]="{standalone: true}">
+                    </p-inputNumber>
+                    <label for="dropdown">Monto de apertura</label>
+              </span>           
+            </div>     
+        </div> -->
+        <div class="grid p-fluid" formArrayName="detalleCuentaBancaria">
+            <div class="col-12 md:col-6" *ngFor="let control of cuentaBancariaService.Detalle.controls; index as i">
+                <span class="p-float-label" [formGroupName]="i">
+                    <p-inputNumber formControlName="monto" inputId="currency-us" mode="currency" currency="GTQ" locale="en-US">
+                    </p-inputNumber>
+                    <label for="dropdown">Monto de apertura</label>
+              </span>           
+            </div>     
+        </div>
+    </div>
+    <button pButton label="Guardar" icon="pi pi-check" (click)="crearCuenta()" [disabled]="cuentaBancariaService.form.invalid"></button>
+
+</p-card>
+
+    <pre>
+            Esado del forulario: {{cuentaBancariaService.form.valid}}
+            <br>
+            Status {{cuentaBancariaService.form.status}}
+        </pre>
+        
+        <pre>
+            {{cuentaBancariaService.form.value | json }}
+        </pre>

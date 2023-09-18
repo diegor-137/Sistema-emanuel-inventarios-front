@@ -1,3 +1,5 @@
+import { Banco, CuentaBancaria } from "../../fondos/interfaces/cuenta-bancaria"
+
 export interface Venta {
     id: number
     cliente: string
@@ -48,12 +50,14 @@ export interface DetalleCobro {
   id?:number
   descripcion:string
   cantidad:number
-  tipoCobro: TipoCobro
+  tipoTransaccion: TipoTransaccion
   icon:string
   estado: boolean
+  documento?:string
+  cuentaBancaria?:CuentaBancaria
 }
 
-interface TipoCobro {
+interface TipoTransaccion {
   
   id:number
   nombre:string
@@ -146,3 +150,4 @@ export interface Egreso{
   descripcion: string
   monto:number
 }
+

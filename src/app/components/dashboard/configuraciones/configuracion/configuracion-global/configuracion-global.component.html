@@ -1,14 +1,32 @@
-<!-- <p-toast></p-toast>
+<h3>Finanzas</h3>
 
-<div *ngIf="carga">
-    <div *ngFor="let item of permisos">
-        <mat-checkbox [(ngModel)]="item.checked">{{item.name}}</mat-checkbox>
+<div [formGroup]="service.form">
+    <h4>Cuenta en efectivo</h4>
+    <div formGroupName="efectivo">
+        <p-dropdown [options]="efectivo" formControlName="id" placeholder="Seleccione una cuenta" optionLabel="nombre" optionValue="id" [showClear]="true">
+        </p-dropdown>
     </div>
+    <br/>
+    <h5>Selecciona la cuenta por defecto en donde se registrara el efectivo de los cortes</h5>
+    <h4>Cuenta en efectivo</h4>
+    <div class="field-checkbox">
+        <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary" [ngModelOptions]="{standalone: true}" (onChange)="disableCuentas()"></p-checkbox>
+    </div>
+    <div formGroupName="cuentaBancaria">
+        <p-dropdown [options]="cuentaBancaria" formControlName="id" placeholder="Seleccione un banco" 
+        optionLabel="nombre" optionValue="id" [showClear]="true">
+            <ng-template let-item pTemplate="item">
+                <span>{{item.nombre}} {{item.numero}}</span>
+            </ng-template>
+            <ng-template let-item pTemplate="selectedItem">
+                <span>{{item.nombre}} {{item.numero}}</span>
+            </ng-template>
+        </p-dropdown>
+    </div>
+    <br/>
+    <h5>Establecer un cuenta bancaria por defecto a la hora de realizar cobros que no son en efectivo</h5>
 </div>
-<button mat-raised-button color="primary" (click)="getCheckboxes()">Guardar</button> -->
+<p-button label="Guardar" (click)="guardar()" [disabled]="service.form.invalid"></p-button>
 
-<p-messages severity="warn">
-    <ng-template pTemplate>
-        <div class="ml-2">Modulo pendiente.</div>
-    </ng-template>
-</p-messages>
+
+<p-toast position="bottom-center"></p-toast>

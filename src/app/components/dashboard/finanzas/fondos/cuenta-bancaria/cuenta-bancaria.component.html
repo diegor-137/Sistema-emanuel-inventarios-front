@@ -1,0 +1,42 @@
+<h2>
+    CUENTAS BANCARIAS
+</h2>
+<p-table
+        #dt1 [value]="cuentasBancarias" dataKey="id" dataKey="id"
+        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" 
+        [rowsPerPageOptions]="[10,25,50]"
+        styleClass="p-datatable-striped" [rowHover]="true"
+        [loading]="loading" responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                CUENTAS
+                <p-button (click)="crearCuenta()" icon="pi pi-plus-circle"></p-button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+        <tr>
+            <th field="id">Id </th>
+            <th>Cuenta</th>
+            <th>Nombre</th>
+            <th>Banco</th>
+            <th>Balance</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cuenta>
+        <tr >
+            <td>{{cuenta.id}}</td>
+            <td>{{cuenta.numero}}</td>
+            <td>{{cuenta.nombre}}</td>
+            <td>{{cuenta.banco.nombre}}</td>
+            <td>
+                <p-button label="{{cuenta.detalleCuentaBancaria[0].balance}}" styleClass="p-button-link" (click)="verDetalleCuenta(cuenta.id)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="7">No hay traslados realizados</td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-toast></p-toast> 
