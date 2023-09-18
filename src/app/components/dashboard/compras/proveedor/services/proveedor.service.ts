@@ -99,7 +99,7 @@ export class ProveedorService {
   }
 
   createProveedor():Observable<Proveedor>{
-      if(!this.form.value.credit)delete this.form.value.credito
+      //if(!this.form.value.credit)delete this.form.value.credito
       return this.http.post<Proveedor>(`${this.BASE_URL}/proveedor`,this.form.value)
   }
 

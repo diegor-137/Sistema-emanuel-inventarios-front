@@ -1,7 +1,7 @@
 import { Columns, Img, PdfMakeWrapper, Txt } from 'pdfmake-wrapper'
 import { Header } from '../interfaces/report-interfaces';
 
-export async function createHeader(propiedad:Header, pdf:PdfMakeWrapper){
+export async function createHeader(propiedad:any, pdf:PdfMakeWrapper){
         const {documento, sucursal, empleado, periodo} = propiedad
        pdf.header([
            new Txt('A Dios sea la Gloria!').alignment('center').fontSize(14).color('#047886').margin(20).end

@@ -18,6 +18,17 @@ export class ConfigSystemComponent implements OnInit {
           routerLink: 'global'
 
       },
+            {
+          label:'Region',
+          icon:'pi pi-fw pi-building',
+          items:[
+              {
+                  label:'Listado',
+                  icon:'pi pi-fw pi-list',  
+                  routerLink: 'listado-region'                    
+              }
+          ]
+      },
       {
           label:'Sucursales',
           icon:'pi pi-fw pi-building',

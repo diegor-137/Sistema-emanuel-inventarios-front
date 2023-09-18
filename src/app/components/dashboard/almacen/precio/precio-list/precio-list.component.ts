@@ -72,7 +72,9 @@ export class PrecioListComponent implements OnInit {
       res=>{
         this.toastr.success( `Modificado con Exito`,`${res.nombre} modificado`,{
           positionClass:'toast-bottom-right'      
-        })    
+        })
+        this.productoService.resetFormBuilder()
+        this.productoService.initializeFormBuilder()
       },
       err => {
         this.toastr.error(`${err.message}`, `Succedio un error`,{

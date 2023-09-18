@@ -1,0 +1,50 @@
+<h2>Region</h2>
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Registrar Region" icon="pi pi-plus" class="p-button-success mr-2"
+                (click)="openCreate()"></button>
+        </ng-template>
+    </p-toolbar>
+<p-table #dt1 [value]="Regiones" dataKey="id" [lazy]="true" (onLazyLoad)="getRegiones($event)" dataKey="id"
+    [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+    [globalFilterFields]="['id','nombre','Estado']">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="id" field="id">Id </th>
+            <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+            <th pSortableColumn="estado">Estado<p-sortIcon field="estado"></p-sortIcon></th>
+            <th>Opciones</th>
+        </tr>
+        <tr>
+                </ng-template>
+    <ng-template pTemplate="body" let-compra>
+        <tr>
+            <td>{{compra.id}}</td>
+            <td>{{compra.nombre}}</td>
+            <i class="pi" [ngClass]="{'true-icon pi-check-circle': compra.estado, 'false-icon pi-times-circle': !compra.estado}"></i>
+            <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                    (click)="openEdit(compra)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="dialog" header="{{service.titulo}} Region" [modal]="true" styleClass="p-fluid" [closable]="false"
+    [style]="{width: '50vw'}">
+
+    <ng-template pTemplate="content" [formGroup]="service.form">
+        <div class="field">
+            <label>{{service.titulo}} Region</label>
+            <input type="text" pInputText formControlName="nombre" />
+            <small *ngIf="NombreForm?.hasError('required')" class="p-error block">Debe ingresar un nombre.</small>
+            </div>
+    </ng-template>
+
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text" (click)="close()"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" (click)="service.edit? update() : create()"
+            [disabled]="service.form.invalid">{{service.titulo}}</button>
+    </ng-template>
+</p-dialog>

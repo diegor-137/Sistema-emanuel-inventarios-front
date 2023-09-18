@@ -16,7 +16,9 @@ export class SucursalesListComponent implements OnInit {
   sucursales!:Sucursal[]
   dialog=false
 
-  constructor(public readonly sucursalesService:SucursalesService, private messageService: MessageService, public dialogService: DialogService) { }
+  constructor(public readonly sucursalesService:SucursalesService, 
+              private messageService: MessageService, 
+              public dialogService: DialogService) { }
 
   ngOnInit(): void {
     this.findAll()

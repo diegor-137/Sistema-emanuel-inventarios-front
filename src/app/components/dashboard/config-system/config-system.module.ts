@@ -10,6 +10,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { UsuarioListComponent } from './usuarios/usuario-list/usuario-list.component';
 import { UsuariosComponent } from './usuarios/usuario-form/usuarios.component';
+import { RegionListComponent } from './region/region-list/region-list.component';
 
 
 
@@ -19,7 +20,8 @@ import { UsuariosComponent } from './usuarios/usuario-form/usuarios.component';
     ConfigGlobalSistemComponent,
     SucursalesListComponent,
     UsuarioListComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    RegionListComponent
   ],
   imports: [
     CommonModule,
