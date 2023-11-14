@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { ClienteService } from '../services/cliente.service';
@@ -22,13 +22,15 @@ export class ClienteFormComponent implements OnInit {
   loading:boolean = false
   matcher = new MyErrorStateMatcher();
 
+  nuevoCliente:any
+
   constructor(public service:ClienteService,
     private toastr:ToastrService,
     public dialogRef:MatDialogRef<ClienteFormComponent>) { }
 
   ngOnInit(): void {
   }
-
+  @Output() mensajeParaVenta = new EventEmitter<any>();
   
   get NombreForm(){
     return this.service.form.get('nombre')
@@ -49,13 +51,14 @@ export class ClienteFormComponent implements OnInit {
   onClose(){
     this.service.resetFormBuilder()
     this.service.initializeFormBuilder()
-    this.dialogRef.close()
+    this.dialogRef.close(this.nuevoCliente)
   }
 
   agregar(){
         this.service.createCliente()
         .subscribe(
           res => {
+            this.nuevoCliente = res
             this.toastr.success( `Agregado con Exito`,`${res.nombre} agregado`,{
               positionClass:'toast-bottom-right'      
             })

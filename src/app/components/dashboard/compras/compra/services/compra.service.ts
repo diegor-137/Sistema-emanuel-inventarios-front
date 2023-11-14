@@ -26,11 +26,12 @@ export class CompraService {
     private formBuilder:FormBuilder) {}
 
      form = this.formBuilder.group({
+      tipo:[''],
       id:[''],
       documento:[''],
       proveedor:['',(Validators.required,RequireMatch)],
       empleado:[],
-      sucursal:this.formBuilder.group({id:['']}),
+      sucursal:[],
       observacion:[''],
       estado:[true],
       detalle:this.formBuilder.array([]),
@@ -57,13 +58,12 @@ export class CompraService {
   
     initializeFormBuilder(){
       this.form.setValue({
+        tipo:'',
         id:'',
         documento:'',
         proveedor:'',
         empleado:'',
-        sucursal:{
-          id:'',
-        },
+        sucursal:'',
         observacion:'',
         detalle:[],
         estado:true,
@@ -79,7 +79,9 @@ export class CompraService {
       
       //console.log('object :>> ', data.id);
       this.getCompra(data.id).subscribe(data=>{
+        console.log(data)
          this.form.patchValue({
+          tipo:"Compra",
           id:data.id,
           documento:data.documento,
           proveedor:data.proveedor,
@@ -97,6 +99,7 @@ export class CompraService {
     llenarFormularioOrden(data:any){
       this.getOrdenCompra(data).subscribe(data=>{
         this.form.patchValue({
+          tipo:"Orden Compra",
           id:data.id,
           documento:data.documento,
           proveedor:data.proveedor,

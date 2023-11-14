@@ -137,8 +137,10 @@ export class ProductoFormComponent implements OnInit {
     //dialogConfig.width = "75%"
     const dialogo = this.dialog.open(CategoriaFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
+      this.service.form.patchValue({
+        categoria:res
+      })
       dialogConfig.disableClose = false
-      //this.getMarca()
     })
   }
 
@@ -151,8 +153,10 @@ export class ProductoFormComponent implements OnInit {
     //dialogConfig.width = "50%"
     const dialogo = this.dialog.open(MarcaFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
+      this.service.form.patchValue({
+        marca:res
+      })
       dialogConfig.disableClose = false
-      //this.getMarca()
     })
   }
 

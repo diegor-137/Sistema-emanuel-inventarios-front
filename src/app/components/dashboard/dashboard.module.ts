@@ -5,8 +5,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { InicioComponent } from './inicio/inicio.component';
-import { ComprasComponent } from './compras/compras.component';
-import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { GlobalComponentsModule } from './global-components/global-components.module';
 
 export function tokenGetter() {
@@ -25,7 +23,6 @@ export function tokenGetter() {
   declarations: [
     DashboardComponent,
     InicioComponent,
-    ComprasComponent,
   ],
   imports: [
     CommonModule,

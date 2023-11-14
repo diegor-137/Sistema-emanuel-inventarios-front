@@ -13,6 +13,9 @@ import { SucursalService } from '../../../sucursal/services/sucursal.service';
 import { Sucursal } from '../../../sucursal/interfaces/sucursal';
 import { Router } from '@angular/router';
 import { ProveedorFormComponent } from '../../proveedor/proveedor-form/proveedor-form.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ReportViewComponent } from '../../../reports/report-view/report-view.component';
+import { impresionCompra_pdf } from '../interfaces/impresion_compra_pdf';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -24,7 +27,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-compra-form',
   templateUrl: './compra-form.component.html',
-  styleUrls: ['./compra-form.component.css']
+  styleUrls: ['./compra-form.component.css'],
+  providers: [DialogService]
 })
 export class CompraFormComponent implements OnInit {
 
@@ -32,6 +36,7 @@ export class CompraFormComponent implements OnInit {
   Proveedor:Proveedor[] = []
   Empleado!:Empleado[]
   Sucursal:Sucursal[] = []
+  impresion:[]=[];
   matcher = new MyErrorStateMatcher();
   pago!: any[];
   pagoSeleccionado!: Pago 
@@ -43,6 +48,7 @@ export class CompraFormComponent implements OnInit {
               public dialogRef:MatDialogRef<CompraFormComponent>,
               private dialog:MatDialog,
               public router:Router,
+              public dialogService:DialogService,
               ) {
                 this.pago = [
                   {name: 'Contado', code: false},                  
@@ -77,6 +83,10 @@ export class CompraFormComponent implements OnInit {
     })
   }
   
+  displayFn3(nombre:Sucursal): string {
+    return nombre? nombre.nombre :nombre;
+  }
+
   displayFn(nombre:Proveedor): string {
     return nombre? nombre.nombre :nombre;
   }
@@ -157,9 +167,11 @@ export class CompraFormComponent implements OnInit {
     dialogConfig.width = "75%"
     const dialogo = this.dialog.open(ProveedorFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
+      this.service.form.patchValue({
+        proveedor:res
+      })
       dialogConfig.disableClose = false
-      //this.getMarca()
-    })
+      })
   }
 
   openProducto(){
@@ -225,6 +237,31 @@ export class CompraFormComponent implements OnInit {
     //console.log('object :>> ', this.service.form.value.id);
     this.service.llenarFormularioOrden(this.service.id)
     this.service.total()
+  }
+
+    async printPDF(){
+      interface impresion{
+        data:any,
+        total:any
+      }
+      const dato:impresion = {
+        data:this.service.form.value,
+        total:this.service.total_factura
+      }
+      console.log(this.service.total_factura)
+      console.log(dato)
+      const base64 = await impresionCompra_pdf(dato)
+      base64.getBase64(data=>{
+        this.show(data)
+      })
+    }
+
+    show(src:string){
+    const ref = this.dialogService.open(ReportViewComponent,{
+      data:{src},
+      header:'Reporte',
+      width:'80%'
+    })
   }
 }
 

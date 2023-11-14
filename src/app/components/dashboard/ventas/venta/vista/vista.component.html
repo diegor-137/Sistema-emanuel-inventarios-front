@@ -15,7 +15,14 @@
                 </h1>
                   <form class="example-form" [formGroup]="service.form" autocomplete="off">
                     <div class="row">
-
+                      
+                      <div class="form-group col-md-6" *ngIf="service.view">
+                        <mat-form-field class="ninety-width" appearance="fill">
+                          <mat-label>Fecha</mat-label>
+                          <input type="text" aria-label="Fecha" matInput [readonly]="true"
+                            value="{{service.form.value?.fecha | date:'fullDate'}}">
+                        </mat-form-field>
+                      </div>
                       
                       <div class="form-group col-md-6" >
                         <mat-form-field class="example-full-width" appearance="fill">
@@ -24,7 +31,8 @@
                                    aria-label="Empleado"
                                    matInput
                                    [readonly]="true"
-                                   formControlName="empleado">
+                                   formControlName="empleado"
+                                   value="{{service.form.value?.empleado?.nombre}} {{service.form.value?.empleado?.apellido}}">
                           </mat-form-field>
                     </div>
                         <div class="form-group col-md-6" formGroupName="sucursal">
@@ -42,11 +50,11 @@
                             <mat-form-field class="ninety-width" appearance="fill">
                               <mat-label>Cliente</mat-label>
                               <input type="text"
-                              aria-label="Empleado"
+                              aria-label="Cliente"
                               matInput
                               [readonly]="true"
-                              formControlName="empleado"     
-                              value="{{service.form.value?.empleado?.nombre}}">
+                              formControlName="cliente"     
+                              value="{{service.form.value?.cliente?.nombre}}">
                             </mat-form-field>
                          </div>        
                         <div>
@@ -103,6 +111,15 @@
                           </button>
                         </div>
                     </div>
+
+                    <div *ngIf="service.view">
+                      <button pButton pRipple type="button" label="PDF" class="p-button-rounded" icon="pi pi-print" (click)="printPDF()">
+                      </button>
+                    
+                      <button pButton pRipple type="button" label="Termica" class="p-button-rounded p-button-success" icon="pi pi-print">
+                      </button>
+                    </div>
+
                   </form>  
             </div>
         </div>

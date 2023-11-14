@@ -15,6 +15,8 @@ import { InventarioPorProductoComponent } from './compra/inventario-por-producto
 import { FormsModule } from '@angular/forms';
 import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-pagar.component';
 import { CuentasPorPagarFormComponent } from './creditos/cuentas-por-pagar-form/cuentas-por-pagar-form.component';
+import { ComprasComponent } from './compras.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 
 
@@ -30,13 +32,15 @@ import { CuentasPorPagarFormComponent } from './creditos/cuentas-por-pagar-form/
     InventarioPorProductoComponent,
     CuentaPorPagarComponent,
     CuentasPorPagarFormComponent,
+    ComprasComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     ComprasRoutingModule,
     PrimeModule,
-    FormsModule
+    FormsModule,
+    NgxExtendedPdfViewerModule,
     
   ],
   exports:[

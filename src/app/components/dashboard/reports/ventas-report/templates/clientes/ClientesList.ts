@@ -19,7 +19,7 @@ export async function resultlistadoClientes(data:any){
             ],
             ...extracData(data.result)
         ])
-            .widths([50,150,150,50,100])
+            .widths([50,100,175,50,100])
             .dontBreakRows(true)
             .layout({
                 fillColor: (rowIndex) => {
@@ -45,25 +45,7 @@ export async function resultlistadoClientes(data:any){
     return pdf.create()
 
     function extracData(data: any[]) {
-        let credito 
-        let diascredito
-        let limite
-        const array:any[] = []
-        data.forEach(elemento =>{
-            if (elemento.credito[0]=== null) {
-                credito = 'No'
-                diascredito = '-'
-                limite = '-'
-            }else{
-                credito = 'Si'
-                diascredito = elemento.credito[0].diasCredito
-                limite = elemento.credito[0].limite
-            }
-
-        array.push([ elemento.id, elemento.nombre,elemento.nit,elemento.telefono,elemento.correo,credito,diascredito,limite])
-        })
-
-        return array
+        return data.map(row=>[row.id,row.nombre,row.direccion,row.telefono,row.nit])
     }
 
 }

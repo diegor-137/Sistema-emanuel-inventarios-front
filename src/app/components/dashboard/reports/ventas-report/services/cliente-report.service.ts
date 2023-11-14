@@ -6,6 +6,7 @@ import { ResultGeneric } from '../../interfaces/report-interfaces';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ClienteReportService {
 
   private BASE_URL:string = environment.BASE_URL

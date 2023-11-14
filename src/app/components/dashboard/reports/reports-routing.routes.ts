@@ -6,6 +6,8 @@ import { ProductoReportViewComponent } from './almacen-report/views/producto-rep
 import { InventarioReportViewComponent } from './almacen-report/views/inventario-report-view/inventario-report-view.component';
 import { ProveedorReportViewComponent } from './compras-report/views/proveedor-report-view/proveedor-report-view.component';
 import { CompraReportViewComponent } from './compras-report/views/compra-report-view/compra-report-view.component';
+import { VentaReportViewComponent } from './ventas-report/views/venta-report-view/venta-report-view.component';
+import { ClienteReportViewComponent } from './ventas-report/views/cliente-report-view/cliente-report-view.component';
 
 
 const routes: Routes = [
@@ -16,6 +18,9 @@ const routes: Routes = [
       { path: 'inventario-report', component: InventarioReportViewComponent },
       { path: 'proveedor-report', component: ProveedorReportViewComponent },
       { path: 'compra-report', component: CompraReportViewComponent },
+      { path: 'venta-report', component: VentaReportViewComponent },
+      { path: 'cliente-report', component: ClienteReportViewComponent },
+      
     ]
   }];
 

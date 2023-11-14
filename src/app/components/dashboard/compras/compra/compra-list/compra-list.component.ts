@@ -62,7 +62,7 @@ export class CompraListComponent implements OnInit {
     this.service.getCompras().subscribe(data=>{
       this.Compras = data
       this.loading = false;
-      console.log(this.Compras)
+      
     })
     }, 100);
   }

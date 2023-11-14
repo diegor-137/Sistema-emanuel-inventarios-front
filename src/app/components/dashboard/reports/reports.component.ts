@@ -59,6 +59,23 @@ export class ReportsComponent implements OnInit {
               },
           ]
       },
+                  {
+          label:'Ventas',
+          icon:'pi pi-fw pi-slack',
+          items:[
+              {
+                  label:'Clientes',
+                  icon:'pi pi-fw pi-user-edit',  
+                  routerLink: 'cliente-report'                    
+              },
+
+              {
+                  label:'Ventas',
+                  icon:'pi pi-fw pi-shopping-bag',  
+                  routerLink: 'venta-report'                    
+              },
+          ]
+      },
   ];
   }
 

@@ -17,9 +17,6 @@ export class ProveedorReportViewComponent implements OnInit {
               public dialogService:DialogService) { }
 
   ngOnInit(): void {
-    this.proveedorReportService.listadoProveedores().subscribe(data=>{
-      console.log(data)
-    })
   }
 
   ListadoProveedores(){

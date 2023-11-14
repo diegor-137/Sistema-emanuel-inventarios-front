@@ -15,6 +15,7 @@ import { CuentasPorCobrarComponent } from './creditos/cuentas-por-cobrar/cuentas
 import { PrimeModule } from '../../prime/prime.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CuentasPorCobrarFormComponent } from './creditos/cuentas-por-cobrar-form/cuentas-por-cobrar-form.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 
 
@@ -39,8 +40,8 @@ import { CuentasPorCobrarFormComponent } from './creditos/cuentas-por-cobrar-for
     PrimeModule, 
     FormsModule,
     VentasRoutingModule,
-    PrimeModule,
     ReactiveFormsModule,
+    NgxExtendedPdfViewerModule,
   ]
 })
 export class VentasModule { }
