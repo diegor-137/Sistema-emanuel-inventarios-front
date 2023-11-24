@@ -40,13 +40,17 @@ export class EfectivoComponent implements OnInit {
 
   getCuentas(){
     this.efectivoService.getCuentas().subscribe(data=>{
-      data
       this.efectivo = data;
     })
   }
 
   verDetalleCuenta(id:number){
     this.router.navigate(['../efectivo-list', id], {relativeTo: this.route})
+  }
+
+  /* VENTANA PARA CAJA CHICA CAJA CHICA */
+  regresar(){
+    this.router.navigate(['../caja-gastos'], {relativeTo: this.route})
   }
 
 }

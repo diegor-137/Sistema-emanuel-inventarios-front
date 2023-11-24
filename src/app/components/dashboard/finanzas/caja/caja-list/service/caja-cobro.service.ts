@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { TipoTransaccion } from 'src/app/components/dashboard/compras/creditos/interfaces/cuenta-por-pagar';
-import { Venta } from '../../interfaces/caja-interface';
+import { Cobro, Form, Venta } from '../../interfaces/caja-interface';
 import { CuentaBancaria } from '../../../fondos/interfaces/cuenta-bancaria';
 
 @Injectable({
@@ -19,6 +19,8 @@ export class CajaCobroService {
   public form : FormGroup =  this.formBuilder.group({
     id:[],
     comentario:[],
+    venta:[],
+    token: [],
     detalleCobro: this.formBuilder.array([])
   })
 
@@ -28,7 +30,8 @@ export class CajaCobroService {
   }
 
   initForm(tipoTransaccion:TipoTransaccion[], venta:Venta){
-    this.form.patchValue({id:venta.id});
+    this.resetFormBuilder()
+    this.form.patchValue({venta:{id:venta.id}});
     tipoTransaccion.forEach(a=>{
       const group = this.formBuilder.group({
           monto:a.id==1?[venta.total, [Validators.required]]:[null],
@@ -57,9 +60,10 @@ export class CajaCobroService {
     return this.http.get<CuentaBancaria[]>(`${this.BASE_URL}/cuenta-bancaria/cuentas-encabezado`)
   }
 
-  cobrarVenta(){
-    const data = this.form.value as any;
-    data.detalleCuentaPorCobrar = data.detalleCuentaPorCobrar.filter((a:any)=>a.monto !==0 && a.monto !==null);
-    return this.http.post<any>(`${this.BASE_URL}/cuentas-por-cobrar/pagarCredito`, data);
+  cobrarVenta(resp:any){
+    this.form.controls['token'].setValue(resp.accessToken);
+    const data = this.form.value as Form;
+    data.detalleCobro = data.detalleCobro.filter((a)=>a.monto !==0 && a.monto !==null);
+    return this.http.post<Cobro>(`${this.BASE_URL}/cobro`, data);
   }
 }

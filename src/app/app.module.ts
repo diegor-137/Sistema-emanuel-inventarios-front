@@ -21,31 +21,30 @@ registerLocaleData(localePy, 'es');
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    ToastrModule.forRoot(),
-    SweetAlert2Module.forRoot(),
-    MatDialogModule,
-  ],
-  providers: [     {
-    provide: MatDialogRef,
-    useValue: {}
-  },
-  {provide: LOCALE_ID, useValue: 'es'},
-  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-  ConfirmationService, 
-  MessageService
-],
-  bootstrap: [AppComponent],
-  entryComponents:[EmpleadoFormComponent]
+    declarations: [
+        AppComponent,
+        LoginComponent,
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        SharedModule,
+        ToastrModule.forRoot(),
+        SweetAlert2Module.forRoot(),
+        MatDialogModule,
+    ],
+    providers: [{
+            provide: MatDialogRef,
+            useValue: {}
+        },
+        { provide: LOCALE_ID, useValue: 'es' },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        ConfirmationService,
+        MessageService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

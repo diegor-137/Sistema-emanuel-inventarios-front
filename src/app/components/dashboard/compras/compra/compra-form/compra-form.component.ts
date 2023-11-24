@@ -13,6 +13,9 @@ import { SucursalService } from '../../../sucursal/services/sucursal.service';
 import { Sucursal } from '../../../sucursal/interfaces/sucursal';
 import { Router } from '@angular/router';
 import { ProveedorFormComponent } from '../../proveedor/proveedor-form/proveedor-form.component';
+import { CompraContadoFormComponent } from '../compra-contado-form/compra-contado-form.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import { PagoFormComponent } from '../../pago-form/pago-form.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -24,7 +27,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-compra-form',
   templateUrl: './compra-form.component.html',
-  styleUrls: ['./compra-form.component.css']
+  styleUrls: ['./compra-form.component.css'],
+  providers: [DialogService]
 })
 export class CompraFormComponent implements OnInit {
 
@@ -33,8 +37,8 @@ export class CompraFormComponent implements OnInit {
   Empleado!:Empleado[]
   Sucursal:Sucursal[] = []
   matcher = new MyErrorStateMatcher();
-  pago!: any[];
-  pagoSeleccionado!: Pago 
+  pagoType!: any[];
+  pagoSeleccionado!: PagoType 
   constructor(public service:CompraService,
               private proveedorService:ProveedorService,
               private empleadoService:EmpleadoService,
@@ -43,8 +47,9 @@ export class CompraFormComponent implements OnInit {
               public dialogRef:MatDialogRef<CompraFormComponent>,
               private dialog:MatDialog,
               public router:Router,
+              public dialogService: DialogService
               ) {
-                this.pago = [
+                this.pagoType = [
                   {name: 'Contado', code: false},                  
                   {name: 'Credito', code: true},                  
               ];              
@@ -112,24 +117,74 @@ export class CompraFormComponent implements OnInit {
         )    
   }
 
+  /* agregar(){
+    //return console.log(this.service.form.value);
+    const {code}:{ code:boolean }= this.service.form.get('pagoType')?.value
+    if(!code){
+      const dialogConfig = new MatDialogConfig()
+      dialogConfig.disableClose = false
+      dialogConfig.autoFocus = true
+      dialogConfig.height = "50%"
+      dialogConfig.width = "60%"
+      dialogConfig.disableClose = true  
+      const dialogo = this.dialog.open(CompraContadoFormComponent,dialogConfig)
+      dialogo.afterClosed().subscribe(res=>{
+      if(res){
+        this.save();
+      }
+    })
+    }else{
+      this.save()
+    }
+     
+  } */
+
   agregar(){
     //return console.log(this.service.form.value);
-        this.service.createCompra()
-        .subscribe(
-          res => {
-            //console.log('object :>> ',res);
-            this.toastr.success( `ingresada con exito`,`Compra #${res.documento}`,{
-              positionClass:'toast-bottom-right'      
-            })
-            this.onClose()
-          },
-          err => {
-            this.toastr.error(`${err.error.message}`,`Succedio un error`,{
-              positionClass:'toast-bottom-right'      
-            })
-            console.log(err);
-          }
-        )      
+    const {code}:{ code:boolean }= this.service.form.get('pagoType')?.value
+    if(!code){
+      const ref =this.dialogService.open(PagoFormComponent, {
+        data:{
+          compra:this.service.form.value,
+          total:this.service.total_factura
+        },
+        header: 'Realizar pago compra',
+        width: '80%',
+        height:'80%',
+        contentStyle: {"max-height": "800px", "overflow": "auto"},
+        baseZIndex: 10000,
+        closable:true
+      })
+      ref.onClose.subscribe((resp)=>{
+            if(resp){
+              this.service.form.patchValue({pago:resp})
+              this.save()
+            }
+      })
+    
+    }else{
+      this.save()
+    }
+     
+  }
+
+  save(){
+    this.service.createCompra()
+    .subscribe(
+      res => {
+        //console.log('object :>> ',res);
+        this.toastr.success( `ingresada con exito`,`Compra #${res.documento}`,{
+          positionClass:'toast-bottom-right'      
+        })
+        this.onClose()
+      },
+      err => {
+        this.toastr.error(`${err.error.message}`,`Succedio un error`,{
+          positionClass:'toast-bottom-right'      
+        })
+        console.log(err);
+      }
+    ) 
   }
 
   
@@ -228,7 +283,7 @@ export class CompraFormComponent implements OnInit {
   }
 }
 
-interface Pago {
+interface PagoType {
   name: string,
   code: boolean
 }

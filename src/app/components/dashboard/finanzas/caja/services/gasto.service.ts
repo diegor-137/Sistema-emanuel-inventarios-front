@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Gasto } from '../interfaces/caja-interface';
+import { Caja, Gasto } from '../interfaces/caja-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +12,16 @@ export class GastoService {
   formGasto = this.formBuilder.group({
       documento: ['', [Validators.required]],
       descripcion:['', [Validators.required]],
+      solicitante:['', [Validators.required]],
       monto: [null, [Validators.required]],
       fotoSend: [null, [Validators.required]],
+      tipoGasto: [null, [Validators.required]],
       token: [''],
   })
 
   form = this.formBuilder.group({
-    dates:[null, [Validators.required]],
-    caja:[0, [Validators.required]],
+    dates:[null],
+    caja:[0],
   })
 
   constructor(private http:HttpClient, private formBuilder:FormBuilder) { }
@@ -28,8 +30,10 @@ export class GastoService {
     const fd = new FormData();
     fd.append("documento", gasto.documento)
     fd.append("descripcion", gasto.descripcion)
+    fd.append("solicitante", gasto.solicitante)
     fd.append("monto", String(gasto.monto))
     fd.append("fotoSend", gasto.fotoSend)
+    fd.append("tipoGasto[id]", String(gasto.tipoGasto.id))
     fd.append("token", gasto.token!)
     return this.http.post<any>(`${this.BASE_URL}/gastos`, fd);
   }
@@ -48,6 +52,10 @@ export class GastoService {
     const dates:Array<Date> = this.form.value.dates;
     const id = this.form.value.caja
     return this.http.get<Gasto[]>(`${this.BASE_URL}/gastos/deleted/all?start=${dates[0]}&end=${dates[1]}&id=${id}`)
+  }
+
+  findCuentaGasto(){
+    return this.http.get<Caja>(`${this.BASE_URL}/gastos/findCuentaGasto`);
   }
 
   

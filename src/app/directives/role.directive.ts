@@ -40,7 +40,7 @@ export class RoleDirective implements OnInit {
       this.viewContainerRef.clear();
     }
 
-    const roles: Array<String> = ['CAJERO']   
+    /* const roles: Array<String> = ['CAJERO']   
     const roleUser: Array<String> = this.authService.usuario.role;
 
     if (roleUser.some(r =>roles.includes(r))) {
@@ -51,6 +51,6 @@ export class RoleDirective implements OnInit {
           this.viewContainerRef.clear();
         }; 
       });       
-    }
+    } */
   }
 }

@@ -17,7 +17,21 @@ export class ConfiguracionesComponent implements OnInit {
             {
                 label:'Configuracion',
                 icon:'pi pi-fw pi-cog',
-                routerLink: 'config'
+                //routerLink: 'config',
+                items:[
+                    {
+                        label:'Finanzas',
+                        icon:'pi pi-fw pi-money-bill',
+                        routerLink: 'config'
+
+                    },
+                    {
+                        label:'Ventas',
+                        icon:'pi pi-fw pi-money-bill',
+                        routerLink: 'config-ventas'
+
+                    },
+                ]
 
             },
             {

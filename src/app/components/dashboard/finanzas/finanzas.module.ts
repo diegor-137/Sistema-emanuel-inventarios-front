@@ -16,7 +16,7 @@ import { MovimientosComponent } from './caja/movimientos/movimientos.component';
 import { CobroListComponent } from './caja/cobros-list/cobro-list.component';
 import { DetalleCobroComponent } from './caja/cobros-list/detalle-cobro/detalle-cobro.component';
 import { GastosComponent } from './caja/gastos/gastos.component';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IngresosComponent } from './caja/ingresos/ingresos.component';
 import { EgresosComponent } from './caja/egresos/egresos.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
@@ -28,6 +28,9 @@ import { EfectivoComponent } from './efectivo/efectivo/efectivo.component';
 import { EfectivoFormComponent } from './efectivo/efectivo-form/efectivo-form.component';
 import { EfectivoListComponent } from './efectivo/efectivo-list/efectivo-list.component';
 import { TransaccionEfectivoFormComponent } from './efectivo/transaccion-efectivo-form/transaccion-efectivo-form.component';
+import { TipoGastoComponent } from './caja/tipo-gasto/tipo-gasto.component';
+import { TipoGastoFormComponent } from './caja/tipo-gasto/tipo-gasto-form/tipo-gasto-form.component';
+import { GastoFormComponent } from './caja/gastos/gasto-form/gasto-form.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { TransaccionEfectivoFormComponent } from './efectivo/transaccion-efectiv
     EfectivoComponent,
     EfectivoFormComponent,
     EfectivoListComponent,
-    TransaccionEfectivoFormComponent
+    TransaccionEfectivoFormComponent,
+    TipoGastoComponent,
+    TipoGastoFormComponent,
+    GastoFormComponent  
   ],
   imports: [
     CommonModule,
@@ -62,6 +68,6 @@ import { TransaccionEfectivoFormComponent } from './efectivo/transaccion-efectiv
     FormsModule,
     PipesModule
   ],
-  providers: [DialogService]
+  providers: [DialogService, DynamicDialogConfig]
 })
 export class FinanzasModule { }

@@ -2,7 +2,7 @@
         <p-panel header="Datos caja">
             <div class="flex align-items-center">
                 <p-chip label="{{cobro.caja.empleado.nombre}} {{cobro.caja.empleado.apellido}}"  icon="pi pi-user" styleClass="mr-2"></p-chip>
-                <p-chip label="{{cobro.caja.lugar}}" styleClass="mr-2"><mat-icon>point_of_sale</mat-icon></p-chip>
+                <p-chip label="{{cobro.caja.nombre}}" styleClass="mr-2"><mat-icon>point_of_sale</mat-icon></p-chip>
             </div>
             <div class="grid p-fluid" >
                 <div class="col-12 md:col-6">
@@ -73,7 +73,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Descripcion</th>
-                    <th>Cantidad</th>
+                    <th>Monto</th>
                     <th>Tipo Cobro.</th>
                 </tr>
             </ng-template>
@@ -81,8 +81,8 @@
                 <tr>
                     <td>{{detalle.id}}</td>
                     <td>{{detalle.descripcion}}</td>
-                    <td>{{detalle.cantidad}}</td>
-                    <td>{{detalle.tipoCobro.nombre}}</td>
+                    <td>{{detalle.monto}}</td>
+                    <td>{{detalle.tipoTransaccion.nombre}}</td>
                 </tr>
             </ng-template>
         </p-table>

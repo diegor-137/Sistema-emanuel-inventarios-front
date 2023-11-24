@@ -2,7 +2,7 @@
         <p-panel header="Datos caja">
             <div class="flex align-items-center">
                 <p-chip label="{{corte.caja?.empleado?.nombre}} {{corte.caja?.empleado?.apellido}}"  icon="pi pi-user" styleClass="mr-2"></p-chip>
-                <p-chip label="{{corte.caja?.lugar}}" styleClass="mr-2"><mat-icon>point_of_sale</mat-icon></p-chip>
+                <p-chip label="{{corte.caja?.nombre}}" styleClass="mr-2"><mat-icon>point_of_sale</mat-icon></p-chip>
             </div>
             <div class="grid p-fluid" >
                 <div class="col-12 md:col-6">
@@ -84,9 +84,9 @@
                 <tr [pSelectableRow]="rowData" [ngClass]="{'anulado': cobro.deletedAt != null}">
                     <td>{{cobro.id}}</td>
                     <td>{{cobro.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
-                    <td>{{cobro.detalleCobro[0].cantidad}}</td>
-                    <td>{{cobro.venta.id}}</td>
-                    <td>{{cobro.venta.cliente.nombre}}</td>
+                    <td>{{cobro.monto}}</td>
+                    <td>{{cobro.venta_id}}</td>
+                    <td>{{cobro.cliente}}</td>
                     <td><p-button *ngIf="cobro.deletedAt != null" icon="pi pi-calendar" styleClass="p-button-danger" (click)="op.show($event)">
                         <p-overlayPanel #op>
                             <ng-template pTemplate>
@@ -107,43 +107,6 @@
                 </tr>
             </ng-template>
         </p-table>
-
-        <p-table [value]="gastos" [paginator]="true" [rows]="5" responsiveLayout="scroll" *ngIf="gasto">
-            <ng-template pTemplate="caption">
-                Gastos
-            </ng-template>
-            <ng-template pTemplate="header">
-                <tr>
-                    <th >No. Doc</th>
-                    <th>Descripcion</th>
-                    <th>Monto</th>
-                    <th></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-gasto>                
-                <tr [pSelectableRow]="rowData" [ngClass]="{'anulado': gasto.deletedAt != null}">
-                    <td>{{gasto.id}}</td>
-                    <td>{{gasto.descripcion}}</td>
-                    <td>{{gasto.monto}}</td>  
-                    <td><p-button *ngIf="gasto.deletedAt != null" icon="pi pi-calendar" styleClass="p-button-danger" (click)="op.show($event)">
-                        <p-overlayPanel #op>
-                            <ng-template pTemplate>
-                                {{gasto.deletedAt | date: 'EEEE, MMMM d, y, h:mm a'}}
-                            </ng-template>
-                        </p-overlayPanel>
-                    </p-button>
-                    </td>                  
-                </tr>                
-            </ng-template>
-            <ng-template pTemplate="footer">
-                <tr>
-                    <td colspan="2" class="text-right">Total</td>
-                    <td>{{totalGastos}}</td>
-                    <td></td>
-                </tr>
-            </ng-template>
-        </p-table>
-
 
         <p-table [value]="ingresos" [paginator]="true" [rows]="5" responsiveLayout="scroll" *ngIf="ingreso">
             <ng-template pTemplate="caption">
@@ -213,7 +176,7 @@
                     <th>Fecha</th>
                     <th>Descripcion</th>
                     <th>Monto</th>
-                    <th>Saldo</th>
+                    <th>Tipo Transaccion</th>
                     <th>No. Credito</th>                                        
                 </tr>
             </ng-template>
@@ -223,7 +186,7 @@
                     <td>{{cuentaPorCobrar.fecha | date: 'EEEE, MMMM d, y, h:mm a'}}</td>
                     <td>{{cuentaPorCobrar.descripcion}}</td>
                     <td>{{cuentaPorCobrar.monto}}</td>
-                    <td>{{cuentaPorCobrar.balance}}</td>
+                    <td>{{cuentaPorCobrar.tipoTransaccion.nombre}}</td>
                     <td>{{cuentaPorCobrar.cuentaPorCobrar}}</td>
                 </tr>
             </ng-template>

@@ -34,7 +34,7 @@ export class DetalleCorteComponent implements OnInit {
 
   balance(){    
    this.corte.corteCajaDetalle.forEach(resp=>{     
-   this.saldo += resp.type? Number(resp.monto): - Number(resp.monto)    
+   //this.saldo += resp.type? Number(resp.monto): - Number(resp.monto)    
      let movimiento:movimientos ={
           concepto:resp.concepto,
           ingreso:resp.type? Number(resp.monto): 0,
@@ -51,10 +51,6 @@ export class DetalleCorteComponent implements OnInit {
   cobros!:CobroDetallado[]
   totalCobros!:number
 
-  gasto=false
-  gastos!:Gasto[]
-  totalGastos!:number
-
   ingreso=false
   ingresos!:Ingreso[]
   totalIngresos!:number
@@ -69,19 +65,11 @@ export class DetalleCorteComponent implements OnInit {
   corteDetalles(){
     this.cajaCorteService.ventasCobrosCorte(this.corte.id, this.corte.caja!.id).subscribe(resp=>{
       this.cobros = resp;
-      this.totalCobros = this.cobros.reduce((sum, a)=> sum +  Number(a.detalleCobro[0].cantidad), 0.00);
+      this.totalCobros = this.cobros.reduce((sum, a)=> sum +  Number(a.monto), 0.00);
       if(this.totalCobros>0){
         this.cobro = true
       }
     });
-
-    this.cajaCorteService.gastosCorte(this.corte.id, this.corte.caja!.id).subscribe(resp=>{      
-      this.gastos = resp
-      this.totalGastos = this.gastos.reduce((sum, a)=> sum +  Number(a.monto), 0.00);
-      if(this.totalGastos>0){
-        this.gasto = true
-      }
-    })
     
     this.cajaCorteService.ingresosCorte(this.corte.id, this.corte.caja!.id).subscribe(resp=>{      
       this.ingresos = resp
@@ -100,8 +88,6 @@ export class DetalleCorteComponent implements OnInit {
     })
 
     this.cajaCorteService.cuentasPorCobrarCorte(this.corte.id, this.corte.caja!.id).subscribe(resp=>{
-      console.log(resp, 'Cuentas Por Cobrar <----');
-            
       this.cuentasPorCobrar = resp
       this.totalCuentasPorCobrar = this.cuentasPorCobrar.reduce((sum, a)=> sum +  Number(a.monto), 0.00);
       if(this.totalCuentasPorCobrar>0){

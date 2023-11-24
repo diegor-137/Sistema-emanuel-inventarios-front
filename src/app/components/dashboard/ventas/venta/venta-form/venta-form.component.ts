@@ -12,8 +12,12 @@ import { ClienteFormComponent } from '../../cliente/cliente-form/cliente-form.co
 import { ClienteService } from '../../cliente/services/cliente.service';
 import { ProductoComponent } from '../../producto/producto.component';
 import { Socket } from 'ngx-socket-io';
-import { CustomSocket } from '../../../finanzas/caja/socekts/custom-sockets'
+import { CustomSocket } from '../../socekts/custom-sockets'
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { ConfiguracionGlobalService } from '../../../configuraciones/configuracion/services/configuracion-global.service';
+import { ConfiguracionGlobal } from '../../../configuraciones/configuracion/interface/configuracion-global';
+import { DialogService } from 'primeng/dynamicdialog';
+import { CajaCobroComponent } from '../../../finanzas/caja/caja-list/caja-cobro/caja-cobro.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -25,7 +29,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-venta-form',
   templateUrl: './venta-form.component.html',
-  styleUrls: ['./venta-form.component.css']
+  styleUrls: ['./venta-form.component.css'],
+  providers: [DialogService]
 })
 export class VentaFormComponent implements OnInit {
 
@@ -36,6 +41,7 @@ export class VentaFormComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
   pago!: any[];
   pagoSeleccionado!: Pago
+  configuracionGlobal!: ConfiguracionGlobal;
 
   constructor(public service:VentaService,
     private clienteService:ClienteService,
@@ -44,7 +50,9 @@ export class VentaFormComponent implements OnInit {
     public dialogRef:MatDialogRef<VentaFormComponent>,
     private dialog:MatDialog,
     public router:Router,
-    private socket: CustomSocket) { }
+    private socket: CustomSocket,
+    public dialogService: DialogService,
+    private configuracionGlobalService: ConfiguracionGlobalService) { }
 
   ngOnInit(): void {
     this.service.form.get('cliente')?.valueChanges.subscribe(
@@ -59,6 +67,13 @@ export class VentaFormComponent implements OnInit {
       {name: 'Contado', code: false},                  
       {name: 'Credito', code: true},                  
     ];
+    this.getConfiguraciones();
+  }
+
+  getConfiguraciones(){
+    this.configuracionGlobalService.getConfiguraciones().subscribe(data =>{
+      this.configuracionGlobal = data;
+    });
   }
 
   precios(){
@@ -120,7 +135,31 @@ export class VentaFormComponent implements OnInit {
           })
           return
         }
-        this.service.createVenta()
+        if(this.configuracionGlobal.ventaCobro){
+          const {nombre}=this.service.form.controls.cliente.value
+          const ref =this.dialogService.open(CajaCobroComponent, {
+            data:{data:{id:0, cliente: nombre, fecha:new Date(), total:this.service.total_factura}},
+            header: 'Realizar pago compra',
+            width: '80%',
+            height:'80%',
+            contentStyle: {"max-height": "800px", "overflow": "auto"},
+            baseZIndex: 10000,
+            closeOnEscape: false,
+            closable: false
+          })
+          ref.onClose.subscribe((resp)=>{
+                if(resp!==false){
+                  this.service.form.patchValue({cobroVenta: resp})
+                  this.createVenta()
+                }
+          })
+        }else{
+          this.createVenta()
+        }
+  }
+
+  createVenta(){
+    this.service.createVenta()
         .subscribe(
           res => {
             //console.log('object :>> ',res);

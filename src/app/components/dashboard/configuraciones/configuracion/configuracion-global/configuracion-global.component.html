@@ -25,6 +25,12 @@
     </div>
     <br/>
     <h5>Establecer un cuenta bancaria por defecto a la hora de realizar cobros que no son en efectivo</h5>
+    <br/>
+    <h4>Cobro en ventas</h4>
+    <div class="field-checkbox">
+        <p-checkbox formControlName="ventaCobro" [binary]="true" inputId="binary"></p-checkbox>
+    </div>
+    <h5>Habilitar cobro en el punto de venta (Recuerda asignar roles de cajero al vendedor)</h5>
 </div>
 <p-button label="Guardar" (click)="guardar()" [disabled]="service.form.invalid"></p-button>
 

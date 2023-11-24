@@ -1,0 +1,16 @@
+<p-card>
+    <div [formGroup]="form">
+        <br/>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <input id="float-input" type="text" pInputText formControlName="nombre" >                   
+                    <label>Nombre</label>
+              </span>           
+            </div>     
+        </div>
+        <br/>
+    </div>
+    <button pButton label="Guardar" icon="pi pi-check" (click)="crearTipoGasto()" [disabled]="form.invalid"></button>
+
+</p-card>

@@ -8,6 +8,7 @@ import { InicioComponent } from './inicio/inicio.component';
 import { ComprasComponent } from './compras/compras.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { GlobalComponentsModule } from './global-components/global-components.module';
+import { PrimeModule } from '../prime/prime.module';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -32,7 +33,8 @@ export function tokenGetter() {
     DashboardRoutingModule,
     SharedModule,
     //SocketIoModule.forRoot(config),
-    GlobalComponentsModule
+    GlobalComponentsModule,
+    PrimeModule
   ],
   exports:[
     

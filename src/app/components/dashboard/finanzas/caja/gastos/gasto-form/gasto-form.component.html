@@ -1,0 +1,57 @@
+<p-toast></p-toast>
+<p-card>
+    <div [formGroup]="gastoService.formGasto">
+
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-8">
+                <span class="p-float-label">
+                    <input type="text" pInputText required formControlName="documento" />
+                    <label>Documento.</label>
+              </span>           
+            </div>     
+        </div>
+        <br/>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-8">
+                <span class="p-float-label">
+                    <textarea  pInputTextarea required rows="3" cols="20" formControlName="descripcion"></textarea>
+                    <label>Descripcion</label>
+                </span>           
+            </div>     
+        </div>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-8">
+                <span class="p-float-label">
+                    <textarea  pInputTextarea required rows="3" cols="20" formControlName="solicitante"></textarea>
+                    <label>Solicitante</label>
+                </span>           
+            </div>     
+        </div>
+        <br/>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-8">
+                <span class="p-float-label">
+                    <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" formControlName="monto"></p-inputNumber>
+                    <label for="price">Monto</label>
+              </span>           
+            </div>     
+        </div>
+        <br/>
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-8">
+                <span class="p-float-label">
+                    <p-dropdown inputId="dropdown" [autoDisplayFirst]="true" [options]="tipoGastos" formControlName="tipoGasto" optionLabel="nombre"></p-dropdown>
+                    <label>Tipo Gasto</label>
+                </span>
+            </div>
+         </div> 
+
+        <p-fileUpload name="foto[]" (onSelect)="onSelect($event)" accept="image/*" chooseLabel="Cargar" uploadLabel="Subir" cancelLabel="Cancelar"
+        [fileLimit]="1" [showUploadButton]="false" (onClear)="clear()">
+        </p-fileUpload>
+        
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveGasto()" [disabled]="gastoService.formGasto.invalid"></button>
+</div>
+</p-card>
+

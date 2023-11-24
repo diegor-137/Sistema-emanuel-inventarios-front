@@ -3,13 +3,13 @@
     <div class="p-toolbar-group-left" [formGroup]="cajaCorteService.form">
         <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="cortesAll()" [disabled]="cajaCorteService.form.invalid"></p-button>
         <p-calendar formControlName="dates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2"></p-calendar>
-        <p-dropdown [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true">
+        <p-dropdown [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="nombre" placeholder="Seleccione una caja" [showClear]="true">
             <ng-template let-item pTemplate="item">
-                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.nombre}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
             <ng-template let-item pTemplate="selectedItem">
-                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.nombre}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
         </p-dropdown>

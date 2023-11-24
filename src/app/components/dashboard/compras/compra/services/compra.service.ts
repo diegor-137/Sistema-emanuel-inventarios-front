@@ -35,7 +35,10 @@ export class CompraService {
       estado:[true],
       detalle:this.formBuilder.array([]),
       fecha:[''],
-      pago: ['', Validators.required],
+      pagoType: [, Validators.required],
+      cuenta: [null],
+      doc: [],
+      pago:[]
     })
 
     //rango de busqueda de registros
@@ -68,9 +71,10 @@ export class CompraService {
         detalle:[],
         estado:true,
         fecha:'',
-        pago:{
-          name: 'Contado', code: false
-        }
+        pagoType:null,
+        cuenta:null,
+        doc:null,
+        pago:null
       })
       this.total()
     }

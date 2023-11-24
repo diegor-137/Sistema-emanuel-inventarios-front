@@ -4,7 +4,8 @@ import { CuentaBancaria } from "../../../finanzas/fondos/interfaces/cuenta-banca
 export interface ConfiguracionGlobal {
     id:number
     efectivo:Atributos
-    cuentaBancaria:CuentaBancaria
+    cuentaBancaria:CuentaBancaria,
+    ventaCobro:boolean
 }
 
 

@@ -1,0 +1,27 @@
+<div [formGroup]="service.form">
+    <p-panel header="PAGO" >  
+        <div class="p-fluid grid">
+            <div class="field col-12 md:col-10">
+                <label>Cuentas</label>
+                <p-dropdown  [options]="data" formControlName="cuenta" placeholder="Seleccione una cuenta" optionLabel="nombre" [showClear]="true">
+                    <ng-template let-item pTemplate="item">
+                        <span>{{item.nombre}} {{item?.numero}}  Q. {{item.monto}} </span>
+                    </ng-template>
+                    <ng-template let-item pTemplate="selectedItem">
+                        <span>{{item.nombre}} {{item?.numero}}  Q. {{item.monto}}</span>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div  class="field col-12 md:col-10">
+                <label>Documento</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                    <input id="doc" type="text" formControlName="doc" pInputText/>                    
+                </div>
+            </div>        
+        </div>
+    </p-panel>
+</div>
+
+<button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="close()"></button>
+<button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-text" [disabled]="service.form.invalid" (click)="save()"></button>

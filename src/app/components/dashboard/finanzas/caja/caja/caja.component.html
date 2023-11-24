@@ -7,7 +7,7 @@
     </p-toolbar>
 
     <p-table #dt [value]="cajas" [rows]="10" [paginator]="true" 
-        [(selection)]="selectedCajas" [rowHover]="true" dataKey="id">
+        [rowHover]="true" dataKey="id">
         <ng-template pTemplate="header">
             <tr>
                 <th>Id</th>
@@ -21,7 +21,7 @@
         <ng-template pTemplate="body" let-caja>
             <tr>
                 <td>{{caja.id}}</td>
-                <td>{{caja.lugar}}</td>
+                <td>{{caja.nombre}}</td>
                 <td>{{caja.empleado.nombre + ' '+ caja.empleado.apellido }}</td>
                 <td><span [class]="'product-badge status-' + caja.estado">{{caja.estado}}</span></td>
                 <td>
@@ -51,15 +51,20 @@
             <small *ngIf="campoValido('empleado.id')" class="p-error block">Debe seleccionar un empleado</small>
         </div>        
         <div class="field">
-            <label >Ubicacion Caja</label>
-            <input type="text" pInputText formControlName="lugar"/>
-            <small *ngIf="campoValido('lugar')" class="p-error block">Debe ingresar una descripcion.</small>
+            <label >Nombre Caja</label>
+            <input type="text" pInputText formControlName="nombre"/>
+            <small *ngIf="campoValido('nombre')" class="p-error block">Debe ingresar una descripcion.</small>
         </div>  
         <div class="field">
             <label >Monto de apertura.</label>
             <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" formControlName="monto"></p-inputNumber>
             <small *ngIf="campoValido('monto')" class="p-error block">Debe ingresar un monto.</small>
-        </div>       
+        </div>
+        <div class="field">
+            <label >Monto Caja Chica</label>
+            <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" formControlName="montoCajaChica"></p-inputNumber>
+            <small *ngIf="campoValido('montoCajaChica')" class="p-error block">Debe ingresar un monto.</small>
+        </div>        
     </ng-template>
 
     <ng-template pTemplate="footer">

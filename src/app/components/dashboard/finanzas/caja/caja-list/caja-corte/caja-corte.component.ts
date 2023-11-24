@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { QueryParamsHandling } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Role } from 'src/app/app.roles';
 import { PasswordDialogComponent } from 'src/app/components/dashboard/global-components/password-dialog/password-dialog.component';
+import { ValidatorsFormsCustom } from 'src/app/helpers/validators-form-pay';
+import { Corte } from '../../interfaces/caja-interface';
 import { CajaCorteService } from '../../services/caja-corte.service';
 
 @Component({
@@ -13,53 +15,39 @@ import { CajaCorteService } from '../../services/caja-corte.service';
   providers: [DialogService, MessageService]
 })
 export class CajaCorteComponent implements OnInit {
-  saldo!:number
-  totalCobro!:number
-  totalCobroEfectivo!:number
-  totalCobroBanco!:number
-  totalGasto!:number
-  totalIngreso!:number
-  totalEgreso!:number
-  totalCuentasPorCobrar!:number
-  totalCuentasPorCobrarEfectivo!:number
-  totalCuentasPorCobrarBanco!:number
 
-  disabled: boolean = true;
-  balance!:number
   load=false
+  array!:any[];
   constructor(public readonly cajaCorteService: CajaCorteService, 
               private messageService: MessageService, 
               public ref: DynamicDialogRef, 
-              public dialogService: DialogService) { }
+              public dialogService: DialogService, 
+              public config: DynamicDialogConfig,
+              public validatorsFormsCustom: ValidatorsFormsCustom) { }
 
   ngOnInit(): void {    
-    this.ultimoMovimiento()
-  }
-
-  ultimoMovimiento(){
-    this.cajaCorteService.ultimoMovimiento().subscribe(resp =>{
-      this.balance = resp
-      this.detalle()
-      this.load = true
-    });
-  }
-
-  detalle(){
-    this.cajaCorteService.saldo().subscribe(resp=> this.saldo = resp);
-    this.cajaCorteService.totalCobro().subscribe(resp=>this.totalCobro = resp);
-    this.cajaCorteService.totalCobroEfectivo().subscribe(resp=>this.totalCobroEfectivo = resp);
-    this.cajaCorteService.totalCobroBanco().subscribe(resp=>this.totalCobroBanco = resp);
-    this.cajaCorteService.totalGasto().subscribe(resp=> this.totalGasto = resp);
-    this.cajaCorteService.totalIngreso().subscribe(resp=> this.totalIngreso = resp);
-    this.cajaCorteService.totalEgreso().subscribe(resp=> this.totalEgreso = resp);
-    this.cajaCorteService.totalCuentasPorCobrar().subscribe(resp=> this.totalCuentasPorCobrar = resp);
-    this.cajaCorteService.totalCuentasPorCobrarEfectivo().subscribe(resp=> this.totalCuentasPorCobrarEfectivo = resp);
-    this.cajaCorteService.totalCuentasPorCobrarBanco().subscribe(resp=> this.totalCuentasPorCobrarBanco = resp);
-  }
-
-  campoValido(campo:string){
-    return this.cajaCorteService.formCorte.get(campo)?.errors
-            && this.cajaCorteService.formCorte.get(campo)?.touched;
+    const corte:Corte=this.config.data
+    const saldo = corte.corteCajaDetalle.find(a=>a.concepto ==='SALDO')
+    this.cajaCorteService.transaccionesSinCorte().subscribe(resp=>{
+      console.log(resp);
+      
+      this.array = [
+        {descripcion: 'Saldo', monto: saldo?.monto},
+        {descripcion: 'Ventas', monto: resp.cobro, detalle:[
+          {descripcion: 'Ventas por medio bancario', monto: resp.cobroBanco},
+          {descripcion: 'Ventas en efectivo', monto: resp.cobroEfectivo}
+        ]},
+        {descripcion: 'Cuentas por cobrar', monto: resp.cuentaPorCobrar, detalle:[
+          {descripcion: 'Cuentas por cobrar medio bancario', monto: resp.cuentaPorCobrarBanco},
+          {descripcion: 'Cuentas por cobrar en Efectivo', monto: resp.cuentaPorCobrarEfectivo}
+        ]},
+        {descripcion: 'Egresos', monto: resp.egreso},
+        {descripcion: 'Ingresos', monto: resp.ingreso},
+        {descripcion: 'Total en caja', monto: resp.balance},
+        {descripcion: 'Total en efectivo', monto: Number(saldo?.monto) + Number(resp.cobroEfectivo) + Number(resp.cuentaPorCobrarEfectivo), last:true},
+      ]
+      this.load = true; 
+    });  
   }
 
   create(){

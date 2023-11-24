@@ -23,7 +23,9 @@ export class DetalleCobroComponent implements OnInit {
   getCobroDetalle(){
      this.cajaService.findCobro(this.config.data).subscribe(resp=> {
       this.cobro = resp;
-      this.load = true      
+      this.load = true
+      console.log(this.cobro);
+            
     })   
   }
 

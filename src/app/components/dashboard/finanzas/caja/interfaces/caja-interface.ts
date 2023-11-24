@@ -1,4 +1,6 @@
+import { Efectivo } from "../../efectivo/interface/efectivo"
 import { Banco, CuentaBancaria } from "../../fondos/interfaces/cuenta-bancaria"
+import { TipoGasto } from "../tipo-gasto/interface/tipo-gasto"
 
 export interface Venta {
     id: number
@@ -41,6 +43,11 @@ export interface CobroDetallado {
       direccion:string
     }    
   }
+  /* RAW  CONSULT*/
+  venta_id?:number
+  monto?:number
+  cliente?:string
+  /* RAW */
   caja:Caja
   detalleCobro:DetalleCobro[]
   deletedAt?:Date
@@ -49,12 +56,17 @@ export interface CobroDetallado {
 export interface DetalleCobro {
   id?:number
   descripcion:string
-  cantidad:number
+  monto:number
   tipoTransaccion: TipoTransaccion
   icon:string
   estado: boolean
   documento?:string
   cuentaBancaria?:CuentaBancaria
+}
+
+export interface Form {
+  id:number,
+  detalleCobro:DetalleCobro[]
 }
 
 interface TipoTransaccion {
@@ -66,10 +78,11 @@ interface TipoTransaccion {
 
 export interface Caja {
   id: number;
-  lugar: string;
+  nombre: string;
   estado:string;
   empleado: Empleado;
   status:boolean
+  efectivo:Efectivo
 }
 
 export interface Empleado {
@@ -118,6 +131,7 @@ export interface Gasto {
   id:number
   fecha:Date
   descripcion:string
+  solicitante:string
   monto:number
   documento:string
   empleado:Empleado
@@ -133,7 +147,8 @@ export interface Gasto {
     id:number,
     url:string,
     key:string
-  }
+  },
+  tipoGasto:TipoGasto;
 }
 
 

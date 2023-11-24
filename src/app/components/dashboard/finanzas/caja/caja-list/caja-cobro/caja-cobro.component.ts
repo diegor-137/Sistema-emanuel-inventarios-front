@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatInput } from '@angular/material/input';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { DetalleCobro, Venta } from '../../interfaces/caja-interface';
+import { DetalleCobro, Form, Venta } from '../../interfaces/caja-interface';
 import { CajaService } from '../../services/caja.service';
 import { PasswordDialogComponent } from '../../../../global-components/password-dialog/password-dialog.component';
 import { Role } from '../../../../../../app.roles';
@@ -27,8 +27,14 @@ export class CajaCobroComponent implements OnInit{
   bancoView!:boolean
   venta!:Venta
   configuracionGlobal!: ConfiguracionGlobal;
-  @ViewChild('inputEfectivo') inputEfectivo!: ElementRef;
-    
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event:any) {
+    event.preventDefault();
+    event.returnValue = 'Your data will be lost!';
+    this.close(false);
+    return false;
+  }
+  
   constructor(public readonly cajaCobroService:CajaCobroService,  
               private ref: DynamicDialogRef, 
               public config: DynamicDialogConfig,
@@ -76,14 +82,28 @@ export class CajaCobroComponent implements OnInit{
   }
 
   save() {
-    /* this.cajaCobroService.cobrarVenta().subscribe(()=>{
-        this.close(true);
-    }, e=>{
-      console.log(e);
-      
-    }) */
-    console.log(this.cajaCobroService.form.value);
-    
+   let ref = this.dialogService.open(PasswordDialogComponent, {
+      header: 'Credenciales',
+      width: '30%',
+      data: [Role.CAJERO, Role.ADMIN]
+    })
+    ref?.onClose.subscribe((resp:any)=>{
+      if(resp && this.venta.id !==0){
+        this.cajaCobroService.cobrarVenta(resp).subscribe({next:()=>{
+            this.close(true);
+          },error:(e)=>{
+            console.error(e)
+          }
+        }); 
+      }
+      if(resp && this.venta.id ==0){
+        this.cajaCobroService.form.controls['token'].setValue(resp.accessToken);
+        const data = this.cajaCobroService.form.value as Form;
+        data.detalleCobro = data.detalleCobro.filter((a)=>a.monto !==0 && a.monto !==null);
+        this.cajaCobroService.resetFormBuilder();
+        this.ref.close(data)
+      }
+    })
   }
 
   close(resp:boolean){

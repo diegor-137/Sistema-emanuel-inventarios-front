@@ -21,7 +21,7 @@
         <p-button icon="pi pi-briefcase" label="Corte" class="mr-2" (click)="openCorte()"></p-button>
     </ng-template>
 </p-toolbar>
-<div class="card">
+<div class="card" *ngIf="!config.ventaCobro">
     <p-table [value]="ventas" selectionMode="single" [(selection)]="ventaSelect" dataKey="id" [paginator]="true"
         [rows]="10" [scrollable]="true" (onRowSelect)="openCobro($event)" styleClass="p-datatable-striped"
         responsiveLayout="scroll">

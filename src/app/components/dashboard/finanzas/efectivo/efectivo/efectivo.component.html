@@ -1,3 +1,4 @@
+<p-button *appRole="['CAJERO']" label="Regresar" (click)="regresar()"></p-button>
 <h2>
     CUENTAS EN EFECTIVO
 </h2>
@@ -10,7 +11,7 @@
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 EFECTIVO
-                <p-button (click)="crearCuentaEfectivo()" icon="pi pi-plus-circle"></p-button>
+                <p-button *appRole="['ADMIN']" (click)="crearCuentaEfectivo()" icon="pi pi-plus-circle"></p-button>
             </div>
         </ng-template>
         <ng-template pTemplate="header">

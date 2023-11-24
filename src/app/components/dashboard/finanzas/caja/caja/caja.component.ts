@@ -50,7 +50,7 @@ export class CajaComponent implements OnInit, AfterViewChecked {
 
   editCaja(caja: Caja) {
     this.confirmationService.confirm({
-      message: `¿Estas seguro de deshabilitar la caja '${caja.lugar}' del empleado '${caja.empleado.nombre} ${caja.empleado.apellido}'?`,
+      message: `¿Estas seguro de deshabilitar la caja '${caja.nombre}' del empleado '${caja.empleado.nombre} ${caja.empleado.apellido}'?`,
       header: 'Quieres deshabilitar esta caja?',
       icon: 'pi pi-info-circle',
       accept: () => {
@@ -85,9 +85,10 @@ export class CajaComponent implements OnInit, AfterViewChecked {
   }
 
   onClear(){    
-    this.cajaConfigService.form.get('lugar')?.setErrors(null)
+    this.cajaConfigService.form.get('nombre')?.setErrors(null)
     this.cajaConfigService.form.get('empleado.id')?.setErrors(null)
     this.cajaConfigService.form.get('monto')?.setErrors(null)
+    this.cajaConfigService.form.get('montoCajaChica')?.setErrors(null)
     this.cajaConfigService.form.reset()
   }
 }

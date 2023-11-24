@@ -13,6 +13,7 @@ import { UsuariosComponent } from './usuarios/usuario-form/usuarios.component';
 import { UsuarioListComponent } from './usuarios/usuario-list/usuario-list.component';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ConfigVentasComponent } from './configuracion/config-ventas/config-ventas.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     RegionListComponent,
     RegionFormComponent,  
     UsuariosComponent,
-    UsuarioListComponent
+    UsuarioListComponent,
+    ConfigVentasComponent
   ],
   imports: [
     CommonModule,

@@ -50,6 +50,10 @@ export class CajaCorteService {
     return this.http.get<Corte>(`${this.BASE_URL}/corte-caja/${id}`);
   }
 
+  transaccionesSinCorte(){
+    return this.http.get<any>(`${this.BASE_URL}/corte-caja/transaccionesSinCorte`);
+  }
+
   saldo(){
     return this.http.get<number>(`${this.BASE_URL}/corte-caja/saldo/caja`)
               .pipe(map((resp)=>{
@@ -97,7 +101,7 @@ export class CajaCorteService {
                 })
               );
   }
-
+/* 
   totalGasto(){
     return this.http.get<number>(`${this.BASE_URL}/corte-caja/totalGasto/caja`)
               .pipe(map((resp)=>{
@@ -108,7 +112,7 @@ export class CajaCorteService {
                   return resp
                 })
               );
-  }
+  } */
 
   totalIngreso(){
     return this.http.get<number>(`${this.BASE_URL}/corte-caja/ingreso/caja`)
@@ -175,10 +179,6 @@ export class CajaCorteService {
 
   ventasCobrosCorte(idCorte:number, idCaja:number){
     return this.http.get<CobroDetallado[]>(`${this.BASE_URL}/corte-caja/detalle/ventas-cobros/${idCorte}/${idCaja}`)
-  }
-
-  gastosCorte(idCorte:number, idCaja:number){
-    return this.http.get<Gasto[]>(`${this.BASE_URL}/corte-caja/detalle/gastos/${idCorte}/${idCaja}`)
   }
 
   ingresosCorte(idCorte:number, idCaja:number){

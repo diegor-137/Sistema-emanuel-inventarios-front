@@ -15,6 +15,8 @@ import { InventarioPorProductoComponent } from './compra/inventario-por-producto
 import { FormsModule } from '@angular/forms';
 import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-pagar.component';
 import { CuentasPorPagarFormComponent } from './creditos/cuentas-por-pagar-form/cuentas-por-pagar-form.component';
+import { CompraContadoFormComponent } from './compra/compra-contado-form/compra-contado-form.component';
+import { PagoFormComponent } from './pago-form/pago-form.component';
 
 
 
@@ -30,6 +32,8 @@ import { CuentasPorPagarFormComponent } from './creditos/cuentas-por-pagar-form/
     InventarioPorProductoComponent,
     CuentaPorPagarComponent,
     CuentasPorPagarFormComponent,
+    CompraContadoFormComponent,
+    PagoFormComponent,
   ],
   imports: [
     CommonModule,

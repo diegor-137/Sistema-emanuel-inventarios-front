@@ -26,8 +26,9 @@ export class ConfiguracionGlobalComponent implements OnInit {
   }
 
   guardar(){
-    this.service.guardar().subscribe(()=>{
-      this.messageService.add({severity:'success', summary:'Guardado', detail: 'Se han guardado los cambios'});
+    this.service.guardar().subscribe({
+      next: ()=>this.messageService.add({severity:'success', summary:'Guardado', detail: 'Se han guardado los cambios'}),
+      error: (e)=>this.messageService.add({severity:'error', summary:'Error', detail: e.error.message})
     })
   }
 

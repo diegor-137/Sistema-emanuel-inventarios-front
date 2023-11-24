@@ -10,8 +10,9 @@ export class CajaConfigService {
   BASE_URL:string = 'http://[::1]:3000'
 
   form: FormGroup = this.formBuilder.group({
-      lugar:['', [Validators.required]],
+      nombre:['', [Validators.required]],
       monto:[0, [Validators.required]],
+      montoCajaChica:[0, [Validators.required]],
       empleado: this.formBuilder.group({
         id:[null,[Validators.required]]
       })

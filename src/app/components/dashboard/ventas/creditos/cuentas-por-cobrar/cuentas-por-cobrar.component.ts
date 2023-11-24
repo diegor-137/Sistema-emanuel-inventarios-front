@@ -51,7 +51,7 @@ export class CuentasPorCobrarComponent implements OnInit {
       this.cuentasPorCobrarService.getCuentasPorCobrarbyCliente(this.selectCliente?.id).subscribe(res=>{
         this.messageService.clear()
         this.cuentasPorCobrar = res;   
-        this.cuentasPorCobrar.length <=0 && !this.cuentasPorCobrarService.form.get('checked')?.value ? this.messageService.add({severity:'info', summary: 'Info', detail: `El cliente ${this.selectCliente.nombre} no tiene creditos activos`}): null;
+        //  this.cuentasPorCobrar.length <=0 && !this.cuentasPorCobrarService.form.get('checked')?.value ? this.messageService.add({severity:'info', summary: 'Info', detail: `El cliente ${this.selectCliente.nombre} no tiene creditos activos`}): null;
         this.total = this.cuentasPorCobrar?.reduce((sum, a)=> sum + Number(a.total!), 0)
         this.cuentasPorCobrarService.form.get('checked')?.value? this.headerCheckbox= true : this.headerCheckbox = false;
       });

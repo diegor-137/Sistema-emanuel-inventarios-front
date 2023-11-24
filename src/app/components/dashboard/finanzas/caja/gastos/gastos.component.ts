@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { PasswordDialogComponent } from '../../../global-components/password-dialog/password-dialog.component';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { GastoService } from '../services/gasto.service';
-import { Role } from '../../../../../app.roles';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { Caja, Gasto } from '../interfaces/caja-interface';
 import { CajaConfigService } from '../services/cajaConfig.service';
-import { AuthService } from '../../../../../auth/services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Caja, Gasto } from '../interfaces/caja-interface';
+import { PasswordDialogComponent } from '../../../global-components/password-dialog/password-dialog.component';
+import { Role } from 'src/app/app.roles';
+import { GastoFormComponent } from './gasto-form/gasto-form.component';
+
 
 @Component({
   selector: 'app-gastos',
@@ -15,128 +17,108 @@ import { AuthService } from '../../../../../auth/services/auth.service';
   providers: [DialogService, MessageService]
 })
 export class GastosComponent implements OnInit {
+
   checked: boolean = false;
   dialog!: boolean;
   gastos: Gasto[]=[];
-
+  cuentaGasto!:Caja
   selectedGasto!: any[];
-
+  load=false
   cajasList!:Caja[]
-
-  get usuario(){
-    return this.authService.usuario;
-  }
 
   total!:number;
   deleteRespon!:Array<any>
-  
+
+  items!: MenuItem[];
 
   constructor(public readonly gastoService:GastoService,
-              public dialogService: DialogService,
-              private messageService: MessageService,
-              private readonly cajaConfigService:CajaConfigService, 
-              private readonly authService:AuthService
-    ) { }
+    public dialogService: DialogService,
+    private messageService: MessageService,
+    private readonly cajaConfigService:CajaConfigService,
+    private router: Router,
+    private route:ActivatedRoute) { }
 
-  ngOnInit(): void {
-    this.cajero()
+  ngOnInit(): void {    
+    this.cajas()
+    this.findCuentaGasto()
   }
 
-  cajero(){
-    const roles = [Role.CAJERO.toString()]
-    if (this.usuario.role.some(r =>roles.includes(r))) {
-      this.gastoService.form.get('caja')?.clearValidators();
-      this.gastoService.form.get('caja')?.updateValueAndValidity();
-    }else{
-      this.gastoService.form.controls.caja.setValue(null)
-      this.cajas()
+    cajas(){
+      this.cajaConfigService.cajas().subscribe(resp => {
+        this.cajasList = resp
+        this.load = true
+      })
     }
-  }
-
-  cajas(){
-    this.cajaConfigService.cajas().subscribe(resp => this.cajasList = resp)
-  }
-
-  saveGasto(){
-    const ref = this.dialogService.open(PasswordDialogComponent, {
-      header: 'Generar Gasto.',
-      width: '30%',
-      data: [Role.CAJERO, Role.ADMIN]
-    })
-    ref.onClose.subscribe((resp:any)=>{
+  
+    findCuentaGasto(){
+      this.gastoService.findCuentaGasto().subscribe(resp=>{
+        this.cuentaGasto = resp
+      }) 
+    }
+  
+    verDetalleFondosCajaChica(){
+      this.router.navigate(['../efectivo'], {relativeTo: this.route});
+    }
+  
+  
+  
+    deleteGasto(gasto:Gasto){
+      const ref = this.dialogService.open(PasswordDialogComponent, {
+        header: 'Eliminar gasto.',
+        width: '30%',
+        data: [Role.CAJERO]
+      })
+      ref.onClose.subscribe((resp:any)=>{
         if(resp){
-          this.gastoService.formGasto.controls['token'].setValue(resp.accessToken);
-          this.gastoService.crearGasto(this.gastoService.formGasto.value).subscribe((resp)=>{
-            this.messageService.add({severity:'success', summary:'Corte Realizado', detail: 'El el cobro se ha realizado.'});
-            this.gastoService.formGasto.reset()
-            this.dialog = false;                        
-          }, e =>{
-            this.messageService.add({severity:'error', summary:'No', detail: e.error.message});    
-          })                    
+          this.gastoService.delete(gasto.id).subscribe(()=>{
+            this.messageService.add({severity:'success', summary:'Gasto eliminado', detail: 'El gasto ya ha sido eliminado'});                     
+            this.allGastos()
+          }, e => console.log(e))   
+          console.log(resp);               
         }
     })
-  }
-
-  onSelect(event:any, form:any){
-    this.gastoService.formGasto.controls.fotoSend.setValue(event.currentFiles[0])   
-  }
-
-  deleteGasto(gasto:Gasto){
-    const ref = this.dialogService.open(PasswordDialogComponent, {
-      header: 'Eliminar gasto.',
-      width: '30%',
-      data: [Role.CAJERO]
-    })
-    ref.onClose.subscribe((resp:any)=>{
-      if(resp){
-        this.gastoService.delete(gasto.id).subscribe(()=>{
-          this.messageService.add({severity:'success', summary:'Gasto eliminado', detail: 'El gasto ya ha sido eliminado'});                     
-          this.allGastos()
-        }, e => console.log(e))   
-        console.log(resp);               
-      }
-  })
-
-  }
-
-  allGastos(){
-    if(this.checked){
-      this.gastoService.findAllDeletedGastos().subscribe(resp=>{
-        this.gastos = resp
-        this.total = this.gastos.reduce((sum, a)=> sum +  Number(a.monto), 0.00);                      
-       })
-    }else{
-      this.gastoService.allGastos().subscribe(resp=>{
-        this.gastos = resp
-        this.total = this.gastos.reduce((sum, a)=> sum +  Number(a.monto), 0.00);                      
-       })
-    }     
-  }
-
-  deleteResponsible(gasto:Gasto){
-    this.deleteRespon =[
-      {
-        nombre: gasto.deleteResponsible?.nombre,
-        apellido: gasto.deleteResponsible?.apellido,
-        fecha: gasto.deletedAt
-      }
-    ]
-    
-  }
+  
+    }
+  
+    allGastos(){
+      if(this.checked){
+        this.gastoService.findAllDeletedGastos().subscribe(resp=>{
+          this.gastos = resp
+          this.total = this.gastos.reduce((sum, a)=> sum +  Number(a.monto), 0.00);                      
+         })
+      }else{
+        this.gastoService.allGastos().subscribe(resp=>{
+          this.gastos = resp
+          this.total = this.gastos.reduce((sum, a)=> sum +  Number(a.monto), 0.00);                      
+         })
+      }     
+    }
+  
+    deleteResponsible(gasto:Gasto){
+      this.deleteRespon =[
+        {
+          nombre: gasto.deleteResponsible?.nombre,
+          apellido: gasto.deleteResponsible?.apellido,
+          fecha: gasto.deletedAt
+        }
+      ]
+      
+    }
+  
+  
+    abrir() {
+      const ref = this.dialogService.open(GastoFormComponent, {
+        header: 'Crear Gasto',
+        width: '500px',
+        contentStyle: {"max-height": "500px", "overflow": "auto"},
+        baseZIndex: 10000,
+        closable: false
+      })
+  
+      ref.onClose.subscribe(()=>{
+      })
+    }
 
 
-  abrir() {
-    this.dialog = true;
-  }
 
-
-  hideDialog() {
-    this.dialog = false;
-    this.gastoService.formGasto.reset()
-  }
-
-  campoValido(campo:string){
-    return this.gastoService.formGasto.get(campo)?.errors
-            && this.gastoService.formGasto.get(campo)?.touched;
-  }
 }

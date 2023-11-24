@@ -92,7 +92,7 @@ export class CuentaPorPagarComponent implements OnInit {
             this.messageService.add({severity:'success', summary: 'Exito', detail: 'Pago realizado con exito'});
             this.selectProveedor?this.filterd():this.getTodosCuentasPorPagar();  
           }
-        })
+    })
     
   }
 

@@ -41,7 +41,8 @@ export class VentaService {
       detalle:this.formBuilder.array([    
       ]),
       fecha:[''],
-      pago: ['', Validators.required]
+      pago: ['', Validators.required], 
+      cobroVenta:[]
     })
 
     //rango de busqueda de registros
@@ -76,7 +77,8 @@ export class VentaService {
         fecha:'',
         pago:{
           name: 'Contado', code: false
-        }
+        },
+        cobroVenta:null
       })
       this.total()
     }
@@ -91,7 +93,8 @@ export class VentaService {
           sucursal:data.sucursal,
           observacion:data.observacion,
           estado:true,
-          fecha:data.createdAt
+          fecha:data.createdAt,
+          cobroVenta:null
         })
         this.form.setControl('detalle',this.setDetalle(data.detalle))
       })

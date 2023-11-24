@@ -4,13 +4,13 @@
         <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="getMovimientos()" [disabled]="movimientoService.form.invalid"></p-button>
         
         <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2" formControlName="dates"></p-calendar>
-        <p-dropdown [options]="cajasList" optionValue="id" optionLabel="lugar" placeholder="Seleccione una caja" [showClear]="true" formControlName="caja">
+        <p-dropdown [options]="cajasList" optionValue="id" optionLabel="nombre" placeholder="Seleccione una caja" [showClear]="true" formControlName="caja">
             <ng-template let-item pTemplate="item">
-                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.nombre}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
             <ng-template let-item pTemplate="selectedItem">
-                <span [class]="'product-badge status-' + item.estado">{{item.lugar}}</span>
+                <span [class]="'product-badge status-' + item.estado">{{item.nombre}}</span>
                 <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
             </ng-template>
         </p-dropdown>        

@@ -8,7 +8,8 @@ import { CajaCobroComponent } from './caja-cobro/caja-cobro.component';
 import { CajaCobroListComponent } from './caja-cobro-list/caja-cobro-list.component';
 import { CajaCorteComponent } from './caja-corte/caja-corte.component';
 import { AuthService } from '../../../../../auth/services/auth.service';
-import { CustomSocket } from '../socekts/custom-sockets';
+import { CustomSocket } from '../../../ventas/socekts/custom-sockets';
+import { ConfiguracionGlobalService } from '../../../configuraciones/configuracion/services/configuracion-global.service';
 
 @Component({
   selector: 'app-caja',
@@ -27,16 +28,20 @@ export class CajaListComponent implements OnInit{
   get usuario(){
     return this.authService.usuario;
   }
+  get config(){
+    return this.configuracionGlobalService.config;
+  }
 
   constructor(private readonly cajaService:CajaService, private messageService: MessageService, private socket: CustomSocket, public dialogService: DialogService, 
-              private readonly authService:AuthService) {
+              private readonly authService:AuthService, private configuracionGlobalService:ConfiguracionGlobalService) {
     this.upDate();
     this.ventasHoy();
     this.lastCorte();
   }
 
   ngOnInit(): void {          
-
+    this.configuracionGlobalService.getConfiguraciones().subscribe();
+    
   }
 
   /* TRAER TODAS LAS VENTAS DEL DIA.*/
@@ -71,10 +76,15 @@ export class CajaListComponent implements OnInit{
       closeOnEscape: false,
       closable: false
     }); 
+    console.log(data.data);
+    
+    this.socket.emit('getFacturas', {token: this.usuario.accessToken, idVenta:data.data.id, status:'COBRANDO'})
     
     ref.onClose.subscribe((resp) =>{
       if(resp){
         this.messageService.add({severity:'info', summary:'Cobro Realizado', detail: 'Cobro Realizado'});
+      }else{
+        this.socket.emit('getFacturas', {token: this.usuario.accessToken, idVenta:data.data.id, status:'PENDIENTE'})
       }
       this.ventaSelect = [];
       this.ventasHoy()
@@ -97,8 +107,9 @@ export class CajaListComponent implements OnInit{
 
   openCorte(){
     const ref =this.dialogService.open(CajaCorteComponent, {
+      data: this.corte,
       header: 'Realizar Corte',
-      width: '50%',
+      width: '80%',
       contentStyle: {"max-height": "500px", "overflow": "auto"},
       baseZIndex: 10000
     })

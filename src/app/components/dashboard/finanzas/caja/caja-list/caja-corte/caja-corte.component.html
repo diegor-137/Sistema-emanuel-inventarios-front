@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-toolbar>
+<!-- <p-toolbar>
     <p-button icon="pi pi-save" label="Guardar corte" styleClass="p-button-success mr-2" (onClick)="create()" [disabled]="cajaCorteService.formCorte.invalid">
     </p-button>
 </p-toolbar>
@@ -46,16 +46,6 @@
             </div>
         </div>
     </div>
-    <div class="p-fluid grid">
-        <div class="col-6">
-            <label>Gastos</label>
-            <div class="p-inputgroup">
-                <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
-                <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" [ngModel]="totalGasto" [readonly]="true"></p-inputNumber>
-            </div>
-        </div>
-    </div>
-
     <div class="p-fluid grid">
         <div class="col-6">
             <label>Egresos</label>
@@ -114,4 +104,82 @@
             <textarea rows="3" style="resize: none;" cols="30" pInputTextarea formControlName="observacion"></textarea>
         </div>
     </div>
+</div> -->
+<div *ngIf="load">
+    <p-table [value]="array" dataKey="monto" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem"></th>
+                <th>Descripcion</th>
+                <th>Monto</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-expanded="expanded">
+            <tr [ngClass]="{'row-accessories': item.last === true}">
+                <td>
+                    <button *ngIf="item.detalle" type="button" pButton pRipple [pRowToggler]="item" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td>{{item.descripcion}}</td>
+                <td>
+                    <div [ngClass]="{'outofstock': item.monto === null}">
+                        {{item.monto || 0}}                        
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-item>
+            <tr>
+                <td colspan="7">
+                    <div class="p-3">
+                        <p-table [value]="item.detalle" dataKey="id">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Descripcion</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-detalle>
+                                <tr>
+                                    <td>{{detalle.descripcion}}</td>
+                                    <td>
+                                        <div [ngClass]="{'outofstock': item.monto === null}">
+                                            {{detalle.monto || 0}}                        
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="3">There are no order for this product yet.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-toolbar>
+            <div class="p-fluid grid" [formGroup]="cajaCorteService.formCorte">
+                <div class="field col-12 md:col-12">
+                    <label>Monto a retirar</label>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+                        <p-inputNumber mode="currency" currency="GTQ" locale="es-GT" formControlName="monto"
+                        (onInput)="validatorsFormsCustom.patchPrimeNgInputValue($event, 'monto', cajaCorteService.formCorte)"
+                        ></p-inputNumber>                
+                    </div>
+                </div>
+                <div class="field col-12 md:col-12">
+                    <label>Comentario.</label>
+                    <textarea rows="3" style="resize: none;" cols="30" pInputTextarea formControlName="observacion"></textarea>
+                </div>
+                <div class="field col-12 md:col-3">
+                    <p-button icon="pi pi-save" label="Guardar corte" styleClass="p-button-success mr-2" (onClick)="create()" [disabled]="cajaCorteService.formCorte.invalid">
+                    </p-button>
+                </div>
+            </div>
+    </p-toolbar>
+
 </div>
+
