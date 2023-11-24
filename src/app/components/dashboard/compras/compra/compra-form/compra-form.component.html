@@ -44,19 +44,27 @@
                         aria-label="Empleado"
                         matInput
                         [readonly]="true"     
-                        value="{{service.form.value.empleado.nombre}} {{service.form.value.empleado.apellido}}">
+                        value="{{service.form.value?.empleado?.nombre}} {{service.form.value?.empleado?.apellido}}">
                       </mat-form-field>
                    </div>
-                        <div class="form-group col-md-6" formGroupName="sucursal"  *ngIf="service.view">
-                          <mat-form-field class="example-full-width" appearance="fill">
+                        <div class="form-group col-md-6" *ngIf="service.view">
+
+                            <mat-form-field class="ninety-width" appearance="fill">
                               <mat-label>Sucursal</mat-label>
-                              <mat-select formControlName="id" name="id_dep">
-                                <mat-option *ngFor="let suc of Sucursal" [value]="suc.id">
+                              <input type="text" aria-label="Sucursal" matInput formControlName="sucursal"
+                                [matAutocomplete]="auto3" [readonly]="service.view">
+                              <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="displayFn">
+                                <mat-option *ngFor="let suc of Sucursal" [value]="suc">
                                   {{suc.nombre}}
                                 </mat-option>
-                              </mat-select>
+                              </mat-autocomplete>
+                              <mat-error *ngIf="ProveedorForm?.hasError('incorrect')">
+                                Por favor selecciona un proveedor valido
+                              </mat-error>
                             </mat-form-field>
+
                       </div>
+
                         <div class="form-group col-md-3">
                             <mat-form-field class="ninety-width" appearance="fill">
                               <mat-label>Proveedor</mat-label>
@@ -166,22 +174,25 @@
                           {{service.nuevo}} {{service.Titulo}}
                       </button>
                     </div>
-                    <div class="mt-3 center" *ngIf="service.view">
+                    <div class="m-2 center " *ngIf="service.view">
                       <button type="button"  *ngIf="service.orden" (click)="continuarOrden()" 
                       class="btn btn-danger mx-3">
                           Continuar Listado
                       </button>
                     </div>
+
+                    <div *ngIf="service.view">  
+                      <button pButton pRipple type="button" label="PDF" 
+                      class="p-button-rounded" icon="pi pi-print"
+                      (click)="printPDF()">  
+                    </button>
+                    
+                      <button pButton pRipple type="button" label="Termica" 
+                      class="p-button-rounded p-button-success" icon="pi pi-print">
+                    </button>
+                    </div>
+
                   </form>  
-                  <pre>
-                    Esado del forulario: {{service.form.valid}}
-                    <br>
-                    Status {{service.form.status}}
-                </pre>
-                
-                <pre>
-                    {{service.form.value | json }}
-                </pre> 
             </div>
         </div>
     </div>

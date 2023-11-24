@@ -17,6 +17,8 @@ import { CuentaPorPagarComponent } from './creditos/cuenta-por-pagar/cuenta-por-
 import { CuentasPorPagarFormComponent } from './creditos/cuentas-por-pagar-form/cuentas-por-pagar-form.component';
 import { CompraContadoFormComponent } from './compra/compra-contado-form/compra-contado-form.component';
 import { PagoFormComponent } from './pago-form/pago-form.component';
+import { ComprasComponent } from './compras.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 
 
@@ -34,13 +36,15 @@ import { PagoFormComponent } from './pago-form/pago-form.component';
     CuentasPorPagarFormComponent,
     CompraContadoFormComponent,
     PagoFormComponent,
+    ComprasComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     ComprasRoutingModule,
     PrimeModule,
-    FormsModule
+    FormsModule,
+    NgxExtendedPdfViewerModule,
     
   ],
   exports:[

@@ -31,6 +31,15 @@ export class CompraListComponent implements OnInit {
     }
 
   ngOnInit(): void {
+        this.service.range.reset({
+      dates:''
+    })
+    this.service.range.setValue({
+      dates:''
+    })    
+    this.service.range.setValue({
+      dates:this.service.fechas
+    })
     this.dateYesterday = new Date(this.dateYesterday.setDate(this.dateYesterday.getDate() - 1))
     this.service.fechas.push(this.dateYesterday,this.dateToday)
   }
@@ -53,6 +62,7 @@ export class CompraListComponent implements OnInit {
     this.service.getCompras().subscribe(data=>{
       this.Compras = data
       this.loading = false;
+      
     })
     }, 100);
   }

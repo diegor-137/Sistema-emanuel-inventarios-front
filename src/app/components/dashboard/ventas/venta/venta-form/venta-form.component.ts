@@ -196,8 +196,10 @@ export class VentaFormComponent implements OnInit {
     dialogConfig.width = "75%"
     const dialogo = this.dialog.open(ClienteFormComponent,dialogConfig)
     dialogo.afterClosed().subscribe(res=>{
+      this.service.form.patchValue({
+        cliente:res
+      })
       dialogConfig.disableClose = false
-      //this.getMarca()
     })
   }
 

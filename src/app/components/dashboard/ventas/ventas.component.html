@@ -1,20 +1,6 @@
-<mat-toolbar *appRole="['ADMIN', 'EMPLEADO']">
-    <button mat-button class="menu-button" routerLink="/dashboard/ventas/venta">
-      <mat-icon>format_list_bulleted</mat-icon>
-      <span>Ver Ventas Hechas</span>
-    </button>
-    <button mat-button class="menu-button" routerLink="/dashboard/ventas/cotizacion">
-      <mat-icon>format_list_bulleted</mat-icon>
-      <span>Ver Cotizaciones</span>
-    </button>
-    <button mat-button class="menu-button" routerLink="/dashboard/ventas/venta-form">
-    <mat-icon>list_alt</mat-icon>
-    <span>Nueva Venta</span>
-    </button>
-    <button mat-button class="menu-button" routerLink="/dashboard/ventas/cuentas-por-cobrar">
-      <mat-icon>list_alt</mat-icon>
-      <span>Cuentas por cobrar</span>
-      </button>
-  </mat-toolbar>
 
-<router-outlet></router-outlet> 
+<h2>Departamento de Ventas</h2>
+<p-menubar [model]="items" *appRole="['ADMIN', 'EMPLEADO']"></p-menubar>
+<p-card>
+  <router-outlet></router-outlet>
+</p-card>

@@ -98,6 +98,10 @@ export class ProductoListComponent implements OnInit {
     dialogConfig.autoFocus = true
     dialogConfig.height = "90%"
     const dialog = this.dialog.open(ProductoFormComponent,dialogConfig)
-    dialog.afterClosed().subscribe(res => this.getProductos())
+    dialog.afterClosed().subscribe(res => {
+      this.getProductos()
+      this.service.resetFormBuilder() 
+      this.service.initializeFormBuilder()
+    })
   }
 }

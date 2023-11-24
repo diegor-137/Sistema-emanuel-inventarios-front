@@ -6,11 +6,15 @@ import { EmpleadoService } from '../../../recursos-humanos/empleado/services/emp
 import { SucursalService } from '../../../sucursal/services/sucursal.service';
 import { ClienteService } from '../../cliente/services/cliente.service';
 import { VentaService } from '../services/venta.service';
+import { DialogService } from 'primeng/dynamicdialog';
+import { impresionVenta_pdf } from '../interfaces/impresion_venta_pdf';
+import { ReportViewComponent } from '../../../reports/report-view/report-view.component';
 
 @Component({
   selector: 'app-vista',
   templateUrl: './vista.component.html',
-  styleUrls: ['./vista.component.css']
+  styleUrls: ['./vista.component.css'],
+  providers: [DialogService]
 })
 export class VistaComponent implements OnInit {
 
@@ -18,7 +22,8 @@ export class VistaComponent implements OnInit {
     public dialogRef:MatDialogRef<VistaComponent>,
     private toastr:ToastrService,
     private dialog:MatDialog,
-    public router:Router) { }
+    public router:Router,
+    public dialogService:DialogService,) { }
 
   ngOnInit(): void {
   }
@@ -52,5 +57,34 @@ export class VistaComponent implements OnInit {
          }
        )      
  }
-  
+
+  async printPDF(){
+    interface impresion{
+      data:any,
+      total:any
+    }
+    const dato:impresion = {
+      data:this.service.form.value,
+      total:this.service.total_factura
+    }
+    console.log(this.service.total_factura)
+    console.log(dato)
+    const base64 = await impresionVenta_pdf(dato)
+    base64.getBase64(data=>{
+      this.show(data)
+    })
+  }
+
+    show(src:string){
+    const ref = this.dialogService.open(ReportViewComponent,{
+      data:{src},
+      header:'Reporte',
+      width:'80%'
+    })
+  }
+
+  printThermal(id:number){
+    this.service.imprimirVenta(id)
+  }
 }
+  

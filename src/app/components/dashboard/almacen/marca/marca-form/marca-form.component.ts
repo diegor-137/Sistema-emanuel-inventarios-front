@@ -23,6 +23,8 @@ export class MarcaFormComponent implements OnInit {
   loading:boolean = false
   matcher = new MyErrorStateMatcher();
 
+  nuevaMarca:any
+
   constructor(public service:MarcaService,
               private toastr:ToastrService,
               public dialogRef:MatDialogRef<MarcaFormComponent>) { }
@@ -37,13 +39,14 @@ export class MarcaFormComponent implements OnInit {
   onClose(){
     this.service.resetFormBuilder()
     this.service.initializeFormBuilder()
-    this.dialogRef.close()
+    this.dialogRef.close(this.nuevaMarca)
   }
 
   agregar(){
       this.service.createMarca()
       .subscribe(
         res => {
+          this.nuevaMarca = res
           this.toastr.success( `Agregado con Exito`,`${res.nombre} agregado`,{
             positionClass:'toast-bottom-right'      
           })

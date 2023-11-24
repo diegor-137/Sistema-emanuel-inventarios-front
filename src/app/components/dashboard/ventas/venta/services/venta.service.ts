@@ -29,6 +29,7 @@ export class VentaService {
               private validadores:ValidadoresService) {}
 
      form = this.formBuilder.group({
+      tipo:[''],
       id:[''],
       cliente:['',(Validators.required,RequireMatch)],
       empleado:['',],
@@ -64,6 +65,7 @@ export class VentaService {
   
     initializeFormBuilder(){
       this.form.setValue({
+        tipo:'',
         id:'',
         cliente:'',
         empleado:'',
@@ -87,6 +89,7 @@ export class VentaService {
       this.getVenta(data.id).subscribe(data=>{
         //console.log('object :>> ', data.detalle);
          this.form.patchValue({
+          tipo:"Venta",
           id:data.id,
           cliente:data.cliente,
           empleado:data.empleado,
@@ -105,6 +108,7 @@ export class VentaService {
       this.getCotizacion(data.id).subscribe(data=>{
          //console.log('datos cargados', data);
          this.form.patchValue({
+          tipo:"Cotizacion",
           id:data.id,
           cliente:data.cliente,
           empleado:data.empleado,
@@ -129,7 +133,8 @@ export class VentaService {
           precio_compra:e.producto.costo_prom,
           precio_venta:e.precio_venta,
           precio_seleccionado:e.precio_seleccionado,
-          precios:e.precios
+          precios:e.precios,
+          subtotal:+e.cantidad*+e.precio_venta
         }))
       }) 
       return formArray;
@@ -269,7 +274,12 @@ export class VentaService {
       return this.http.delete<Venta>(`${this.BASE_URL}/venta/${id}`)
   }
   
-  
+  /**********************IMPRIMIR VENTA*************************/
+    imprimirVenta(id:number){
+      return this.http.get<Venta>(`${this.BASE_URL}/ventaventa/reportefactura/${id}`)
+  }
+
+
   getProductos():Observable<Producto[]>{
     return this.http.get<Producto[]>(`${this.BASE_URL}/producto/transacciones`)
   }

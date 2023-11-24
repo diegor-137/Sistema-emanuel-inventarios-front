@@ -10,7 +10,7 @@
                     <mat-icon>summarize</mat-icon> 
                     <span>Cotizacion</span>
                   </button>
-                <h1> {{service.nuevo}} {{service.Titulo}} : {{service.fecha | date:'short'}}
+                <h1> {{service.nuevo}} {{service.Titulo}}
                   <div *ngIf="loading" class="spinner-border" role="status">
                       <span class="visually-hidden float-right">Loading...</span>
                   </div>
@@ -50,7 +50,7 @@
                         </div>
              
                         <button *ngIf="!service.view" type="button" class="btn btn-primary btn-block" (click)="openProducto()">+ Agregar Productos</button>
-                        
+
                         <div>
                             <div class="row" formArrayName="detalle" class="mt-4" >
                                 <div class="col">

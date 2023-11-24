@@ -23,6 +23,7 @@ export class CategoriaFormComponent implements OnInit {
   loading:boolean = false
 
   matcher = new MyErrorStateMatcher();
+  nuevaCategoria:any
 
   constructor(public service:CategoriaService,
               private toastr:ToastrService,
@@ -38,13 +39,14 @@ export class CategoriaFormComponent implements OnInit {
   onClose(){
     this.service.resetFormBuilder()
     this.service.initializeFormBuilder()
-    this.dialogRef.close()
+    this.dialogRef.close(this.nuevaCategoria)
   }
 
   agregar(){
       this.service.createCategoria()
       .subscribe(
         res => {
+          this.nuevaCategoria = res
           this.toastr.success( `Agregado con Exito`,`${res.nombre} agregado`,{
             positionClass:'toast-bottom-right'      
           })

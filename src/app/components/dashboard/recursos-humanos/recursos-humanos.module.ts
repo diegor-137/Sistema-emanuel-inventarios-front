@@ -13,6 +13,7 @@ import { EmpleadoFormComponent } from './empleado/empleado-form/empleado-form.co
 import { EmpleadoListComponent } from './empleado/empleado-list/empleado-list.component';
 import { RecursosHumanosComponent } from './recursos-humanos.component';
 import { HistorialEmpComponent } from './empleado/historial-emp/historial-emp.component';
+import { PrimeModule } from '../../prime/prime.module';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { HistorialEmpComponent } from './empleado/historial-emp/historial-emp.co
     CommonModule,
     SharedModule,
     RecursosHumanosRoutingModule,
+    PrimeModule,
  
   ]
 })

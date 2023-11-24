@@ -16,5 +16,11 @@ export interface Header {
         nombre:string
         apellido:string
     }
-    periodo:string
+    periodo?:string
+}
+
+
+export interface ResultGeneric{
+        header:Header
+        resultado:any[]
 }

@@ -1,0 +1,13 @@
+<h2>Clientes</h2>
+<p-toolbar [formGroup]="ventaReportService.formVenta">
+    <h3 class="titles">Listado Ventas</h3> 
+        <div class="form-group">
+            <label for="" class="mr-2">Seleccione Fechas: </label>
+            <p-calendar selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2"
+                formControlName="dates"></p-calendar>
+        </div>
+    <p-button label="Ventas" icon="pi pi-plus" class="mr-2" [disabled]="ventaReportService.formVenta.invalid"
+        (onClick)="listadoVentas(true)"></p-button>
+    <p-button label="Ventas Anuladas" icon="pi pi-plus" class="mr-2" [disabled]="ventaReportService.formVenta.invalid" 
+        (onClick)="listadoVentas(false)"></p-button>
+</p-toolbar>

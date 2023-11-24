@@ -22,6 +22,8 @@ export class ProveedorFormComponent implements OnInit {
   loading:boolean = false
   matcher = new MyErrorStateMatcher();
 
+  nuevoProveedor:any
+
   constructor(public service:ProveedorService,
     private toastr:ToastrService,
     public dialogRef:MatDialogRef<ProveedorFormComponent>) { }
@@ -52,13 +54,14 @@ export class ProveedorFormComponent implements OnInit {
   onClose(){
     this.service.resetFormBuilder()
     this.service.initializeFormBuilder()
-    this.dialogRef.close()
+    this.dialogRef.close(this.nuevoProveedor)
   }
 
   agregar(){
         this.service.createProveedor()
         .subscribe(
           res => {
+            this.nuevoProveedor = res
             this.toastr.success( `Agregado con Exito`,`${res.nombre} agregado`,{
               positionClass:'toast-bottom-right'      
             })
