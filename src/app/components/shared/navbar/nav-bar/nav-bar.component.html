@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
     <span>App</span>
     <span class="example-spacer"></span>
-    <button mat-button >{{usuario.user + ' '+ usuario.role}}</button>
+    <button mat-button >{{usuario.user + ' '+ usuario.role+' '+usuario.empleado.sucursal.nombre}}</button>
     <span class="example-spacer"></span>
     <button (click)="logout()" mat-icon-button>
       <mat-icon>logout</mat-icon>

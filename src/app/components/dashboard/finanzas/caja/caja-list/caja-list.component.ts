@@ -78,14 +78,14 @@ export class CajaListComponent implements OnInit{
     }); 
     console.log(data.data);
     
-    this.socket.emit('getFacturas', {token: this.usuario.accessToken, idVenta:data.data.id, status:'COBRANDO'})
+    /* this.socket.emit('getFacturas', {token: this.usuario.accessToken, idVenta:data.data.id, status:'COBRANDO'}) */
     
     ref.onClose.subscribe((resp) =>{
       if(resp){
         this.messageService.add({severity:'info', summary:'Cobro Realizado', detail: 'Cobro Realizado'});
-      }else{
+      }/* else{
         this.socket.emit('getFacturas', {token: this.usuario.accessToken, idVenta:data.data.id, status:'PENDIENTE'})
-      }
+      } */
       this.ventaSelect = [];
       this.ventasHoy()
     });

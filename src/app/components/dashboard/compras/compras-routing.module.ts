@@ -18,7 +18,7 @@ const routes: Routes = [
 
     {path:'proveedor', component:ProveedorListComponent},
     {path:'proveedor-form', component:ProveedorFormComponent},
-    {path: 'cuenta-por-pagar', component: CuentaPorPagarComponent},
+    {path:'cuenta-por-pagar', component: CuentaPorPagarComponent},
     {path:'', component:InicioComprasComponent},
     {path:'**', redirectTo:'', pathMatch:'full'},
 

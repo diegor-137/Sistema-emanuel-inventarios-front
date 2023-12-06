@@ -4,6 +4,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Sucursal } from '../interfaces/sucursal-interface';
 import { SucursalesService } from '../services/sucursales.service';
 import { AsyncValidatorFn } from '@angular/forms';
+import { Region } from '../../region/interfaces/region-interface';
 
 @Component({
   selector: 'app-sucursales-list',
@@ -13,6 +14,7 @@ import { AsyncValidatorFn } from '@angular/forms';
 })
 export class SucursalesListComponent implements OnInit {
 
+  regiones!:Region[]
   sucursales!:Sucursal[]
   dialog=false
 
@@ -22,7 +24,14 @@ export class SucursalesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.findAll()
+    this.getRegiones()
   }
+
+  getRegiones(){
+    this.sucursalesService.getRegiones().subscribe(regiones=>{
+      this.regiones = regiones
+    })
+}
 
   create(){
     this.sucursalesService.create(this.sucursalesService.form.value).subscribe((sucursal:Sucursal)=>{

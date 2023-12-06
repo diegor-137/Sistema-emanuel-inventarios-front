@@ -20,7 +20,7 @@ export class ConfiguracionGlobalService {
   form=this.formBuilder.group({
     id:[], 
     efectivo: this.formBuilder.group({
-      id:[null,[Validators.required] ], 
+      id:[null], 
       nombre:[null]
     }),
     cuentaBancaria: this.formBuilder.group({

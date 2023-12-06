@@ -10,10 +10,10 @@
     <span>Home</span>
 </button>
 
-<mat-divider></mat-divider>
+<mat-divider *appRole="['RRHH']"></mat-divider>
 
 <!-- RECURSOS HUMANOS -->
-<div *appRole="['ADMIN']">
+<div *appRole="['RRHH']">
 
     <button mat-button class="menu-button" routerLink="/dashboard/rr-hh">
         <mat-icon>person</mat-icon>
@@ -22,7 +22,7 @@
 </div>
 
 <!-- ALMACEN -->
-<div *appRole="['ADMIN']">
+<div *appRole="['ADMIN', 'COMPRAS', 'BODEGUERO']">
     <mat-divider></mat-divider>
     <button mat-button class="menu-button" routerLink="/dashboard/almacen">
         <mat-icon>inventory_2</mat-icon>
@@ -31,7 +31,7 @@
 </div>
 
 <!-- COMPRAS -->
-<div *appRole="['ADMIN']">
+<div *appRole="['COMPRAS']">
     <mat-divider></mat-divider>
     <button mat-button class="menu-button" routerLink="/dashboard/compras">
         <mat-icon>storefront</mat-icon>
@@ -40,7 +40,7 @@
 </div>
 
 <!-- VENTAS -->
-<div *appRole="['ADMIN','EMPLEADO']">
+<div *appRole="['ADMIN','VENTAS']">
     <mat-divider></mat-divider>
     <button mat-button class="menu-button" routerLink="/dashboard/ventas">
         <mat-icon>storefront</mat-icon>
@@ -58,7 +58,7 @@
 </div>
 
 <!-- FINANZAS -->
-<div>
+<div *appRole="['ADMIN', 'CAJERO', 'COMPRAS']">
     <mat-divider></mat-divider>
     <button  mat-button class="menu-button" routerLink="/dashboard/finanzas/caja-ingresos">
         <mat-icon>settings_applications</mat-icon>
@@ -87,15 +87,16 @@
 </div>
 
 <!-- REPORTES -->
-<div>
+<div *appRole="['ADMIN', 'COMPRAS']">
     <mat-divider></mat-divider>
-    <button *appRole="['ADMIN']" mat-button class="menu-button" routerLink="/dashboard/reportes">
+    <button  mat-button class="menu-button" routerLink="/dashboard/reportes">
         <mat-icon>assignment</mat-icon>
         <span>Reportes</span>
     </button>   
 </div>
 
 <div *appRole="['SUPERADMIN']">
+    <mat-divider></mat-divider>
     <button mat-button class="menu-button" routerLink="/dashboard/configuracion-system/sucursales">
         <mat-icon>settings</mat-icon>
         <span>Config</span>

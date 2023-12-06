@@ -27,13 +27,13 @@ export class CajaCobroComponent implements OnInit{
   bancoView!:boolean
   venta!:Venta
   configuracionGlobal!: ConfiguracionGlobal;
-  @HostListener('window:beforeunload', ['$event'])
+  /* @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event:any) {
     event.preventDefault();
     event.returnValue = 'Your data will be lost!';
     this.close(false);
     return false;
-  }
+  } */
   
   constructor(public readonly cajaCobroService:CajaCobroService,  
               private ref: DynamicDialogRef, 

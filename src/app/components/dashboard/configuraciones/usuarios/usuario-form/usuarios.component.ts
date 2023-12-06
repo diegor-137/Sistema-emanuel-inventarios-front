@@ -13,7 +13,7 @@ import { Validators } from '@angular/forms';
   providers: [MessageService] 
 })
 export class UsuariosComponent implements OnInit, OnDestroy {
-  roles= [Role.BODEGUERO,Role.CAJERO,Role.EMPLEADO]
+  roles= [Role.BODEGUERO,Role.CAJERO,Role.EMPLEADO, Role.VENTAS]
   constructor(public usuarioService:UsuarioService, private ref: DynamicDialogRef, private messageService: MessageService) {}
   ngOnDestroy(): void {
     this.usuarioService.form.reset()

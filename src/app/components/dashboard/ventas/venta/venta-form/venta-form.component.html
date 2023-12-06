@@ -43,7 +43,7 @@
                             </a>
                         </div>
                         <div class="form-group col-md-4" *ngIf="service.Titulo=='Venta'">
-                          <span class="p-float-label">
+                          <span class="p-float-label" *appRole="['PENDIENTE']">
                             <p-dropdown [autoDisplayFirst]="false" [options]="pago" formControlName="pago" optionLabel="name" [showClear]="true"></p-dropdown>
                             <label for="dropdown">Forma Pago</label>
                         </span>           

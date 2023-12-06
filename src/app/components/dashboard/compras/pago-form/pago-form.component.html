@@ -86,3 +86,12 @@
     <small *ngIf="pagoService.getArrayDetalle.errors" class="p-error block">El monto deber ser igual al Saldo</small>
 </div>
 
+<pre>
+    Estado del forulario: {{pagoService.form.valid}}
+    <br>
+    Status {{pagoService.form.status}}
+</pre>
+
+<pre>
+    {{pagoService.form.value | json }}
+</pre>

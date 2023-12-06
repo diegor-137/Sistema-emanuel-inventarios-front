@@ -48,7 +48,7 @@ export class RecepcionComponent implements OnInit {
   verTraslado(envio:Envio, transactions:boolean){
     this.envioService.initializeFormBuilder();
     this.envioService.llenarFormulario(envio)
-    this.trasladoService.buscarTraslado(envio.traslado.id).subscribe(data=>{
+    this.trasladoService.buscarTrasladoLocal(envio.traslado.id).subscribe(data=>{
       this.trasladoService.llenarFormulario(data);
     })
     const ref =this.dialogService.open(TrasladosFormComponent, {

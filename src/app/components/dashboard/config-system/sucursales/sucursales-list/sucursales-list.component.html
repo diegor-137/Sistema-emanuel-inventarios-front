@@ -61,6 +61,17 @@
         <div class="field" style="text-align:center;">
             <p-image [src]="sucursalesService.form.get('foto')?.value | nophoto" alt="Image" width="115" *ngIf="sucursalesService.form.controls['id'].value"></p-image>
         </div>
+        <div class="col-12 md:col-6 lg:col-6 field" formGroupName="region">
+            <label>Region</label>
+            <p-dropdown class="mr-2" [options]="regiones" formControlName="id" optionValue="id" optionLabel="nombre" placeholder="Seleccione una region" [showClear]="true">
+                <ng-template let-item pTemplate="item">
+                    <span>{{item.nombre}}</span>
+                </ng-template>
+                <ng-template let-item pTemplate="selectedItem">
+                    <span>{{item.nombre}}</span>
+                </ng-template>
+            </p-dropdown>
+        </div>
         <p-fileUpload #form name="foto[]" (onSelect)="onSelect($event, form)" accept="image/*" chooseLabel="Cargar" uploadLabel="Subir" cancelLabel="Cancelar"
         [fileLimit]="1" [showUploadButton]="false">
             <ng-template pTemplate="content">

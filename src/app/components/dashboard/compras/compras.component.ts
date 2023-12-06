@@ -36,7 +36,7 @@ export class ComprasComponent implements OnInit {
             {
         label:'Cuentas por pagar',
         icon:'pi pi-fw pi-list',
-        routerLink: 'pi-list'      
+        routerLink: 'cuenta-por-pagar'      
       },
     ]
   }

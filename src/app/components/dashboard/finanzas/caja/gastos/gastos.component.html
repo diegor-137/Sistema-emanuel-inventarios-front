@@ -1,16 +1,15 @@
 <p-toast></p-toast>
 <h2>GASTOS CAJA</h2>
-<div *ngIf="load">
+<div>
     <p-toolbar>
             <ng-template pTemplate="right">
-                <button *appRole="['CAJERO']" pButton pRipple label="Generar Gasto" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrir()"></button>
-                <p-button *appRole="['CAJERO']" label="Fondos Caja Chica" icon="pi pi-plus" class="mr-2" (onClick)="verDetalleFondosCajaChica()"></p-button>
+                <button *appRole="['ADMIN']" pButton pRipple label="Generar Gasto" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrir()"></button>
             </ng-template>
     
             <ng-template pTemplate="left" [formGroup]="gastoService.form">            
                 <p-button label="Buscar" icon="pi pi-plus" class="mr-2" (onClick)="allGastos()" [disabled]="gastoService.form.invalid"></p-button>
                 <p-calendar formControlName="dates" selectionMode="range" [readonlyInput]="true" [showIcon]="true" class="mr-2"></p-calendar>
-                <p-dropdown  class="mr-2" *appRole="['ADMIN']" [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="nombre" placeholder="Seleccione una caja" [showClear]="true">
+<!--                 <p-dropdown  class="mr-2" *appRole="['ADMIN']" [options]="cajasList" formControlName="caja" optionValue="id" optionLabel="nombre" placeholder="Seleccione una caja" [showClear]="true">
                     <ng-template let-item pTemplate="item">
                         <span [class]="'product-badge status-' + item.estado">{{item.nombre}}</span>
                         <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
@@ -19,7 +18,7 @@
                         <span [class]="'product-badge status-' + item.estado">{{item.nombre}}</span>
                         <span [class]="'product-badge status-empleado'">{{item.empleado.nombre}} {{item.empleado.apellido}}</span>
                     </ng-template>
-                </p-dropdown>
+                </p-dropdown> -->
                 <div class="mr-2" *appRole="['ADMIN']">
                     <p-checkbox class="mr-2" [(ngModel)]="checked" [binary]="true" inputId="binary" [ngModelOptions]="{standalone: true}" ></p-checkbox>
                     <label for="binary" class="mr-2">Gastos eliminados</label>
@@ -40,7 +39,6 @@
                     <th>Documento</th>
                     <th>Monto</th>
                     <th>Tipo Gasto</th>
-                    <th *appRole="['ADMIN']">Caja - Empleado</th>
                     <th>Responsable</th>
                     <th></th>
                     <th></th>
@@ -56,14 +54,13 @@
                     <td>{{gasto.documento}}</td>
                     <td>{{gasto.monto}}</td>
                     <td>{{gasto.tipoGasto.nombre}}</td>
-                    <td *appRole="['ADMIN']">{{gasto.caja.nombre + ' - '+ gasto.caja.empleado.nombre + ' ' + gasto.caja.empleado.apellido}}</td>
                     <td>{{gasto.empleado.nombre + ' ' + gasto.empleado.apellido }}</td> 
                     <!-- <td><p-avatar [image]="gasto.foto | nophoto" pBadge value="4" severity="danger" styleClass="mr-2" size="xlarge"></p-avatar></td> -->
                     <td>
                         <p-image *ngIf="gasto.foto != null" [src]="gasto.foto | nophoto" alt="Image" width="64" height="64" [preview]="true"></p-image>
                     </td>
                     <!-- <td><button pButton pRipple icon="pi pi-camera" class="p-button-rounded p-button-success" (click)="foto(gasto.foto)"></button></td> -->               
-                    <td><button *appRole="['CAJERO']" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteGasto(gasto)"></button></td>               
+                    <td><button *appRole="['ADMIN']" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteGasto(gasto)"></button></td>               
                 </tr>
             </ng-template>
             <ng-template pTemplate="emptymessage">

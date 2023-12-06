@@ -37,10 +37,10 @@ export class CajaCorteComponent implements OnInit {
           {descripcion: 'Ventas por medio bancario', monto: resp.cobroBanco},
           {descripcion: 'Ventas en efectivo', monto: resp.cobroEfectivo}
         ]},
-        {descripcion: 'Cuentas por cobrar', monto: resp.cuentaPorCobrar, detalle:[
+        /* {descripcion: 'Cuentas por cobrar', monto: resp.cuentaPorCobrar, detalle:[
           {descripcion: 'Cuentas por cobrar medio bancario', monto: resp.cuentaPorCobrarBanco},
           {descripcion: 'Cuentas por cobrar en Efectivo', monto: resp.cuentaPorCobrarEfectivo}
-        ]},
+        ]}, */ //PARTE DE CREDITOS DE CLIENTES
         {descripcion: 'Egresos', monto: resp.egreso},
         {descripcion: 'Ingresos', monto: resp.ingreso},
         {descripcion: 'Total en caja', monto: resp.balance},
@@ -64,7 +64,7 @@ export class CajaCorteComponent implements OnInit {
             this.cajaCorteService.formCorte.reset()
           }, e =>{      
             console.log('data');
-            this.messageService.add({severity:'error', summary:'No', detail: e.error.message});                      
+            this.messageService.add({severity:'error', summary:'Error', detail: e.error.message});                      
           })          
         }
     })

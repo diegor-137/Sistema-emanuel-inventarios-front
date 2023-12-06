@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, Observer } from 'rxjs';
 import { Sucursal } from '../interfaces/sucursal-interface';
+import { Region } from '../../region/interfaces/region-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,9 @@ export class SucursalesService {
       nombre: ['', [Validators.required], [this.userNameAsyncValidator]],
       saveNombre: [],
       direccion:[null, Validators.required],
+      region: this.formBuilder.group({
+        id:[Validators.required]
+      }),
       fotoSend:[null, Validators.required],
       foto:[],
     })
@@ -29,8 +33,13 @@ export class SucursalesService {
     const fd = new FormData();
     fd.append("nombre", sucursal.nombre)
     fd.append("direccion", sucursal.direccion)
+    fd.append("region[id]", String(sucursal.region.id));
     fd.append("fotoSend", sucursal.fotoSend)
     return this.http.post<Sucursal>(`${this.BASE_URL}/sucursal`, fd)
+  }
+
+  getRegiones(){
+    return this.http.get<Region[]>(`${this.BASE_URL}/region`)
   }
 
   getSucursales(){

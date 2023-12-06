@@ -1,46 +1,52 @@
 <br>
 <p-card>
     <div [formGroup]="trasladoService.form">
-        <div class="grid p-fluid" *ngIf="readonly;else select">
-                <div class="col-12 md:col-4" formGroupName="solicitador">
+        <div *ngIf="readonly;else select">
+            <h4>DATOS DEL SOLICITANTE</h4>
+            <div class="grid p-fluid" >
+                    <div class="col-12 md:col-4" formGroupName="solicitador">
+                        <div class="p-inputgroup">
+                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                            <input type="text" pInputText value="{{trasladoService.form.value.solicitador.nombre}} {{trasladoService.form.value.solicitador.apellido}}" readonly>         
+                        </div>
+                    </div>
+                <div class="col-12 md:col-4">
                     <div class="p-inputgroup">
-                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                        <input type="text" pInputText value="{{trasladoService.form.value.solicitador.nombre}} {{trasladoService.form.value.solicitador.apellido}}" readonly>         
+                        <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+                        <input type="text" pInputText value="{{trasladoService.form.value.createdAt | date: 'MMM d, y, h:mm a'}}" readonly>        
                     </div>
                 </div>
-            <div class="col-12 md:col-4">
-                <div class="p-inputgroup">
-                    <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
-                    <input type="text" pInputText value="{{trasladoService.form.value.createdAt | date: 'MMM d, y, h:mm a'}}" readonly>        
-                </div>
-            </div>
-            <div class="col-12 md:col-4">
-                <div class="p-inputgroup" formGroupName="sucursalSol">
-                    <span class="p-inputgroup-addon"><i class="pi pi-home"></i></span>
-                    <input type="text" pInputText formControlName="nombre"  readonly>      
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup" formGroupName="sucursalSol">
+                        <span class="p-inputgroup-addon"><i class="pi pi-home"></i></span>
+                        <input type="text" pInputText formControlName="nombre"  readonly>      
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="grid p-fluid" *ngIf="res">
-            <div class="col-12 md:col-4" formGroupName="responsable">
-                <div class="p-inputgroup">
-                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                    <input type="text" pInputText value="{{trasladoService.form.value.responsable.nombre}} {{trasladoService.form.value.responsable.apellido}}" readonly>         
+        <div *ngIf="res">
+            <h4>DATOS DEL QUE AUTORIZA</h4>
+            <div class="grid p-fluid" >
+                <div class="col-12 md:col-4" formGroupName="responsable">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                        <input type="text" pInputText value="{{trasladoService.form.value.responsable.nombre}} {{trasladoService.form.value.responsable.apellido}}" readonly>         
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 md:col-4">
-                <div class="p-inputgroup">
-                    <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
-                    <input type="text" pInputText value="{{trasladoService.form.value.autorizarDate | date: 'MMM d, y, h:mm a'}}" readonly>         
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+                        <input type="text" pInputText value="{{trasladoService.form.value.autorizarDate | date: 'MMM d, y, h:mm a'}}" readonly>         
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 md:col-4" formGroupName="sucursalResp">
-                <div class="p-inputgroup">
-                    <span class="p-inputgroup-addon"><i class="pi pi-home"></i></span>
-                    <input type="text" pInputText value="{{trasladoService.form.value.sucursalResp.nombre}}" readonly>         
+                <div class="col-12 md:col-4" formGroupName="sucursalResp">
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-home"></i></span>
+                        <input type="text" pInputText value="{{trasladoService.form.value.sucursalResp.nombre}}" readonly>         
+                    </div>
                 </div>
+    
             </div>
-
         </div>
         <ng-template #select>
             <div class="grid p-fluid">

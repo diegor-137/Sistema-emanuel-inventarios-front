@@ -3,7 +3,6 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { GastoService } from '../services/gasto.service';
 import { CajaConfigService } from '../services/cajaConfig.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Caja, Gasto } from '../interfaces/caja-interface';
 import { PasswordDialogComponent } from '../../../global-components/password-dialog/password-dialog.component';
 import { Role } from 'src/app/app.roles';
@@ -24,7 +23,6 @@ export class GastosComponent implements OnInit {
   cuentaGasto!:Caja
   selectedGasto!: any[];
   load=false
-  cajasList!:Caja[]
 
   total!:number;
   deleteRespon!:Array<any>
@@ -34,33 +32,10 @@ export class GastosComponent implements OnInit {
   constructor(public readonly gastoService:GastoService,
     public dialogService: DialogService,
     private messageService: MessageService,
-    private readonly cajaConfigService:CajaConfigService,
-    private router: Router,
-    private route:ActivatedRoute) { }
+    private readonly cajaConfigService:CajaConfigService)
+    { }
 
-  ngOnInit(): void {    
-    this.cajas()
-    this.findCuentaGasto()
-  }
-
-    cajas(){
-      this.cajaConfigService.cajas().subscribe(resp => {
-        this.cajasList = resp
-        this.load = true
-      })
-    }
-  
-    findCuentaGasto(){
-      this.gastoService.findCuentaGasto().subscribe(resp=>{
-        this.cuentaGasto = resp
-      }) 
-    }
-  
-    verDetalleFondosCajaChica(){
-      this.router.navigate(['../efectivo'], {relativeTo: this.route});
-    }
-  
-  
+  ngOnInit(): void {}
   
     deleteGasto(gasto:Gasto){
       const ref = this.dialogService.open(PasswordDialogComponent, {

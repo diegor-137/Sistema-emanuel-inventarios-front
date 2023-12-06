@@ -4,6 +4,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Role } from 'src/app/app.roles';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { PasswordDialogComponent } from 'src/app/components/dashboard/global-components/password-dialog/password-dialog.component';
+import { Efectivo } from '../../../efectivo/interface/efectivo';
 import { GastoService } from '../../services/gasto.service';
 import { TipoGasto } from '../../tipo-gasto/interface/tipo-gasto';
 import { TipoGastoService } from '../../tipo-gasto/services/tipo-gasto.service';
@@ -17,6 +18,7 @@ import { TipoGastoService } from '../../tipo-gasto/services/tipo-gasto.service';
 export class GastoFormComponent implements OnInit {
 
   tipoGastos!:TipoGasto[]
+  efectivo!:Efectivo[]
 
   get usuario(){
     return this.authService.usuario;
@@ -32,6 +34,7 @@ export class GastoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTipoGastos();
+    this.getEfectivoEncabezado()
   }
 
 
@@ -79,6 +82,14 @@ export class GastoFormComponent implements OnInit {
           console.error(e); 
       }
     })
+  }
+
+  getEfectivoEncabezado(){
+    this.gastoService.getEfectivoEncabezado().subscribe({next:(resp)=>{
+      this.efectivo = resp
+    }, error:(e)=>{
+          console.error(e)
+    }})
   }
 
 }

@@ -36,8 +36,6 @@ export class CuentaBancariaListComponent implements OnInit {
       this.cuentaBancaria = data;
       this.loading = false
       this.load = true
-      console.log(this.cuentaBancaria);
-      
     })
 
   }

@@ -135,8 +135,8 @@ export interface Gasto {
   monto:number
   documento:string
   empleado:Empleado
-  caja:Caja
   deletedAt?:Date
+  efectivo:Efectivo
   deleteResponsible?: {
     nombre:string
     apellido:string

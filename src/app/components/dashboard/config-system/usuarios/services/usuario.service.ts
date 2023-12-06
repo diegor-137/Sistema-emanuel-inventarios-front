@@ -23,7 +23,7 @@ export class UsuarioService {
       emailSave:[],
       password: ['', [Validators.required, Validators.minLength(9)]],
       confirm: ['', [this.confirmValidator]],
-      roles:[[this.confirmValidator]],
+      roles:[null, [Validators.required]],
       fotoSend:[], 
       empleado:this.formBuilder.group({
         id: [],
@@ -55,7 +55,10 @@ export class UsuarioService {
     fd.append("empleado[email]",user.empleado.email);
     fd.append("empleado[sucursal][id]", String(user.empleado.sucursal.id));
 
-
+    fd.forEach(a=>{
+      console.log(a);  
+    })
+    
     return this.http.post<any>(`${this.BASE_URL}/user/create/admins`, fd)
   }
   edit(user:User){

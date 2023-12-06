@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Role } from 'src/app/app.roles';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-ventas',
@@ -8,9 +10,13 @@ import { MenuItem } from 'primeng/api';
 })
 export class VentasComponent implements OnInit {
 
-    items!: MenuItem[];
+  items!: MenuItem[];
 
-  constructor() { }
+  get usuario() {
+    return this.authService.usuario;
+  }
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     this.items = [
@@ -34,10 +40,11 @@ export class VentasComponent implements OnInit {
         icon:'pi pi-fw pi-user-minus',
         routerLink: 'cliente'      
       },
-            {
+      {
         label:'Cuentas por cobrar',
         icon:'pi pi-fw pi-list',
-        routerLink: 'cuentas-por-cobrar'      
+        routerLink: 'cuentas-por-cobrar',
+        visible: this.usuario.role?.some(r =>[`${Role.PENDIENTE}`].includes(r))      
       },
     ]
   }

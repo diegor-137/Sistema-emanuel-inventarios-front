@@ -44,6 +44,15 @@
                     <label>Tipo Gasto</label>
                 </span>
             </div>
+         </div>
+        <br/> 
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-8">
+                <span class="p-float-label">
+                    <p-dropdown inputId="dropdown" [autoDisplayFirst]="true" [options]="efectivo" formControlName="efectivo" optionLabel="nombre"></p-dropdown>
+                    <label>Cuenta en efectivo</label>
+                </span>
+            </div>
          </div> 
 
         <p-fileUpload name="foto[]" (onSelect)="onSelect($event)" accept="image/*" chooseLabel="Cargar" uploadLabel="Subir" cancelLabel="Cancelar"

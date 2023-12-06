@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Role } from 'src/app/app.roles';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-almacen',
@@ -9,8 +11,11 @@ export class AlmacenComponent implements OnInit {
 
 
   items!: MenuItem[];
+  get usuario() {
+    return this.authService.usuario;
+  }
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     
@@ -34,7 +39,8 @@ export class AlmacenComponent implements OnInit {
               icon:'pi pi-fw pi-bolt',
               routerLink: 'categoria'      
           },
-      ]      
+      ],
+      visible: this.usuario.role?.some(r =>[`${Role.COMPRAS}`].includes(r))           
       },
 
       {
@@ -51,17 +57,54 @@ export class AlmacenComponent implements OnInit {
               icon:'pi pi-fw pi-exclamation-circle',
               routerLink: 'tipo-precio'      
           },
-      ]      
+      ],
+      visible: this.usuario.role?.some(r =>[`${Role.COMPRAS}`].includes(r))      
+      },
+      {
+        label: 'Existencia',
+        icon:'pi pi-fw pi-box',
+        routerLink: './',
+        visible: this.usuario.role?.some(r =>[`${Role.ADMIN}`].includes(r))
       },
       {
           label: 'Inventario',
           icon:'pi pi-fw pi-box',
-          routerLink: 'inventario-list'
+          routerLink: 'inventario-list',
+          visible: this.usuario.role?.some(r =>[`${Role.COMPRAS}`].includes(r))
       },
       {
           label: 'Traslados',
           icon:'pi pi-fw pi-car',
-          routerLink: 'traslado/traslados'
+          items:[
+            {
+                label:'Sucursales',
+                icon:'pi pi-fw pi-list',  
+                routerLink: 'traslado/traslados'                    
+            },
+            {
+              label:'Mis traslados',
+              icon:'pi pi-fw pi-list',  
+              routerLink: 'traslado/traslados-fecha'                    
+            }
+          ],
+          visible: this.usuario.role?.some(r =>[`${Role.BODEGUERO}`, `${Role.ADMIN}` ,`${Role.COMPRAS}`].includes(r))
+      },
+      {
+        label: 'Envios',
+        icon:'pi pi-fw pi-send',
+        items:[
+          {
+            label:'Enviar traslado',
+              icon:'pi pi-fw pi-list',  
+              routerLink: 'traslado/envios'
+          },
+          {
+            label:'Recepcion',
+              icon:'pi pi-arrow-down-left',  
+              routerLink: 'traslado/recepcion'
+          }
+        ],
+        visible: this.usuario.role?.some(r =>[`${Role.BODEGUERO}`, `${Role.ADMIN}` ,`${Role.COMPRAS}`].includes(r))
       },
 
   ]

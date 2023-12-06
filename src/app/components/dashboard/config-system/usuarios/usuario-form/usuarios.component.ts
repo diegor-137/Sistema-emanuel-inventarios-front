@@ -18,13 +18,13 @@ import { Sucursal } from '../../sucursales/interfaces/sucursal-interface';
 export class UsuariosComponent implements OnInit {
   constructor(public usuarioService:UsuarioService, private ref: DynamicDialogRef, private messageService: MessageService, private sucursalesService:SucursalesService) {}
 
+  roles= [Role.ADMIN, Role.COMPRAS]
   sucursales!:Sucursal[]
   ngOnInit(): void {
     this.getSucursales()
   }
 
   guardar(){
-    this.usuarioService.form.controls.roles.setValue([Role.ADMIN])    
     this.usuarioService.create(this.usuarioService.form.value).subscribe(resp=>{
       this.usuarioService.form.reset();
       this.messageService.add({severity:'success', summary:'Registrado', detail: `se ha creado el empleado ${resp.data.empleado.nombre} con usuario ${resp.data.user}`});      

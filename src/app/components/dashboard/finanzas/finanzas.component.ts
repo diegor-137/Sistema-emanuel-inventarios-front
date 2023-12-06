@@ -20,37 +20,45 @@ export class FinanzasComponent implements OnInit {
   ngOnInit(): void {
     this.items = [
       {
-          label:'Finanzas',
-          icon:'pi pi-fw pi-inbox',
-          items: [
-            {
-              label: 'Configuracion',
-              icon:'pi pi-fw pi-pencil',
-              routerLink: 'caja-config'
-            },
-            {
-              label: 'Movimientos',
-              icon:'pi pi-fw pi-book',
-              routerLink: 'caja-movimientos'
-            },
-            {
-              label: 'Cortes',
-              icon:'pi pi-fw pi-briefcase',
-              routerLink: 'caja-corte-list'
-            },
-            {
-              label: 'Cobros',
-              icon:'pi pi-fw pi-money-bill',
-              routerLink: 'cobro-list'
-            },
-            {
-              label: 'Tipo Gastos',
-              icon:'pi pi-fw pi-angle-right',
-              routerLink: 'caja-tipo-gasto'
-            },
-            
-          ], 
-          visible: this.usuario.role?.some(r =>[`${Role.ADMIN}`].includes(r))         
+        label:'Registros caja',
+        icon:'pi pi-fw pi-inbox',
+        items: [
+          {
+            label: 'Ingresos',
+            icon:'pi pi-fw pi-angle-left',
+            routerLink: 'caja-ingresos'
+          },  
+          {
+            label: 'Egresos',
+            icon:'pi pi-fw pi-angle-double-right',
+            routerLink: 'caja-egresos'
+          },
+          {
+            label: 'Creditos',
+            icon:'pi pi-fw pi-angle-right',
+            routerLink: 'cuentas-por-cobrar',
+            visible:this.usuario.role?.some(r =>[`${Role.CAJERO}`].includes(r))
+          },
+          {
+            label: 'Movimientos',
+            icon:'pi pi-fw pi-book',
+            routerLink: 'caja-movimientos',
+            visible:this.usuario.role?.some(r =>[`${Role.ADMIN}`].includes(r))
+          },
+          {
+            label: 'Cortes',
+            icon:'pi pi-fw pi-briefcase',
+            routerLink: 'caja-corte-list',
+            visible:this.usuario.role?.some(r =>[`${Role.ADMIN}`].includes(r))
+          },
+          {
+            label: 'Cobros',
+            icon:'pi pi-fw pi-money-bill',
+            routerLink: 'cobro-list',
+            visible:this.usuario.role?.some(r =>[`${Role.ADMIN}`].includes(r))
+          },
+        ],
+        visible:this.usuario.role?.some(r =>[`${Role.CAJERO}`,`${Role.ADMIN}`].includes(r))
       },
       {
           label:'Fondos',
@@ -59,7 +67,8 @@ export class FinanzasComponent implements OnInit {
             {
               label: 'Cuenta Bancaria',
               icon: 'pi pi-fw pi-building',
-              routerLink: 'fondos-banco'
+              routerLink: 'fondos-banco',
+              visible: this.usuario.role?.some(r =>[`${Role.COMPRAS}`].includes(r))
             },
             {
               label: 'Efectivo',
@@ -67,41 +76,37 @@ export class FinanzasComponent implements OnInit {
               routerLink: 'efectivo'
             }
           ],
-          visible: this.usuario.role?.some(r =>[`${Role.ADMIN}`].includes(r))
+          visible: this.usuario.role?.some(r =>[`${Role.ADMIN}`,`${Role.COMPRAS}`].includes(r))
       },
       {
-          label:'Caja',
-            icon:'pi pi-fw pi-inbox',
-            items: [
-              {
-                label: 'Ingresos',
-                icon:'pi pi-fw pi-angle-left',
-                routerLink: 'caja-ingresos'
-              },  
-              {
-                label: 'Egresos',
-                icon:'pi pi-fw pi-angle-double-right',
-                routerLink: 'caja-egresos'
-              },
-              {
-                label: 'Gastos',
-                icon:'pi pi-fw pi-angle-right',
-                routerLink: 'caja-gastos'
-              },
-              {
-                label: 'Creditos',
-                icon:'pi pi-fw pi-angle-right',
-                routerLink: 'cuentas-por-cobrar',
-                visible:this.usuario.role?.some(r =>[`${Role.CAJERO}`].includes(r))
-              },
-              {
-                label: 'Caja',
-                icon:'pi pi-fw pi-money-bill',
-                routerLink: './',
-                visible:this.usuario.role?.some(r =>[`${Role.CAJERO}`].includes(r))
-              }
-            ],
-      }
+        label:'Finanzas',
+        icon:'pi pi-fw pi-inbox',
+        items: [
+          {
+            label: 'Configuracion',
+            icon:'pi pi-fw pi-pencil',
+            routerLink: 'caja-config'
+          },
+          {
+            label: 'Gastos',
+            icon:'pi pi-fw pi-angle-right',
+            routerLink: 'caja-gastos'
+          },
+          {
+            label: 'Tipo Gastos',
+            icon:'pi pi-fw pi-angle-right',
+            routerLink: 'caja-tipo-gasto'
+          },
+          
+        ], 
+        visible: this.usuario.role?.some(r =>[`${Role.ADMIN}`].includes(r))         
+      },
+      {
+        label: 'Caja',
+        icon:'pi pi-fw pi-money-bill',
+        routerLink: './',
+        visible:this.usuario.role?.some(r =>[`${Role.CAJERO}`].includes(r))
+      },
       
   ];
   }

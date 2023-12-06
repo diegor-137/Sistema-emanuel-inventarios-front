@@ -26,7 +26,7 @@ const routes: Routes = [
       { path: 'caja-movimientos', component: MovimientosComponent },
       { path: 'cobro-list', component: CobroListComponent },
       { path: 'caja-tipo-gasto', component: TipoGastoComponent},
-      { path: 'caja-gastos', component: GastosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
+      { path: 'caja-gastos', component: GastosComponent},
       { path: 'caja-ingresos', component: IngresosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
       { path: 'caja-egresos', component: EgresosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
       { path: 'fondos-banco', component: CuentaBancariaComponent },
