@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { CuentaPorPagar, CuentaPorPagarDetalle } from '../interfaces/cuenta-por-pagar';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { dateRange } from 'src/app/helpers/customs-validators';
 
 @Injectable({
@@ -19,6 +19,12 @@ export class CuentaPorPagarService {
     id:[],
     checked:[],
     dates:[null, [dateRange()]],
+  })
+
+  formPago : FormGroup = this.formBuilder.group({
+    id:[],
+    comentario:[],
+    pago:[]
   })
 
   resetFormBuilder(){
@@ -51,9 +57,12 @@ export class CuentaPorPagarService {
     return this.http.get<CuentaPorPagarDetalle[]>(`${this.BASE_URL}/cuentas-por-pagar/pagosDetail/${id}`)
   }
 
-  pagarCredito(cuentasPorPagar:CuentaPorPagar[], monto:number){
+  /* pagarCredito(cuentasPorPagar:CuentaPorPagar[], monto:number){
     const cuentaPorPagar = {cuentaPorPagar: {id: cuentasPorPagar[0].id}, monto, descripcion: 'PAGO PARCIAL'}
     return this.http.post<any>(`${this.BASE_URL}/cuentas-por-pagar/pagarCredito`, cuentaPorPagar);    
+  } */
+  pagarCredito(){
+    return this.http.post<any>(`${this.BASE_URL}/cuentas-por-pagar/pagarCredito`, this.formPago.value);
   }
   
 }

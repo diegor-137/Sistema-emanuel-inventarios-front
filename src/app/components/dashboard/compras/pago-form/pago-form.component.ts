@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ValidatorsFormsCustom } from 'src/app/helpers/validators-form-pay';
 import { Efectivo } from '../../finanzas/efectivo/interface/efectivo';
@@ -45,6 +45,7 @@ export class PagoFormComponent implements OnInit {
   }
 
   start(){
+    const form = this.pagoService.form.controls;
     const formControl = this.pagoService.getArrayDetalle.controls;
     for (let index = 1; index < 4; index++) {
       formControl[index]!.get('monto')?.valueChanges.subscribe(value=>{
@@ -54,7 +55,7 @@ export class PagoFormComponent implements OnInit {
       if (value==0 || value==null && this.select!=0 && formControl[index]!.get('cuentaBancaria')?.hasValidator(Validators.required)){
         this.validatorsFormsCustom.disableValidatorsForm(['cuentaBancaria', 'documento'], formControl,this.select);
       }
-        this.validatorsFormsCustom.setValueEfectivo(formControl, 'tipoTransaccion.id', 'monto', this.total);
+        this.setValueEfectivo(formControl, 'tipoTransaccion.id', 'monto', this.total);
       })
     }
   }
@@ -78,5 +79,34 @@ export class PagoFormComponent implements OnInit {
       this.efectivo = data;
     })
   }
+
+
+enableValidatorsForm(){
+    this.pagoService.form.controls['efectivo']?.setValidators([Validators.required]);
+    this.pagoService.form.controls['efectivo']?.enable();
+    this.pagoService.form.controls['efectivo']?.updateValueAndValidity();
+}
+
+disableValidatorsForm(){
+    this.pagoService.form.controls['efectivo']?.clearValidators();
+    this.pagoService.form.controls['efectivo']?.updateValueAndValidity();
+    this.pagoService.form.controls['efectivo']?.setValue(null);
+    this.pagoService.form.controls['efectivo']?.disable();
+}
+
+setValueEfectivo(form:AbstractControl[], payType:string, amount:string, due:number){ 
+  const monto = form.filter(a=> a.get(payType)?.value !== 1).reduce((a:number,b:AbstractControl)=>a+(+b.get(amount)?.value),0);
+  const result = due - monto
+  const control = form.find((a)=>a.get(payType)?.value == 1);              
+  result<0 || result>due?null:control!.get(amount)?.patchValue(result);
+  const efectivo = control!.get(amount)?.value
+  if(efectivo == 0){
+    this.disableValidatorsForm();
+  }
+  if(efectivo > 0){
+    this.enableValidatorsForm();
+  }
+
+}
 
 }

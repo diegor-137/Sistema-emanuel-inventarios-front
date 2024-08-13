@@ -31,6 +31,8 @@ import { TransaccionEfectivoFormComponent } from './efectivo/transaccion-efectiv
 import { TipoGastoComponent } from './caja/tipo-gasto/tipo-gasto.component';
 import { TipoGastoFormComponent } from './caja/tipo-gasto/tipo-gasto-form/tipo-gasto-form.component';
 import { GastoFormComponent } from './caja/gastos/gasto-form/gasto-form.component';
+import { PagoComponent } from './pago/pago.component';
+import { DetallePagoComponent } from './pago/detalle-pago/detalle-pago.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { GastoFormComponent } from './caja/gastos/gasto-form/gasto-form.componen
     TransaccionEfectivoFormComponent,
     TipoGastoComponent,
     TipoGastoFormComponent,
-    GastoFormComponent  
+    GastoFormComponent,
+    PagoComponent,
+    DetallePagoComponent  
   ],
   imports: [
     CommonModule,

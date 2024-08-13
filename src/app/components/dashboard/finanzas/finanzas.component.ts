@@ -37,7 +37,7 @@ export class FinanzasComponent implements OnInit {
             label: 'Creditos',
             icon:'pi pi-fw pi-angle-right',
             routerLink: 'cuentas-por-cobrar',
-            visible:this.usuario.role?.some(r =>[`${Role.CAJERO}`].includes(r))
+            visible:this.usuario.role?.some(r =>[`${Role.PENDIENTE}`].includes(r))
           },
           {
             label: 'Movimientos',
@@ -106,6 +106,12 @@ export class FinanzasComponent implements OnInit {
         icon:'pi pi-fw pi-money-bill',
         routerLink: './',
         visible:this.usuario.role?.some(r =>[`${Role.CAJERO}`].includes(r))
+      },
+      {
+        label: 'Pagos',
+        icon:'pi pi-fw pi-money-bill',
+        routerLink: 'pago-list',
+        visible:this.usuario.role?.some(r =>[`${Role.COMPRAS}`].includes(r))
       },
       
   ];

@@ -13,7 +13,7 @@
                 </ng-template>
             </p-autoComplete>
             <div [formGroup]="cuentaPorPagarService.form">
-                <div class="mr-2" *appRole="['ADMIN']">
+                <div class="mr-2" *appRole="['COMPRAS']">
                     <p-checkbox class="mr-2" formControlName="checked" [binary]="true" inputId="binary" (onChange)="clean()"></p-checkbox>
                     <label for="binary" class="mr-2">Cuentas canceladas</label>
                 </div>
@@ -24,8 +24,8 @@
         <div class="p-toolbar-group-right">
             <button pButton pRipple label="Todos" class="p-button-success mr-2" [disabled]="cuentaPorPagarService.form.get('dates')?.errors && cuentaPorPagarService.form.get('checked')?.value"
             (click)="getTodosCuentasPorPagar()"></button> 
-            <button pButton pRipple label="Pago total" icon="pi pi-plus" class="p-button-success mr-2" (click)="pagoDialog()" 
-            [disabled]="!cuentasPorPagarSeleccionados || !cuentasPorPagarSeleccionados.length || cuentaPorPagarService.form.get('checked')?.value"></button>  
+            <!-- <button pButton pRipple label="Pago total" icon="pi pi-plus" class="p-button-success mr-2" (click)="pagoDialog()" 
+            [disabled]="!cuentasPorPagarSeleccionados || !cuentasPorPagarSeleccionados.length || cuentaPorPagarService.form.get('checked')?.value"></button> -->  
         </div>
     </p-toolbar>
     <p-table #dt2 [value]="cuentasPorPagar" dataKey="id"
@@ -43,10 +43,10 @@
                 <th>Saldos</th>
                 <th>Fecha Limite</th>
                 <th>Estado</th>
-                <th *ngIf="!cuentaPorPagarService.form.get('checked')?.value">Pagos Parciales</th>
-                <th style="width: 3rem" *ngIf="!cuentaPorPagarService.form.get('checked')?.value">
+                <th *ngIf="!cuentaPorPagarService.form.get('checked')?.value">Pagos</th>
+                <!-- <th style="width: 3rem" *ngIf="!cuentaPorPagarService.form.get('checked')?.value">
                     <p-tableHeaderCheckbox [disabled]="headerCheckbox"></p-tableHeaderCheckbox>
-                </th>
+                </th> -->
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-cuentaPorPagar>
@@ -65,9 +65,9 @@
                     <i class="pi" [ngClass]="{'true-icon pi-check-circle': cuentaPorPagar.estado, 'false-icon pi-times-circle': !cuentaPorPagar.estado}"></i>
                 </td>            
                 <td *ngIf="!cuentaPorPagarService.form.get('checked')?.value"><button pButton pRipple icon="pi pi-money-bill" class="p-button-rounded p-button-success mr-2" (click)="openPagoForm(cuentaPorPagar)" [disabled]="cuentaPorPagar.estado"></button></td>
-                <td *ngIf="!cuentaPorPagarService.form.get('checked')?.value">
+                <!-- <td *ngIf="!cuentaPorPagarService.form.get('checked')?.value">
                     <p-tableCheckbox [value]="cuentaPorPagar" [disabled]="cuentaPorPagar.estado"></p-tableCheckbox>
-                </td>
+                </td> -->
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">

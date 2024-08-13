@@ -3,7 +3,7 @@ import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CuentaPorPagar, CuentaPorPagarDetalle } from '../interfaces/cuenta-por-pagar';
 import { CuentaPorPagarService } from '../services/cuenta-por-pagar.service';
-import { CuentasPorPagarFormComponent } from '../cuentas-por-pagar-form/cuentas-por-pagar-form.component';
+import { PagoFormComponent } from '../../pago-form/pago-form.component';
 
 @Component({
   selector: 'app-cuenta-por-pagar',
@@ -77,9 +77,10 @@ export class CuentaPorPagarComponent implements OnInit {
   }
 
 
-  openPagoForm(cuentaPorPagar:CuentaPorPagar){
-    const ref =this.dialogService.open(CuentasPorPagarFormComponent, {
-      data:{cuentaPorPagar},
+  openPagoForm(cuentaPorPagar:CuentaPorPagar){ 
+    const compra = {proveedor:{nombre: cuentaPorPagar.proveedor},documento:cuentaPorPagar.documento, id:cuentaPorPagar.id}
+    const ref =this.dialogService.open(PagoFormComponent, {
+      data:{compra:compra,total:cuentaPorPagar.total},
       header: 'Realizar pago de credito parcial',
       width: '80%',
       height:'80%',
@@ -87,13 +88,25 @@ export class CuentaPorPagarComponent implements OnInit {
       baseZIndex: 10000,
       closable:false
     })
-    ref.onClose.subscribe((resp:boolean)=>{
+    ref.onClose.subscribe((resp)=>{
           if(resp){
-            this.messageService.add({severity:'success', summary: 'Exito', detail: 'Pago realizado con exito'});
-            this.selectProveedor?this.filterd():this.getTodosCuentasPorPagar();  
+            this.cuentaPorPagarService.formPago.patchValue({
+              id:cuentaPorPagar.id,
+              comentario:resp.comentario,
+              pago:resp
+            })
+              this.save()
           }
     })
-    
+  }
+  
+  save() {
+    this.cuentaPorPagarService.pagarCredito().subscribe(()=>{
+      this.messageService.add({severity:'success', summary: 'Exito', detail: 'Pago realizado con exito'});
+      this.selectProveedor?this.filterd():this.getTodosCuentasPorPagar(); 
+    }, e=>{
+      console.log(e);
+    })
   }
 
 }

@@ -1,0 +1,76 @@
+<div *ngIf="load">
+    <p-panel header="Comprador">
+        <div class="grid p-fluid" >
+            <div class="col-12 md:col-6">
+                <label>Nombre</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><mat-icon>point_of_sale</mat-icon></span>
+                    <input type="text" [value]="pago.empleado.nombre" pInputText readonly> 
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <label>Fecha</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+                    <input type="text" [value]="pago.empleado.apellido" pInputText readonly> 
+                </div>
+            </div>
+            
+        </div>
+    </p-panel>
+    <p-panel header="Datos de la compra">
+        <div class="grid p-fluid" >
+            <div class="col-12 md:col-6">
+                <label>Documento</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><mat-icon>point_of_sale</mat-icon></span>
+                    <input type="text" [value]="pago.compra.documento" pInputText readonly> 
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <label>Fecha</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+                    <input type="text" [value]="pago.compra.createdAt | date : 'EEEE, MMMM d, y, h:mm a'" pInputText readonly> 
+                </div>
+            </div>
+            <div class="col-12 md:col-6">
+                <label>Proveedor</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" [value]="pago.compra.proveedor.nombre" pInputText readonly> 
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6">
+                <label>Nit proveedor</label>
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                    <input type="text" [value]="pago.compra.proveedor.nit" pInputText readonly> 
+                </div>
+            </div>
+        </div>
+    </p-panel>
+
+    <p-table [value]="pago.detallePago" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+        <ng-template pTemplate="caption">
+            Detalle Pago
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Id</th>
+                <th>Descripcion</th>
+                <th>Monto</th>
+                <th>Tipo transaccion.</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-detalle>
+            <tr>
+                <td>{{detalle.id}}</td>
+                <td>{{detalle.descripcion}}</td>
+                <td>{{detalle.monto}}</td>
+                <td>{{detalle.tipoTransaccion.nombre}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -16,6 +16,7 @@ import { EfectivoComponent } from './efectivo/efectivo/efectivo.component';
 import { EfectivoListComponent } from './efectivo/efectivo-list/efectivo-list.component';
 import { TipoGastoComponent } from './caja/tipo-gasto/tipo-gasto.component';
 import { CuentasPorCobrarComponent } from '../ventas/creditos/cuentas-por-cobrar/cuentas-por-cobrar.component';
+import { PagoComponent } from './pago/pago.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'caja-corte-list', component: CajaCorteListComponent },
       { path: 'caja-movimientos', component: MovimientosComponent },
       { path: 'cobro-list', component: CobroListComponent },
+      { path: 'pago-list', component: PagoComponent },
       { path: 'caja-tipo-gasto', component: TipoGastoComponent},
       { path: 'caja-gastos', component: GastosComponent},
       { path: 'caja-ingresos', component: IngresosComponent, canActivate: [ValidarCajaGuard], canLoad: [ValidarCajaGuard] },
